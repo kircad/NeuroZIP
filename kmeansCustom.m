@@ -13,8 +13,9 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
         bestClustSil = [];
         k = 2;
         maxIter = ops.kmeansMaxIter;
-        mastCosts = ones(1, maxIter);
-        mastCosts = mastCosts + 999;
+        Ks = zeros(1, maxIter);
+        bestKcost = ones(1, limK);
+        bestKcost = bestKcost + 999;
         currIter = 1;
         while k <= limK %TODO MOVE ENTIRE LOOP TO GPU + VECTORIZE!!! CHANGE TO WHILE LOOP
             randIndices = randperm(Nbatch);
@@ -67,7 +68,7 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                         centroids(smallClusts(1),:,:) = [];
                         costs(smallClusts(1),:) = [];
                         smallClusts = find(sum(assignments,2) <= ops.clustMin)'; %CHECK IF ANY CLUSTERS ARE TOO SMALL
-                        k = k-1;
+                        k = k - 1;
                     end
                 end
                 for i =  1:k %get mean vector of each cluster
@@ -82,8 +83,9 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                 prevCost = currCost;
                 m = m + 1;
             end
-            bestCost = sum(costs(assignments));
-            mastCosts(currIter) = currCost;
+            currCost = sum(costs(assignments));
+            bestKcost(k) = currCost;
+            Ks(currIter) = k;
             for i = 1:size(assignments,2) %TODO PROBS MORE EFFICIENT TO DO THIS BY CLUSTER?
                 clusterIdxs = find(assignments((assignments(:,i) == 1),:) == 1); %TODO TRY BUNDLING 3 VECTORS INTO ONE AVERAGE
                 intraClust = 0;
@@ -122,12 +124,13 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                 clustSils(i) = sum(silScores(clusterIdxs)) / size(clusterIdxs,2);
             end     
             if (nanmean(clustSils) > bestSilMean)
+                bestIter = currIter;
                 bestClustSil = clustSils;
                 bestSilScores = silScores;
                 bestSilMean = nanmean(clustSils);
                 bestAssignments = assignments;
                 bestCost = currCost;
-                diffs = diff(mastCosts);
+                diffs = diff(bestKcost);
                 if (currIter == 1)
                     bestDiff = currCost;
                 else
@@ -136,12 +139,36 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
             end
             k = k + 1;
             currIter = currIter + 1;
-            diffs = diff(mastCosts);
-            if (currIter >= maxIter) %&& diffs(end) == 0) %TODO add stdev condition for convergence?
+            diffs = diff(bestKcost);
+            if ((currIter > maxIter) && diffs(end) >= 0) %BOTH convergence AND maxIter hit : TODO add stdev condition for convergence?
                 break;
             end
         end
         assignments = bestAssignments;
+        if ops.plotDiagnostics
+            hold on
+            plot(1:max(Ks), bestKcost(1:max(Ks)), 'k')
+            xlabel("Number of Clusters (k)");
+            ylabel("Cost (Summed Euclidian Distance of Singular Vectors from k Selected Centroids)"); 
+            title("Elbow Curve (k-means)");
+            xline(size(assignments,1), 'r'); %TODO WHY IS LABEL SHOWING UP TWICE LOL
+            xlim([2 max(Ks)])
+            text(size(assignments,1) + .5, max(bestKcost(1:max(Ks)))*0.8, 'Optimal K-value', 'Rotation', 90);
+            hold off
+            savefig(fullfile(ops.plotPath, "kmeansElbowCurve.fig"));
+            hold on
+            plot(1:max(limK,currIter - 1), Ks);
+            xlabel("K-means iteration");
+            ylabel("Number of Clusters"); 
+            title("Selected Clusters vs. Iteration (k-means)");
+            xline(size(assignments,1)); 
+            text(bestIter + 0.25, max(Ks)*0.6, 'Optimal K-value', 'Rotation', 90);
+            hold off
+            savefig(fullfile(ops.plotPath, "kMeansIterClusters.fig"))
+
+            %TODO BAR GRAPH OF CLUSTER SIL SCORES
+        end
+        
         clustSils = bestClustSil;
         silScores = bestSilScores;
         rez.bestCost = bestCost;

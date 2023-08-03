@@ -119,6 +119,7 @@ function rez = compressData(ops)
             title("Silhouette Score vs. Batch Number of Optimal Clustering")
             legend(legendLabels, 'Location', 'best')
             hold off
+            savefig(fullfile(ops.plotPath, "kmeansFinalClusters.fig"));
             num = floor(size(unclustered,2) * size(iperm,2)) / (Nbatch - size(unclustered,2));
             temp = sortByVar(ops, num);
             iperm = cat(2, temp, iperm);
