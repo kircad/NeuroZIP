@@ -7,13 +7,16 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
         else
             limK = ops.maxK;
         end
-        mastCosts = ones(1, limK);
-        mastCosts = mastCosts + 999;
         bestAssignments = [];
         bestSilMean = 0;
         bestSilScores = [];
         bestClustSil = [];
-        for k = 2:limK %TODO MOVE ENTIRE LOOP TO GPU + VECTORIZE!!!
+        k = 2;
+        maxIter = ops.kmeansMaxIter;
+        mastCosts = ones(1, maxIter);
+        mastCosts = mastCosts + 999;
+        currIter = 1;
+        while k <= limK %TODO MOVE ENTIRE LOOP TO GPU + VECTORIZE!!! CHANGE TO WHILE LOOP
             randIndices = randperm(Nbatch);
             centroids([1:k],:,:) = vectors(randIndices(1:k), :, :); %randomly initialize k clusters
             assignments = zeros(k,Nbatch);
@@ -32,16 +35,22 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                     end
                 end
                 assignments = (costs == min(costs)); 
-                smallClusts = find(sum(assignments,2) <= ops.clustMin); %CHECK IF ANY CLUSTERS ARE TOO SMALL
+                smallClusts = find(sum(assignments,2) <= ops.clustMin)'; %CHECK IF ANY CLUSTERS ARE TOO SMALL -- smallclusts operates like a queue
                 if ~isempty(smallClusts) %FOR NOW JUST HANDLE 1-UNIT CASE, deal with 0, n case later
-                    for z = 1:size(smallClusts,2) %FIND POINT(S) IN SMALL CLUSTER
-                        batch = find(assignments(smallClusts(z),:));
+                    while ~(isempty(smallClusts)) %FIND POINT(S) IN SMALL CLUSTER
+                        batch = find(assignments(smallClusts(1),:));
                         if (isempty(batch))
-                            continue
+                            k = k - 1; %TEST IF THIS CAUSES INFINITE LOOP
+                            assignments(smallClusts(1),:) = [];
+                            centroids(smallClusts(1),:,:) = [];
+                            costs(smallClusts(1),:) = [];
+                            smallClusts = find(sum(assignments,2) <= ops.clustMin)'; %CHECK IF ANY CLUSTERS ARE TOO SMALL
+                            continue;
                         end
-                        centroidDists = [];
+                        centroidDists = ones(1,k);
+                        centroidDists = centroidDists * 999;
                         for r = 1:size(assignments,1) %find closest cluster TODO FIND WAY TO REDUCE REDUNDANT CALCULATIONS TODO MAKE HELPER FUNCTIONS FOR GODS SAKE
-                            if (r == smallClusts(z))
+                            if (r == smallClusts(1))
                                 centroidDists(r) = 999;
                                 continue
                             end
@@ -54,6 +63,11 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                         closestCentroid = find(centroidDists == min(centroidDists)); %now merge with this centroid -- update assignments 
                         assignments(:, batch) = 0; %wipe old 
                         assignments(closestCentroid, batch) = 1; %replace with new one
+                        assignments(smallClusts(1),:) = []; %now we are WIPING the clust we just emptied (1-case only)
+                        centroids(smallClusts(1),:,:) = [];
+                        costs(smallClusts(1),:) = [];
+                        smallClusts = find(sum(assignments,2) <= ops.clustMin)'; %CHECK IF ANY CLUSTERS ARE TOO SMALL
+                        k = k-1;
                     end
                 end
                 for i =  1:k %get mean vector of each cluster
@@ -68,7 +82,8 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                 prevCost = currCost;
                 m = m + 1;
             end
-            mastCosts(k-1) = sum(costs(assignments)); 
+            bestCost = sum(costs(assignments));
+            mastCosts(currIter) = currCost;
             for i = 1:size(assignments,2) %TODO PROBS MORE EFFICIENT TO DO THIS BY CLUSTER?
                 clusterIdxs = find(assignments((assignments(:,i) == 1),:) == 1); %TODO TRY BUNDLING 3 VECTORS INTO ONE AVERAGE
                 intraClust = 0;
@@ -101,22 +116,36 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                 extraClust = extraClust / size(extraClusterIdxs,2);
                 silScores(i) = (extraClust - intraClust) / max(intraClust, extraClust);
             end
-            clustSils = [];
+            clustSils = zeros(1, size(assignments,1));
             for i = 1:size(assignments,1) 
                 clusterIdxs = find(assignments(i,:) == 1);
                 clustSils(i) = sum(silScores(clusterIdxs)) / size(clusterIdxs,2);
-            end
+            end     
             if (nanmean(clustSils) > bestSilMean)
                 bestClustSil = clustSils;
                 bestSilScores = silScores;
                 bestSilMean = nanmean(clustSils);
                 bestAssignments = assignments;
+                bestCost = currCost;
+                diffs = diff(mastCosts);
+                if (currIter == 1)
+                    bestDiff = currCost;
+                else
+                    bestDiff = diffs(currIter-1);
+                end
+            end
+            k = k + 1;
+            currIter = currIter + 1;
+            diffs = diff(mastCosts);
+            if (currIter >= maxIter) %&& diffs(end) == 0) %TODO add stdev condition for convergence?
+                break;
             end
         end
         assignments = bestAssignments;
         clustSils = bestClustSil;
         silScores = bestSilScores;
-        rez.assignments = assignments;
+        rez.bestCost = bestCost;
+        rez.bestDiff = bestDiff;
 end
 
 

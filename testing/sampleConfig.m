@@ -16,6 +16,7 @@ ops.maxK = 50;
 ops.clusterThreshold = .5;
 ops.batchPCS = 3;
 ops.clustMin = 1;
+ops.kmeansMaxIter = 75; % between maxK + maxK/2 and maxK + maxK/4
 
 %RANDOM SETTINGS
 ops.batchFactor = 5;

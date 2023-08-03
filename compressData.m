@@ -88,12 +88,15 @@ function rez = compressData(ops)
             unclustered = [];
             unclusteredIdx = 1;
             idx = 1;
+            clusterIdx = 1;
             legendLabels = {};
+            clusterIdxs = arrayfun(@(x) [], 1:size(assignments,1), 'UniformOutput', false);
             for i = 1:size(clustSils,2) %pick representatives and graph
                 assignmentIdxs = find(assignments(i,:) == 1);
                 if (isempty(assignmentIdxs))
-                    continue
+                    continue %should never be hit
                 end
+                clusterIdxs{clusterIdx} = assignmentIdxs;
                 assignmentSils = silScores(assignmentIdxs);
                 [assignmentSils, isort] = sort(assignmentSils, 'descend');
                 if (clustSils(i) > ops.clusterThreshold)
@@ -107,6 +110,7 @@ function rez = compressData(ops)
                         unclusteredIdx = unclusteredIdx + 1;
                     end
                 end
+                clusterIdx = clusterIdx + 1;
             end
             xlim([0 Nbatch])
             ylim([min(silScores) 1]) 
@@ -120,13 +124,13 @@ function rez = compressData(ops)
             iperm = cat(2, temp, iperm);
             rez.clustSils = clustSils;
             rez.silScores = silScores;
-            rez.assignments = assignments; %TODO return arrays of Idxs
+            rez.clusterIdxs = clusterIdxs; %TODO return arrays of Idxs
             sprintf("Dynamic subsampling complete. Batch factor for random test: %d\n",(Nbatch/length(iperm))) %TODO CHECK
         otherwise
             iperm = randperm(Nbatch); 
     end
     iperm = iperm(randperm(length(iperm)));
-    rez.iperm = iperm;
+    rez.batchesToUse = gather_try(iperm);
     fclose(fid);
 end
 
