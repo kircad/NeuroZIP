@@ -5,7 +5,7 @@ run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
 
 if ~(exist(ops.outputPath, 'dir'))
     cd(ops.fpath)
-    mkdir  results
+    mkdir results
     cd results
     mkdir plots
 else
@@ -22,14 +22,10 @@ save(fullfile(ops.outputPath, 'rez.mat'), 'rez', '-v7.3');
 
 %TODO: 
 
-%UMAP
-
-%THEN kmeans
-
-%then visualize
+%UMAP/DBSCAN/visualization (3 birds 1 stone baby!!)
+%figure out way to somehow compare sets of eigenvectors
 
 %graph template waveforms 
-%DBSCAN
 %increase PCs for clustering
 %increase batch size
 %see other TODOs

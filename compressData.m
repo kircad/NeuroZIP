@@ -81,8 +81,19 @@ function rez = compressData(ops)
                     batchVs(i,j,:,:) = V(:,j); %numBatches x numBatchPCS x NT (singular vector))
                 end
             end
-            batchVs = gather_try(batchVs);
+            %batchVs = gather_try(batchVs); TODO FIGURE OUT WHAT TO DO WITH BATCHVs
             batchUs = gather_try(batchUs);
+            cd(ops.outputPath);
+            for i = 1:ops.batchPCS %save to csv then UMAP for each set of singular vectors
+                savePath = strcat("PC ", string(i), ".csv");
+                writematrix(vertcat(1:32, permute(batchUs(:,i,:), [1 3 2])), savePath)
+                [reduction, umap, clusterIds, extras] = run_umap(char(savePath), 'cluster_detail', 'adaptive'); %TODO WHAT DOES CLUSTER DETAIL MEAN?
+                savefig(fullfile(ops.plotPath, strcat("PC ", string(i), ".fig")));
+                close("all")
+            end
+            %SOMEHOW MERGE 3 RESULTS HERE-- INDIVIDUAL UMAP OF EACH SHOULD
+            %BE SIMILAR (??)
+            %TODO MAKE SURE BATCH ORDER ISNT SCREWED UP
             fprintf("SVD Complete. Running k-means clustering algorithm...\n")
             [assignments, silScores, clustSils] = kmeansCustom(ops, batchUs);
             hold on

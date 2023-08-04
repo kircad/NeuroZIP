@@ -14,8 +14,7 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
         k = 2;
         maxIter = ops.kmeansMaxIter;
         Ks = zeros(1, maxIter);
-        bestKcost = ones(1, limK);
-        bestKcost = bestKcost + 999;
+        bestKcost = [];
         currIter = 1;
         while k <= limK %TODO MOVE ENTIRE LOOP TO GPU + VECTORIZE!!! CHANGE TO WHILE LOOP
             randIndices = randperm(Nbatch);
@@ -134,7 +133,7 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                 if (currIter == 1)
                     bestDiff = currCost;
                 else
-                    bestDiff = diffs(currIter-1);
+                    bestDiff = diffs(k-1); %TODO CHECK
                 end
             end
             k = k + 1;
