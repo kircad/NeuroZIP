@@ -18,15 +18,19 @@ rez.ops = ops;
 rez                = compressData(ops);
 
 %% save and clean up
-save(fullfile(ops.fpath, 'rez.mat'), 'rez', '-v7.3');
-savefig(fpath);
-% remove temporary file
-delete(ops.fproc);
+save(fullfile(ops.outputPath, 'rez.mat'), 'rez', '-v7.3');
 
 %TODO: 
-%tSNE implementation
+
+%UMAP
+
+%THEN kmeans
+
+%then visualize
+
 %graph template waveforms 
 %DBSCAN
 %increase PCs for clustering
 %increase batch size
 %see other TODOs
+%RBF clustering

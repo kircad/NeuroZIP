@@ -26,7 +26,7 @@ function rez = compressData(ops)
     batchstart = 0:NT:NT*Nbatch;
     ops.Nbatch = Nbatch;
     ops.NTbuff = NTbuff;
-    
+    fprintf("Beginning %s sampling...\n", ops.batchSetting)
     switch ops.batchSetting 
         case 'numSpikes'
             iperm = sortrows(ops.batchSpikes,2,'descend'); %TODO MAKE THIS WORK INDEPENDENTLY OF KS1
@@ -59,9 +59,10 @@ function rez = compressData(ops)
             iperm = iperm(1:round(Nbatch/ops.batchFactor));
         case 'variance' %THIS GIVES 28/30 CELLS FOR BATCH FACTOR OF 4 ON 1000 S OF SIMULATED DATA, COMPARED TO 26 FOR RANDOM
             iperm = sortByVar(ops, numBatch);
-        case 'dynamic' 
+        case 'dynamic'
             batchVs = gpuArray.zeros([Nbatch, ops.batchPCS, NT], 'double');
             batchUs = gpuArray.zeros([Nbatch, ops.batchPCS, Nchan], 'double');
+            fprintf("Performing SVD...\n")
             for i = 1:Nbatch
                 offset = 2 * ops.Nchan*batchstart(i);
                 fseek(fid, offset, 'bof');
@@ -82,6 +83,7 @@ function rez = compressData(ops)
             end
             batchVs = gather_try(batchVs);
             batchUs = gather_try(batchUs);
+            fprintf("SVD Complete. Running k-means clustering algorithm...\n")
             [assignments, silScores, clustSils] = kmeansCustom(ops, batchUs);
             hold on
             iperm = [];
@@ -91,6 +93,7 @@ function rez = compressData(ops)
             clusterIdx = 1;
             legendLabels = {};
             clusterIdxs = arrayfun(@(x) [], 1:size(assignments,1), 'UniformOutput', false);
+            fprintf("Clustering complete. Picking representative batches...\n")
             for i = 1:size(clustSils,2) %pick representatives and graph
                 assignmentIdxs = find(assignments(i,:) == 1);
                 if (isempty(assignmentIdxs))
@@ -120,17 +123,19 @@ function rez = compressData(ops)
             legend(legendLabels, 'Location', 'best')
             hold off
             savefig(fullfile(ops.plotPath, "kmeansFinalClusters.fig"));
+            close();
             num = floor(size(unclustered,2) * size(iperm,2)) / (Nbatch - size(unclustered,2));
             temp = sortByVar(ops, num);
             iperm = cat(2, temp, iperm);
             rez.clustSils = clustSils;
             rez.silScores = silScores;
             rez.clusterIdxs = clusterIdxs; %TODO return arrays of Idxs
-            sprintf("Dynamic subsampling complete. Batch factor for random test: %d\n",(Nbatch/length(iperm))) %TODO CHECK
         otherwise
             iperm = randperm(Nbatch); 
     end
     iperm = iperm(randperm(length(iperm)));
+    rez.compressionFactor = (Nbatch/length(iperm));
+    fprintf("%s subsampling complete. Compression Factor : %d \n",ops.batchSetting, ceil(rez.compressionFactor))
     rez.batchesToUse = gather_try(iperm);
     fclose(fid);
 end

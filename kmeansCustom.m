@@ -151,22 +151,31 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
             xlabel("Number of Clusters (k)");
             ylabel("Cost (Summed Euclidian Distance of Singular Vectors from k Selected Centroids)"); 
             title("Elbow Curve (k-means)");
-            xline(size(assignments,1), 'r'); %TODO WHY IS LABEL SHOWING UP TWICE LOL
+            xline(size(assignments,1), 'r-.', 'LineWidth', 2);
             xlim([2 max(Ks)])
-            text(size(assignments,1) + .5, max(bestKcost(1:max(Ks)))*0.8, 'Optimal K-value', 'Rotation', 90);
+            text(size(assignments,1) + .25, max(bestKcost(1:max(Ks)))*0.6, 'Optimal K-value', 'Rotation', 90, 'FontWeight', 'bold');
             hold off
             savefig(fullfile(ops.plotPath, "kmeansElbowCurve.fig"));
+            close();
             hold on
             plot(1:max(limK,currIter - 1), Ks);
             xlabel("K-means iteration");
             ylabel("Number of Clusters"); 
             title("Selected Clusters vs. Iteration (k-means)");
-            xline(size(assignments,1)); 
-            text(bestIter + 0.25, max(Ks)*0.6, 'Optimal K-value', 'Rotation', 90);
+            xline(size(assignments,1), 'r-.', 'LineWidth', 2);
+            text(bestIter + 0.25, max(Ks)*0.6, 'Optimal K-value', 'Rotation', 90, 'FontWeight', 'bold');
             hold off
             savefig(fullfile(ops.plotPath, "kMeansIterClusters.fig"))
-
-            %TODO BAR GRAPH OF CLUSTER SIL SCORES
+            close();
+            hold on
+            bar(1:size(bestAssignments,1), bestClustSil, 'FaceColor', 'blue');
+            xlabel("Cluster ID");
+            ylabel("Silhouette Score"); 
+            title("Cluster Silhouette Score (k-means)");
+            yline(ops.clusterThreshold, 'r-.', 'LineWidth', 2);
+            text(3, ops.clusterThreshold + 0.05, 'Cluster Silhouette Score Threshold', 'color','red','FontWeight','bold');
+            savefig(fullfile(ops.plotPath, "clustSils.fig"))
+            close();
         end
         
         clustSils = bestClustSil;
