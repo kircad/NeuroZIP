@@ -40,7 +40,7 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                     while ~(isempty(smallClusts)) %FIND POINT(S) IN SMALL CLUSTER
                         batch = find(assignments(smallClusts(1),:));
                         if (isempty(batch))
-                            k = k - 1; %TEST IF THIS CAUSES INFINITE LOOP
+                            k = k - 1;
                             assignments(smallClusts(1),:) = [];
                             centroids(smallClusts(1),:,:) = [];
                             costs(smallClusts(1),:) = [];

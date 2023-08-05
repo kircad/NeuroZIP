@@ -35,7 +35,7 @@ function rez = compressData(ops)
             iperm = 1:ops.spacing:Nbatch;
         case 'random'
             iperm = randperm(Nbatch, round(Nbatch/ops.batchFactor));
-        case 'entropy' 
+        case 'entropy' %use UMAP clusters?
             batchRanks = []; 
             for i = 1:Nbatch
                 
@@ -60,42 +60,46 @@ function rez = compressData(ops)
         case 'variance' %THIS GIVES 28/30 CELLS FOR BATCH FACTOR OF 4 ON 1000 S OF SIMULATED DATA, COMPARED TO 26 FOR RANDOM
             iperm = sortByVar(ops, numBatch);
         case 'dynamic'
-            batchVs = gpuArray.zeros([Nbatch, ops.batchPCS, NT], 'double');
-            batchUs = gpuArray.zeros([Nbatch, ops.batchPCS, Nchan], 'double');
-            fprintf("Performing SVD...\n")
-            for i = 1:Nbatch
-                offset = 2 * ops.Nchan*batchstart(i);
-                fseek(fid, offset, 'bof');
-                dat = fread(fid, [NT ops.Nchan], '*int16');
-                if ops.GPU
-                    dataRAW = gpuArray(dat);
-                else
-                    dataRAW = dat;
-                end
-                dataRAW = single(dataRAW);
-                dataRAW = dataRAW / ops.scaleproc;
-                dataRAW = dataRAW';
-                [U, S, V] = svd(dataRAW, 'econ');
-                for j = 1:ops.batchPCS %TODO TRY TO PARALLELIZE
-                    batchUs(i,j,:,:) = U(:,j)'; %numBatches x numBatchPCS x numChan (singular vector))
-                    batchVs(i,j,:,:) = V(:,j); %numBatches x numBatchPCS x NT (singular vector))
-                end
-            end
-            %batchVs = gather_try(batchVs); TODO FIGURE OUT WHAT TO DO WITH BATCHVs
-            batchUs = gather_try(batchUs);
-            cd(ops.outputPath);
-            for i = 1:ops.batchPCS %save to csv then UMAP for each set of singular vectors
-                savePath = strcat("PC ", string(i), ".csv");
-                writematrix(vertcat(1:32, permute(batchUs(:,i,:), [1 3 2])), savePath)
-                [reduction, umap, clusterIds, extras] = run_umap(char(savePath), 'cluster_detail', 'adaptive'); %TODO WHAT DOES CLUSTER DETAIL MEAN?
-                savefig(fullfile(ops.plotPath, strcat("PC ", string(i), ".fig")));
-                close("all")
-            end
-            %SOMEHOW MERGE 3 RESULTS HERE-- INDIVIDUAL UMAP OF EACH SHOULD
-            %BE SIMILAR (??)
-            %TODO MAKE SURE BATCH ORDER ISNT SCREWED UP
+            batchUs = get_SVDs(ops, batchstart, fid); %TODO FIGURE OUT WHAT TO DO WITH BATCHVS
+            fprintf("SVD Complete. Running UMAP + PC-level clustering algorithm...\n")
+            rez.batchUs = batchUs;
+            %rez.batchVs = batchVs;
+            PCclustering(ops, rez);
+            
+            %TODO plot UMAP output as png or something-- currently wont
+            %load reliably
+            
+            %TODO do further clustering on bad clusters - iteratively until
+            %none left/hit max counter (PC-level (kmeans + DBSCAN), merged (kmeans + DBSCAN))
+                %do PC-level stuff first as they seem more promising
+                %try to get to point where you have no bad clusters and see
+                %if spike sorting has improved
+                
+            %TODO PLOT TEMPLATES OF EACH CLUSTER
+                
+            %TODO ADD MORE CLUSTERING METHODS, DISTANCE METRICS, ETC ETC)
+            %(try to see if you can improve kmeans)
+            %somehow merge clusterings of all PCs (another clustering?). 
+
             fprintf("SVD Complete. Running k-means clustering algorithm...\n")
             [assignments, silScores, clustSils] = kmeansCustom(ops, batchUs);
+            %TODO try to implement DBSCAN with same custom method used as kmeans
+            
+            %TODO compare ALL clustering methods (PC-wise clustering
+            %(already optimized configuration of DBSCAN vs. kmeans vs.
+            %other)/full kmeans/full DBSCAN, graph all comparisons, pick
+            %best silScore
+                %can get rid of custom function if results are consistently
+                %worse/exact same or just put a disclaimer
+            
+            %END GOAL: no/basically no unclustered (<0.5 silScore) regions
+            %left, one-two representatives from all (maybe try batch-level
+            %UMAP/mutual information thing)
+            %UMAP MUTUAL INFORMATION THING COULD BE IMPORTANT REGARDLESS
+            
+            %basically have two separate schemes-- merge top n PCs FIRST,
+            %merge top n PCs SECOND (but do UMAP regardless), give user to just run all and pick best for
+            %any given dataset
             hold on
             iperm = [];
             unclustered = [];
@@ -144,6 +148,7 @@ function rez = compressData(ops)
         otherwise
             iperm = randperm(Nbatch); 
     end
+    
     iperm = iperm(randperm(length(iperm)));
     rez.compressionFactor = (Nbatch/length(iperm));
     fprintf("%s subsampling complete. Compression Factor : %d \n",ops.batchSetting, ceil(rez.compressionFactor))
