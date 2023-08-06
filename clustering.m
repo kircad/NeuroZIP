@@ -108,7 +108,7 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
     dbscore = sum(dbScore > ops.clusterThreshold);
     if (kscore > dbscore)
         algo = "KMEANS";
-        bestPCbin = makeBinaryMats(Kclusters');
+        bestPCbin = makeBinaryMats(Kclusters'); %TODO FIX - DOESNT WORK WHEN NUMCLUSTS IS LARGE
         bestClusts = Kclusters;
         bestScore = kmeanScore;
     else
@@ -118,7 +118,7 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
         bestScore = dbScore;
     end
     PCReduction = reduction;
-    bestMeanClustScores = zeros(size(unique(bestClusts),2));
+    bestMeanClustScores = zeros(1,size(unique(bestClusts),2));
     for i = 1:size(unique(bestClusts), 2)
         bestMeanClustScores(i) = mean(kmeanScore(bestClusts == i));
     end

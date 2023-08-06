@@ -3,6 +3,8 @@ useGPU = 1;
 
 run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
 
+%TODO INSERT OPTION TO PREPROCESS AND ONLY COMPRESS (W/O SPIKESORT)
+
 if ~(exist(ops.outputPath, 'dir'))
     cd(ops.fpath)
     mkdir results

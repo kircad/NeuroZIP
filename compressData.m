@@ -81,126 +81,134 @@ function rez = compressData(ops)
                 img = imread(fullfile(ops.easterEggPath, 'ClusteringStrategy.jpg'));
                 imshow(img);
             end
-            unclusteredIdxs = {};
-            badClusts = [];
-            idx = 1;
-            for i = 1:size(unique(rez.mainPCBestClustAssignments),2)
-                if (rez.mainPCBestClustScores(i) < ops.clustMin)
-                    unclusteredIdxs{idx} = find(rez.mainPCBestClustAssignments == i); %ONLY EVER REMOVE, CHECK 1ST ELEMENT
-                    badClusts(idx) = i;
-                    idx = idx + 1;
+            if ops.iterativeOptimization
+                unclusteredIdxs = {};
+                badClusts = [];
+                idx = 1;
+                for i = 1:size(unique(rez.mainPCBestClustAssignments),2)
+                    if (rez.mainPCBestClustScores(i) < ops.clustMin)
+                        unclusteredIdxs{idx} = find(rez.mainPCBestClustAssignments == i); %ONLY EVER REMOVE, CHECK 1ST ELEMENT
+                        badClusts(idx) = i;
+                        idx = idx + 1;
+                    end
                 end
+                while ~isempty(unclusteredIdxs) %now subcluster bad clusters by PC1, PC2, ... PCN (FIRST PC1/zoom in, then others)
+                    currIdxs = unclusteredIdxs{1};
+                    currClust = badClusts(1);
+                    %took 1 representative batch from all n clusters obtained from kmeans (BEFORE THIS LOOP) -
+                    %seemed to improve newspikes1 and newspikes2 up to
+                    %level of random (...yay), but only did a very
+                    %rudimentary sampling-- proceed with original plan and
+                    %ONLY sample from clusters with good silhouette scores
+                    %(do zoom + PC-level thing)
+
+                    %TODO figure out way to take good clusters from
+                    %kmeans/DBSCAN and add those to the final clustering
+                    %(without adding all the other assignments of that
+                    %particular clustering algorithm)
+
+                    %ZOOM INTO BAD CLUSTERS (breadth first search for clusters
+                    %< threshold)
+                        %1ST- attempt to get good clusters using AVERAGES
+                        %2ND- break down by PC level: start with 1, then 2, 3,
+                        %etc.
+                        %each pass: update clusters/assignments AT LEVEL OF
+                        %AVERAGED PCS - update variables above
+                        %update unclusteredIdxs
+                    %stop when there are no (?) subclusters < ops.threshold 
+                    %do final pass of good clusters?
+
+                    title = sprintf("Bad Cluster %d", currClust);
+                    currU = batchUs(currIdxs,:,:);
+                    meanPCs = zeros(size(currIdxs,2), ops.Nchan);
+                    for i = 1:ops.batchPCS
+                        meanPCs = meanPCs + permute(currU(:,i,:), [1 3 2]);
+                    end
+                    meanPCs = meanPCs / ops.batchPCS;
+                    [algo bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops, meanPCs, title);
+                    rez = mergeClusts(ops, rez); %well that didnt work super well... graph across PCs could still be valuable though
+                    PCReductions = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
+                    rez.bestPCbins = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
+                    %TODO maybe try clustering by PC1 first, THEN PC2 for
+                    %remaining UNCLUSTERED REGIONS/SUBDIVIDE PC1 CLUSTERS
+                    unclusteredIdxs = []; %TODO assign as number of elements in CLUSTERS of average silScorte < threshold (not individual point silScores)
+                end %TODO have option to use my custom kmeans that doesnt rely on dimensionality reduction (STILL SEPARATE BY PC/MERGE THOUGH) (actually not sure if i should separate)
             end
-            while ~isempty(unclusteredIdxs) %now subcluster bad clusters by PC1, PC2, ... PCN (FIRST PC1/zoom in, then others)
-                currIdxs = unclusteredIdxs{1};
-                currClust = badClusts(1);
-                %TODO (before anything else) - take 1 representative batch from
-                %all n clusters obtained from kmeans (BEFORE THIS LOOP) -
-                %see effect on spike sorting - DO THIS
-                %FIRST!!!!!!!!!!!!!!!!!!!
-                
-                %TODO figure out way to take good clusters from
-                %kmeans/DBSCAN and add those to the final clustering
-                %(without adding all the other assignments of that
-                %particular clustering algorithm)
-                
-                %ZOOM INTO BAD CLUSTERS (breadth first search for clusters
-                %< threshold)
-                    %1ST- attempt to get good clusters using AVERAGES
-                    %2ND- break down by PC level: start with 1, then 2, 3,
-                    %etc.
-                    %each pass: update clusters/assignments AT LEVEL OF
-                    %AVERAGED PCS - update variables above
-                    %update unclusteredIdxs
-                %stop when there are no (?) subclusters < ops.threshold 
-                %do final pass of good clusters?
-                
-                title = sprintf("Bad Cluster %d", currClust);
-                currU = batchUs(currIdxs,:,:);
-                meanPCs = zeros(size(currIdxs,2), ops.Nchan);
-                for i = 1:ops.batchPCS
-                    meanPCs = meanPCs + permute(currU(:,i,:), [1 3 2]);
-                end
-                meanPCs = meanPCs / ops.batchPCS;
-                [algo bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops, meanPCs, title);
-                rez = mergeClusts(ops, rez); %well that didnt work super well... graph across PCs could still be valuable though
-                PCReductions = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
-                rez.bestPCbins = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
-                %TODO maybe try clustering by PC1 first, THEN PC2 for
-                %remaining UNCLUSTERED REGIONS/SUBDIVIDE PC1 CLUSTERS
-                unclusteredIdxs = []; %TODO assign as number of elements in CLUSTERS of average silScorte < threshold (not individual point silScores)
-            end %TODO have option to use my custom kmeans that doesnt rely on dimensionality reduction (STILL SEPARATE BY PC/MERGE THOUGH) (actually not sure if i should separate)
-   
+            
             %TODO plot UMAP output as png or something-- currently wont load reliably
             
             %TODO PLOT TEMPLATES OF EACH CLUSTER
 
             fprintf("SVD Complete. Running k-means clustering algorithm...\n")
-            [assignments, silScores, clustSils] = kmeansCustom(ops, batchUs);
-            %TODO try to implement DBSCAN with same custom method used as kmeans
             
-            %TODO compare ALL clustering methods (PC-wise clustering
-            %(already optimized configuration of DBSCAN vs. kmeans vs.
-            %other)/full kmeans/full DBSCAN, graph all comparisons, pick
-            %best silScore
-                %can get rid of custom function if results are consistently
-                %worse/exact same or just put a disclaimer
+            if ops.NchanDimKmeans
+                [assignments, silScores, clustSils] = kmeansCustom(ops, batchUs);
             
-            %TODO allow user to select clusters themselves
-            
-            %END GOAL: no/basically no unclustered (<0.5 silScore) regions
-            %left, one-two representatives from all (maybe try batch-level
-            %UMAP/mutual information thing)
-                %UMAP MUTUAL INFORMATION THING COULD BE IMPORTANT REGARDLESS
-            
-            %basically have two separate schemes-- merge top n PCs FIRST,
-            %merge top n PCs SECOND (but do UMAP regardless), give user to just run all and pick best for
-            %any given dataset
-            hold on
-            iperm = [];
-            unclustered = [];
-            unclusteredIdx = 1;
-            idx = 1;
-            clusterIdx = 1;
-            legendLabels = {};
-            clusterIdxs = arrayfun(@(x) [], 1:size(assignments,1), 'UniformOutput', false);
-            fprintf("Clustering complete. Picking representative batches...\n")
-            for i = 1:size(clustSils,2) %pick representatives and graph
-                assignmentIdxs = find(assignments(i,:) == 1);
-                if (isempty(assignmentIdxs))
-                    continue %should never be hit
-                end
-                clusterIdxs{clusterIdx} = assignmentIdxs;
-                assignmentSils = silScores(assignmentIdxs);
-                [assignmentSils, isort] = sort(assignmentSils, 'descend');
-                if (clustSils(i) > ops.clusterThreshold)
-                    legendLabels(idx) = cellstr(sprintf('Cluster %i', i));
-                    scatter(assignmentIdxs(isort), assignmentSils, 'MarkerFaceColor', rand(1,3), 'MarkerEdgeColor', 'black')
-                    iperm(idx) = isort(1); 
-                    idx = idx + 1;
-                else
-                    for k = 1:size(assignmentIdxs,2)
-                        unclustered(unclusteredIdx) = assignmentIdxs(k);
-                        unclusteredIdx = unclusteredIdx + 1;
+                %TODO try to implement DBSCAN with same custom method used as kmeans
+
+                %TODO compare ALL clustering methods (PC-wise clustering
+                %(already optimized configuration of DBSCAN vs. kmeans vs.
+                %other)/full kmeans/full DBSCAN, graph all comparisons, pick
+                %best silScore
+                    %can get rid of custom function if results are consistently
+                    %worse/exact same or just put a disclaimer
+
+                %TODO allow user to select clusters themselves
+
+
+                hold on
+                iperm = [];
+                unclustered = [];
+                unclusteredIdx = 1;
+                idx = 1;
+                clusterIdx = 1;
+                legendLabels = {};
+                clusterIdxs = arrayfun(@(x) [], 1:size(assignments,1), 'UniformOutput', false);
+                fprintf("Clustering complete. Picking representative batches...\n")
+                for i = 1:size(clustSils,2) %pick representatives and graph
+                    assignmentIdxs = find(assignments(i,:) == 1);
+                    if (isempty(assignmentIdxs))
+                        continue %should never be hit
                     end
+                    clusterIdxs{clusterIdx} = assignmentIdxs;
+                    assignmentSils = silScores(assignmentIdxs);
+                    [assignmentSils, isort] = sort(assignmentSils, 'descend');
+                    if (clustSils(i) > ops.clusterThreshold)
+                        legendLabels(idx) = cellstr(sprintf('Cluster %i', i));
+                        scatter(assignmentIdxs(isort), assignmentSils, 'MarkerFaceColor', rand(1,3), 'MarkerEdgeColor', 'black')
+                        iperm(idx) = isort(1);  %TODO THIS IS WRONG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                        idx = idx + 1;
+                    else
+                        for k = 1:size(assignmentIdxs,2)
+                            unclustered(unclusteredIdx) = assignmentIdxs(k);
+                            unclusteredIdx = unclusteredIdx + 1;
+                        end
+                    end
+                    clusterIdx = clusterIdx + 1;
                 end
-                clusterIdx = clusterIdx + 1;
+                xlim([0 Nbatch])
+                ylim([min(silScores) 1]) 
+                xlabel("Batch Number");
+                ylabel("Silhouette Score");
+                title("Silhouette Score vs. Batch Number of Optimal Clustering")
+                legend(legendLabels, 'Location', 'best')
+                hold off
+                savefig(fullfile(ops.plotPath, "kmeansFinalClusters.fig"));
+                close();
+                num = floor(size(unclustered,2) * size(iperm,2)) / (Nbatch - size(unclustered,2));
+                temp = sortByVar(ops, num);
+                iperm = cat(2, temp, iperm);
+                rez.clustSils = clustSils;
+                rez.silScores = silScores;
+                rez.clusterIdxs = clusterIdxs; %TODO return arrays of Idxs
+            else
+                for i = 1:size(unique(rez.mainPCBestClustAssignments),2) %TODO improve selection
+                    idx = find(rez.mainPCBestClustAssignments == i);
+                    scores = rez.mainPCbestScoresIndividual(idx);
+                    [~, isort] = sort(scores, 'descend');
+                    iperm(i) = idx(isort(1));
+                end
             end
-            xlim([0 Nbatch])
-            ylim([min(silScores) 1]) 
-            xlabel("Batch Number");
-            ylabel("Silhouette Score");
-            title("Silhouette Score vs. Batch Number of Optimal Clustering")
-            legend(legendLabels, 'Location', 'best')
-            hold off
-            savefig(fullfile(ops.plotPath, "kmeansFinalClusters.fig"));
-            close();
-            num = floor(size(unclustered,2) * size(iperm,2)) / (Nbatch - size(unclustered,2));
-            temp = sortByVar(ops, num);
-            iperm = cat(2, temp, iperm);
-            rez.clustSils = clustSils;
-            rez.silScores = silScores;
-            rez.clusterIdxs = clusterIdxs; %TODO return arrays of Idxs
         otherwise
             iperm = randperm(Nbatch); 
     end

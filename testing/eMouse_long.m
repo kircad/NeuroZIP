@@ -1,21 +1,23 @@
 fpath = 'C:\Users\kirca\Desktop\NeuroZIP\testing';
 pathToYourConfigFile = 'C:\Users\kirca\Desktop\NeuroZIP\testing\'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
-testName = 'newunits1';
+testName = 'newunits2';
 useGPU = 1;
 gendata = false;
+
 if gendata
     make_eMouseChannelMap(fpath)
     longSimGen(fpath, useGPU, testName);
 end
 
 % Run the configuration file, it builds the structure of options (ops)
-run(fullfile(pathToYourConfigFile, 'config.m'))
+run(fullfile(pathToYourConfigFile, 'ksConfig.m'))
+run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
 outpath = fullfile(fpath, 'results');
 
 [rez, DATA, uproj] = preprocessData(ops); % preprocess data and extract spikes for initialization
-%rez                = compressData(ops);
+compressionRez                = compressData(compressionOps);
 %savefig(fullfile(outpath, ops.batchSetting));
-rez                = fitTemplates(rez, DATA, uproj);  % fit templates iteratively
+rez                = fitTemplates(rez, DATA, uproj, compressionRez.batchesToUse);  % fit templates iteratively
 rez                = fullMPMU(rez, DATA);% extract final spike times (overlapping extraction)
 
 rezToPhy(rez, outpath);
