@@ -73,6 +73,10 @@ function rez = compressData(ops)
             meanPCs = meanPCs / ops.batchPCS;
             title = sprintf("Top %d PCs Averaged", ops.batchPCS); %THIS IS THE MAIN GRAPH + MAIN ASSIGNMENTS: UPDATE THESE IN LOOP
             [rez.mainAlg, rez.mainPCBestClustAssignments, rez.mainPCBestClustScores, rez.mainPCbestScoresIndividual, rez.mainPCbestBinary, rez.mainPCReduction] = clustering(ops, meanPCs, title);
+            %TODO figure out way to take good clusters from
+                %kmeans/DBSCAN and add those to the final clustering
+                %(without adding all the other assignments of that
+                %particular clustering algorithm) (both here and in loop)
             if ops.easterEgg
                 img = imread(fullfile(ops.easterEggPath, 'ClusteringStrategy.jpg'));
                 imshow(img);
@@ -90,6 +94,16 @@ function rez = compressData(ops)
             while ~isempty(unclusteredIdxs) %now subcluster bad clusters by PC1, PC2, ... PCN (FIRST PC1/zoom in, then others)
                 currIdxs = unclusteredIdxs{1};
                 currClust = badClusts(1);
+                %TODO (before anything else) - take 1 representative batch from
+                %all n clusters obtained from kmeans (BEFORE THIS LOOP) -
+                %see effect on spike sorting - DO THIS
+                %FIRST!!!!!!!!!!!!!!!!!!!
+                
+                %TODO figure out way to take good clusters from
+                %kmeans/DBSCAN and add those to the final clustering
+                %(without adding all the other assignments of that
+                %particular clustering algorithm)
+                
                 %ZOOM INTO BAD CLUSTERS (breadth first search for clusters
                 %< threshold)
                     %1ST- attempt to get good clusters using AVERAGES
@@ -100,6 +114,7 @@ function rez = compressData(ops)
                     %update unclusteredIdxs
                 %stop when there are no (?) subclusters < ops.threshold 
                 %do final pass of good clusters?
+                
                 title = sprintf("Bad Cluster %d", currClust);
                 currU = batchUs(currIdxs,:,:);
                 meanPCs = zeros(size(currIdxs,2), ops.Nchan);
@@ -107,7 +122,7 @@ function rez = compressData(ops)
                     meanPCs = meanPCs + permute(currU(:,i,:), [1 3 2]);
                 end
                 meanPCs = meanPCs / ops.batchPCS;
-                [algo bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops, meanPCs, title); %TODO NO CLUSTS FOUND...
+                [algo bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops, meanPCs, title);
                 rez = mergeClusts(ops, rez); %well that didnt work super well... graph across PCs could still be valuable though
                 PCReductions = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
                 rez.bestPCbins = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
@@ -131,7 +146,7 @@ function rez = compressData(ops)
                 %can get rid of custom function if results are consistently
                 %worse/exact same or just put a disclaimer
             
-            %TODO allow user to select clusters
+            %TODO allow user to select clusters themselves
             
             %END GOAL: no/basically no unclustered (<0.5 silScore) regions
             %left, one-two representatives from all (maybe try batch-level

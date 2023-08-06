@@ -8,16 +8,46 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
     savefig(fullfile(ops.plotPath, strcat(myTitle, ".fig")));
     close("all") %TODO MAKE SURE BATCH ORDER ISNT SCREWED UP (highly doubt)
     
+    if (size(currU,1) < ops.maxK * 4)
+        limK = floor(size(currU,1) / 4);
+    else
+        limK = ops.maxK;
+    end
+    currIter = 1;
+    bestscore = -1;
+    bestAssignments = [];
+    k = 2;
+    while k <= limK
+        [idx, C, ~, D] = kmeans(reduction,k, 'Start', 'plus'); %TODO OPTIMIZE/PARALLELIZE
+        idx = idx';
+        uniqueK = unique(idx);
+        for j = 1:uniqueK
+            idxs = find(idx == j);
+            if (size(idxs,2) <= ops.clustMin)            
+                [~, nearestCluster] = min(D(:, j));
+                idx(j) = nearestCluster;
+                k = k - 1;
+                idx(idx > j) = idx(idx > j) - 1; %TODO CHECK- should just move push all assignments > than the one removed back to fill empty space
+            end
+        end
+        currScore = silhouette(currU, idx,'euclidean');
+        if (mean(currScore) > mean(bestscore))
+            bestscore = currScore;
+            bestAssignments = idx;
+            kCentroids = C;
+        end
+        if (currIter >= ops.kmeansMaxIter) %TODO add convergence condition
+            break;
+        end
+        k = k + 1;
+        currIter = currIter + 1;
+    end
+    Kclusters = bestAssignments;
     
-    [Kclusters, kCentroids] = kmeans(reduction,max(DBclusters)); %TODO OPTIMIZE WITH OPTIONS/NUMBER OF CLUSTERS, 
-        %elbow method?
-        %silhouette score?
-        %somehow enforce minimum cluster size?
-        
     hold on
     figure
     subplot(1, 2, 1);
-    [kmeanScore, ~] = silhouette(currU, Kclusters,'euclidean');
+    [kmeanScore, ~] = silhouette(currU, Kclusters,'euclidean'); %
     title(strcat(myTitle, " Kmeans Silhouette Scores"));
 
     subplot(1, 2, 2);
@@ -33,7 +63,7 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
         DBclustsunique = sort(unique(DBclusters));
         kclustsunique = sort(unique(Kclusters));
         clustCols = arrayfun(@(x) [], 1:max(size(DBclustsunique,2), size(kclustsunique,2)), 'UniformOutput', false);
-        clustLabels = arrayfun(@(x) [], 1:max(size(DBclustsunique,2), size(kclustsunique,2)), 'UniformOutput', false);
+        clustLabels = arrayfun(@(x) [], 1:min(size(DBclustsunique,2), size(kclustsunique,2)), 'UniformOutput', false);
 
         subplot(1, 2, 1);
 
@@ -57,9 +87,9 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
         subplot(1, 2, 2);
         hold on
         title(strcat("PC ", myTitle, " Kmeans Cluster Assignments"));
-        for n = 1:size(kclustsunique', 2)
+        for n = 1:size(kclustsunique, 2)
             if (n > size(DBclustsunique, 2))
-                clustCols{n} = rand(1);
+                clustCols{n} = rand(1, 3);
                 clustLabels{n} = strcat("Cluster ", string(n));
             end
             col = clustCols{n};
