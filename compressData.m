@@ -17,6 +17,8 @@ function rez = compressData(ops)
     else
         memallocated = ops.ForceMaxRAMforDat;
     end
+    ops.easterEgg = 1; %if you found this, thank you for looking into my code so carefully :D TODO move this somewhere else lol i have too much time on my hands
+    ops.easterEggPath = 'C:\Users\kirca\Desktop\NeuroZIP\assets'; 
     nint16s      = memallocated/2;
     NTbuff      = NT + 4*ops.ntbuff;
     Nbatch      = ceil(d.bytes/2/ops.Nchan /(NT));
@@ -64,22 +66,59 @@ function rez = compressData(ops)
             fprintf("SVD Complete. Running UMAP + PC-level clustering algorithm...\n")
             rez.batchUs = batchUs;
             %rez.batchVs = batchVs;
-            PCclustering(ops, rez);
+            meanPCs = zeros(ops.Nbatch, ops.Nchan);
+            for i = 1:ops.batchPCS
+                meanPCs = meanPCs + permute(rez.batchUs(:,i,:), [1 3 2]);
+            end
+            meanPCs = meanPCs / ops.batchPCS;
+            title = sprintf("Top %d PCs Averaged", ops.batchPCS); %THIS IS THE MAIN GRAPH + MAIN ASSIGNMENTS: UPDATE THESE IN LOOP
+            [rez.mainAlg, rez.mainPCBestClustAssignments, rez.mainPCBestClustScores, rez.mainPCbestScoresIndividual, rez.mainPCbestBinary, rez.mainPCReduction] = clustering(ops, meanPCs, title);
+            if ops.easterEgg
+                img = imread(fullfile(ops.easterEggPath, 'ClusteringStrategy.jpg'));
+                imshow(img);
+            end
+            unclusteredIdxs = {};
+            badClusts = [];
+            idx = 1;
+            for i = 1:size(unique(rez.mainPCBestClustAssignments),2)
+                if (rez.mainPCBestClustScores(i) < ops.clustMin)
+                    unclusteredIdxs{idx} = find(rez.mainPCBestClustAssignments == i); %ONLY EVER REMOVE, CHECK 1ST ELEMENT
+                    badClusts(idx) = i;
+                    idx = idx + 1;
+                end
+            end
+            while ~isempty(unclusteredIdxs) %now subcluster bad clusters by PC1, PC2, ... PCN (FIRST PC1/zoom in, then others)
+                currIdxs = unclusteredIdxs{1};
+                currClust = badClusts(1);
+                %ZOOM INTO BAD CLUSTERS (breadth first search for clusters
+                %< threshold)
+                    %1ST- attempt to get good clusters using AVERAGES
+                    %2ND- break down by PC level: start with 1, then 2, 3,
+                    %etc.
+                    %each pass: update clusters/assignments AT LEVEL OF
+                    %AVERAGED PCS - update variables above
+                    %update unclusteredIdxs
+                %stop when there are no (?) subclusters < ops.threshold 
+                %do final pass of good clusters?
+                title = sprintf("Bad Cluster %d", currClust);
+                currU = batchUs(currIdxs,:,:);
+                meanPCs = zeros(size(currIdxs,2), ops.Nchan);
+                for i = 1:ops.batchPCS
+                    meanPCs = meanPCs + permute(currU(:,i,:), [1 3 2]);
+                end
+                meanPCs = meanPCs / ops.batchPCS;
+                [algo bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops, meanPCs, title); %TODO NO CLUSTS FOUND...
+                rez = mergeClusts(ops, rez); %well that didnt work super well... graph across PCs could still be valuable though
+                PCReductions = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
+                rez.bestPCbins = arrayfun(@(x) [], 1:ops.batchPCS, 'UniformOutput', false);
+                %TODO maybe try clustering by PC1 first, THEN PC2 for
+                %remaining UNCLUSTERED REGIONS/SUBDIVIDE PC1 CLUSTERS
+                unclusteredIdxs = []; %TODO assign as number of elements in CLUSTERS of average silScorte < threshold (not individual point silScores)
+            end %TODO have option to use my custom kmeans that doesnt rely on dimensionality reduction (STILL SEPARATE BY PC/MERGE THOUGH) (actually not sure if i should separate)
+   
+            %TODO plot UMAP output as png or something-- currently wont load reliably
             
-            %TODO plot UMAP output as png or something-- currently wont
-            %load reliably
-            
-            %TODO do further clustering on bad clusters - iteratively until
-            %none left/hit max counter (PC-level (kmeans + DBSCAN), merged (kmeans + DBSCAN))
-                %do PC-level stuff first as they seem more promising
-                %try to get to point where you have no bad clusters and see
-                %if spike sorting has improved
-                
             %TODO PLOT TEMPLATES OF EACH CLUSTER
-                
-            %TODO ADD MORE CLUSTERING METHODS, DISTANCE METRICS, ETC ETC)
-            %(try to see if you can improve kmeans)
-            %somehow merge clusterings of all PCs (another clustering?). 
 
             fprintf("SVD Complete. Running k-means clustering algorithm...\n")
             [assignments, silScores, clustSils] = kmeansCustom(ops, batchUs);
@@ -92,10 +131,12 @@ function rez = compressData(ops)
                 %can get rid of custom function if results are consistently
                 %worse/exact same or just put a disclaimer
             
+            %TODO allow user to select clusters
+            
             %END GOAL: no/basically no unclustered (<0.5 silScore) regions
             %left, one-two representatives from all (maybe try batch-level
             %UMAP/mutual information thing)
-            %UMAP MUTUAL INFORMATION THING COULD BE IMPORTANT REGARDLESS
+                %UMAP MUTUAL INFORMATION THING COULD BE IMPORTANT REGARDLESS
             
             %basically have two separate schemes-- merge top n PCs FIRST,
             %merge top n PCs SECOND (but do UMAP regardless), give user to just run all and pick best for

@@ -22,6 +22,7 @@ ops.clustMin = 1;
 ops.kmeansMaxIter = 150; % between maxK + maxK/2 and maxK + maxK/4
 ops.plotDiagnostics = 1;
 ops.plotTemplates = 1;
+ops.pcmerge = 0;
 
 %RANDOM SETTINGS
 ops.batchFactor = 5;

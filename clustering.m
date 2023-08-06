@@ -1,28 +1,30 @@
-function [algo, bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops, currU, title)
-    kscores = zeros(1, ops.batchPCS);
-    dbscores = zeros(1, ops.batchPCS);
+function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReduction] = clustering(ops, currU, myTitle)
     cd(ops.outputPath);
     
-    savePath = strcat(title, ".csv");
+    savePath = strcat(myTitle, ".csv");
     writematrix(cat(1, 1:ops.Nchan,currU), savePath);
 
     [reduction, ~, DBclusters, ~] = run_umap(char(savePath), 'cluster_detail', 'adaptive'); %TODO WHAT DOES CLUSTER DETAIL ACTUALLY MEAN?
-    savefig(fullfile(ops.plotPath, strcat(title, ".fig")));
+    savefig(fullfile(ops.plotPath, strcat(myTitle, ".fig")));
     close("all") %TODO MAKE SURE BATCH ORDER ISNT SCREWED UP (highly doubt)
-
-    [Kclusters, kCentroids] = kmeans(reduction,max(DBclusters)); %TODO PLAY WITH OPTIONS/NUMBER OF CLUSTERS, 
-
+    
+    
+    [Kclusters, kCentroids] = kmeans(reduction,max(DBclusters)); %TODO OPTIMIZE WITH OPTIONS/NUMBER OF CLUSTERS, 
+        %elbow method?
+        %silhouette score?
+        %somehow enforce minimum cluster size?
+        
     hold on
     figure
     subplot(1, 2, 1);
     [kmeanScore, ~] = silhouette(currU, Kclusters,'euclidean');
-    title(strcat(title, " Kmeans Silhouette Scores"));
+    title(strcat(myTitle, " Kmeans Silhouette Scores"));
 
     subplot(1, 2, 2);
     [dbScore, ~] = silhouette(currU, DBclusters,'euclidean');
-    title(strcat(title, " DBSCAN Silhouette Scores"));
+    title(strcat(myTitle, " DBSCAN Silhouette Scores"));
 
-    savefig(fullfile(ops.plotPath, strcat("SilDBPC ", title, ".fig")));
+    savefig(fullfile(ops.plotPath, strcat("SilDBPC ", myTitle, ".fig")));
     hold off
     close("all")
 
@@ -46,7 +48,7 @@ function [algo, bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops
             scatter(dbCentroid(1), dbCentroid(2), 100, 'filled', 'black', 'HandleVisibility', 'Off');
             text(dbCentroid(1) + 1, dbCentroid(2) - 1, string(mean(dbScore(DBclusters == n))), 'FontWeight','bold');
         end
-        title(strcat("PC ", title, " DBSCAN Cluster Assignments"));
+        title(strcat("PC ", myTitle, " DBSCAN Cluster Assignments"));
         legend(clustLabels);
         hold off
         %TODO make sure cluster assignment colors stay
@@ -54,7 +56,7 @@ function [algo, bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops
         %arbitrary cluster numbers the algorithm spits out
         subplot(1, 2, 2);
         hold on
-        title(strcat("PC ", title, " Kmeans Cluster Assignments"));
+        title(strcat("PC ", myTitle, " Kmeans Cluster Assignments"));
         for n = 1:size(kclustsunique', 2)
             if (n > size(DBclustsunique, 2))
                 clustCols{n} = rand(1);
@@ -69,23 +71,27 @@ function [algo, bestClusts, bestScores, bestPCbin, PCReduction] = clustering(ops
         legend(clustLabels);
         hold off
 
-        savefig(fullfile(ops.plotPath, strcat("Cluster Assignments PC ", title, ".fig")));
+        savefig(fullfile(ops.plotPath, strcat("Cluster Assignments PC ", myTitle, ".fig")));
         close("all")
     end
     kscore = sum(kmeanScore > ops.clusterThreshold);
     dbscore = sum(dbScore > ops.clusterThreshold);
     if (kscore > dbscore)
+        algo = "KMEANS";
         bestPCbin = makeBinaryMats(Kclusters');
-        bestClusts = DBclusters;
-        bestScores = dbscores;
-        algo = "kmeans";
-    else
-        bestPCbin = makeBinaryMats(DBclusters);
         bestClusts = Kclusters;
-        bestScores = kscores;
+        bestScore = kmeanScore;
+    else
         algo = "DBSCAN";
+        bestPCbin = makeBinaryMats(DBclusters);
+        bestClusts = DBclusters;
+        bestScore = dbScore;
     end
     PCReduction = reduction;
+    bestMeanClustScores = zeros(size(unique(bestClusts),2));
+    for i = 1:size(unique(bestClusts), 2)
+        bestMeanClustScores(i) = mean(kmeanScore(bestClusts == i));
+    end
     %TODO DELETE CSVS
     %TODO ADD MORE CLUSTERING METHODS, DISTANCE METRICS, ETC ETC)
     %(try to see if you can improve kmeans)

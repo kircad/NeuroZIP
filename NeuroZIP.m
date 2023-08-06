@@ -28,6 +28,7 @@ save(fullfile(ops.outputPath, 'rez.mat'), 'rez', '-v7.3');
 %see other TODOs
 %RBF clustering
 
+%USE MATLAB CLUSTER ENSEMBLE TOOLBOX-- LOTS OF GREAT FUNCTIONS
 %UMAP @ batch level? Combine clusters across ALL batches? 
     %What (if any) iis the PC equivalent for UMAP?
     %what would a cluster mean? Use % overlap of clusters in 2D as metric

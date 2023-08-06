@@ -29,7 +29,7 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
                     for j = 1:k
                         cost = 0;
                         for n = 1:ops.batchPCS
-                            cost = cost + sum((vectors(i, n, :) - centroids(j, n, :)) .^ 2); %euclidian method
+                            cost = cost + sum((vectors(i, n, :) - centroids(j, n, :)) .^ 2); %euclidian method TODO SEPARATE KMEANS PER PC
                         end
                         costs(j, i) = cost;   
                     end
