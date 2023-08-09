@@ -8,7 +8,7 @@ compressionOps.plotPath = fullfile(compressionOps.outputPath, "plots");
 
 compressionOps.Nchan = 32;
 compressionOps.NchanTOT = 34;
-compressionOps.batchSetting = 'random';
+compressionOps.batchSetting = 'dynamic';
 compressionOps.scaleproc = 200;
 compressionOps.ntbuff              = 64;    % samples of symmetrical buffer for whitening and spike detection		
 compressionOps.ForceMaxRAMforDat   = 20e9; % maximum RAM the algorithm will try to use; on Windows it will autodetect.
@@ -23,8 +23,10 @@ compressionOps.kmeansMaxIter = 150; % between maxK + maxK/2 and maxK + maxK/4
 compressionOps.plotDiagnostics = 1;
 compressionOps.plotTemplates = 1;
 compressionOps.pcmerge = 0;
-compressionOps.iterativeOptimization = 0;
+compressionOps.iterativeOptimization = 1;
 compressionOps.NchanDimKmeans = 0;
+compressionOps.meanPCs = 0;
+compressionOps.minOptimizationBatches = 20;
 
 %RANDOM SETTINGS
-compressionOps.batchFactor = 16;
+compressionOps.batchFactor = 55;

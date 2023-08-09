@@ -114,7 +114,7 @@ end
 %NOW GENERATE MODIFIED DATA ON TOP-- NEW PARAMS, ETC. (add existing numSamps to all timepoints, make sure cluster assignments stay same, etc.)
 
 if (mode == "frtest1") %TODO TEST DATA GEN HERE-- GETTING MUCH WORSE RESULTS THAN EXPECTED ACROSS THE BOARD
-    t_record2  = 500;
+    t_record2  = 1000;
     tot_record = t_record + t_record2;
     fr_bounds = [20 30]; % this has effect of ALL neuron firing rates suddenly decreasing on average 
     fr = fr_bounds(1) + (fr_bounds(2)-fr_bounds(1)) * rand(NN,1); % create variability in firing rates FIRING RATE OF EACH NEURON
@@ -184,7 +184,7 @@ if (mode == "frtest1") %TODO TEST DATA GEN HERE-- GETTING MUCH WORSE RESULTS THA
 end
 
 if (mode == "ampvarfrtest")
-    t_record2  = 500;
+    t_record2  = 1000;
     tot_record = t_record + t_record2;
     spk_timesnew = [];
     clunew = [];
@@ -255,7 +255,7 @@ if (mode == "ampvarfrtest")
 end
 
 if (mode == "ampvartest")
-    t_record2  = 500;
+    t_record2  = 1000;
     tot_record = t_record + t_record2;
     spk_timesnew = [];
     clunew = [];
@@ -407,7 +407,7 @@ end
 
 if (mode == "newunits2")
     newUnits = 5;
-    t_record2  = 500;
+    t_record2  = 1000;
     tot_record = t_record + t_record2;
     spk_timesnew = [];
     clunew = [];

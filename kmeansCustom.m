@@ -1,4 +1,4 @@
-function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
+function [assignments, silScores, clustSils, unclusterable] = kmeansCustom(ops, vectors)
         Nbatch = ops.Nbatch;
         
         silScores = zeros(1,Nbatch);
@@ -176,7 +176,15 @@ function [assignments, silScores, clustSils] = kmeansCustom(ops, vectors)
             savefig(fullfile(ops.plotPath, "clustSils.fig"))
             close();
         end
-        
+        for i = 1:size(finalCluIndividual,2) %remove bad clusters TODO CHECK + FIX
+            if (finalCluIndividual(i) < ops.clusterThreshold)
+                for k = 1:size(assignmentIdxs,2)
+                    unclustered(unclusteredIdx) = assignmentIdxs(k);
+                    unclusteredIdx = unclusteredIdx + 1;
+                end
+            end
+        end
+        unclusterable = unclusteredIdx;
         clustSils = bestClustSil;
         silScores = bestSilScores;
         rez.bestCost = bestCost;
@@ -202,3 +210,15 @@ end
 %TODO FIX DYNAMIC - SHOULD AT LEAST MATCH PERFORMANCE OF ALL FOR NEWUNIT1 
 
 %TODO TRY A HIERARCHICAL CLUSTERING ALGORITHM LIKE HDBSCANTODO TRY KMEANS++
+
+            
+                %TODO try to implement DBSCAN with same custom method used as kmeans
+
+                %TODO compare ALL clustering methods (PC-wise clustering
+                %(already optimized configuration of DBSCAN vs. kmeans vs.
+                %other)/full kmeans/full DBSCAN, graph all comparisons, pick
+                %best silScore
+                    %can get rid of custom function if results are consistently
+                    %worse/exact same or just put a disclaimer
+
+                %TODO allow user to select clusters themselves

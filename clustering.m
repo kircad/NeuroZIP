@@ -73,7 +73,7 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
             clustCols{n} = col;
             clustLabels{n} = strcat("Cluster ", string(n));
             scatter(reduction(DBclusters == n,1)', reduction(DBclusters == n,2)','MarkerFaceColor', col);
-            dbCentroid = mean(reduction(DBclusters == n,:));
+            dbCentroid = mean(reduction(DBclusters == n,:),1);
 
             scatter(dbCentroid(1), dbCentroid(2), 100, 'filled', 'black', 'HandleVisibility', 'Off');
             text(dbCentroid(1) + 1, dbCentroid(2) - 1, string(mean(dbScore(DBclusters == n))), 'FontWeight','bold');
@@ -106,7 +106,7 @@ function [algo, bestClusts, bestMeanClustScores, bestScore, bestPCbin, PCReducti
     end
     kscore = sum(kmeanScore > ops.clusterThreshold);
     dbscore = sum(dbScore > ops.clusterThreshold);
-    if (kscore > dbscore)
+    if (kscore >= dbscore)
         algo = "KMEANS";
         bestPCbin = makeBinaryMats(Kclusters'); %TODO FIX - DOESNT WORK WHEN NUMCLUSTS IS LARGE
         bestClusts = Kclusters;
