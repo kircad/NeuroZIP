@@ -9,7 +9,7 @@ ops.fbinary             = fullfile(fpath, 'Vole_J17.dat'); % will be created for
 ops.fproc               = fullfile(fpath, 'temp_wh.dat'); % residual from RAM of preprocessed data		
 ops.root                = fpath; % 'openEphys' only: where raw files are		
 % define the channel map as a filename (string) or simply an array		
-ops.chanMap             = fullfile(fpath, 'chanMap.mat'); % make this file using createChannelMapFile.m		
+ops.chanMap             = fullfile(fpath, 'chanMaps', 'lezioChanMap.mat'); % make this file using createChannelMapFile.m		
 % ops.chanMap = 1:ops.Nchan; % treated as linear probe if unavailable chanMap file		
 
 ops.Nfilt               = 64;  % number of clusters to use (2-4 times more than Nchan, should be a multiple of 32)     		
@@ -45,14 +45,6 @@ ops.momentum         = 1./[20 400];  % start with high momentum and anneal (1./[
 ops.shuffle_clusters = 1;            % allow merges and splits during optimization (1)		
 ops.mergeT           = .1;           % upper threshold for merging (.1)		
 ops.splitT           = .1;           % lower threshold for splitting (.1)		
-ops.batchSetting = 'random'; %options are random, linspace, variance, entropy(using eigenvalues?), numSpikes, dynamic, anything else will just use all batches
-ops.spacing = 5; %NEED TO ALSO SET THIS IF LINSPACE OPTION IS SET
-ops.batchFactor =  40; %if not using spacing, take numBatch/ops.batchFactor batches for template matching
-ops.batchPCS = 3;
-ops.maxK = 50;
-ops.clusterThreshold = 0.5; %minimum silhouette score of a cluster - TODO use stdev?
-ops.clustMin = 1; %minimum cluster size
-%TO DO ADD SLEEP STATE, SNR, PCA CRITERION
 
 % options for initializing spikes from data		
 ops.initialize      = 'fromData';    %'fromData' or 'no'		
