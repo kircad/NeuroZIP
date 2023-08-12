@@ -5,22 +5,22 @@ run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
 
 %TODO INSERT OPTION TO PREPROCESS AND ONLY COMPRESS (W/O SPIKESORT)
 
-if ~(exist(ops.outputPath, 'dir'))
+if ~(exist(compressionOps.outputPath, 'dir'))
     cd(ops.fpath)
     mkdir results
     cd results
     mkdir plots
 else
-    if ~(exist(ops.plotPath, 'dir'))
+    if ~(exist(compressionOps.plotPath, 'dir'))
         cd results
         mkdir plots
     end
 end
-rez.ops = ops;
-rez                = compressData(ops);
+rez.compressionOps = compressionOps;
+rez                = compressData(compressionOps);
 
 %% save and clean up
-save(fullfile(ops.outputPath, 'rez.mat'), 'rez', '-v7.3');
+save(fullfile(compressionOps.outputPath, 'rez.mat'), 'rez', '-v7.3');
 
 %TODO: 
 

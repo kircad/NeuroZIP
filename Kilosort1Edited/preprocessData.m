@@ -1,4 +1,4 @@
-function [rez, DATA, uproj] = preprocessData(ops)
+function [rez, DATA, uproj, compressionOps] = preprocessData(ops)
 tic;
 uproj = [];
 ops.nt0 	= getOr(ops, {'nt0'}, 61);
@@ -300,7 +300,6 @@ if ops.verbose
     fprintf('Time %3.2f. Whitened data written to disk... \n', toc);
     fprintf('Time %3.2f. Preprocessing complete!\n', toc);
 end
-
 
 rez.temp.Nbatch = Nbatch;
 rez.temp.Nbatch_buff = Nbatch_buff;

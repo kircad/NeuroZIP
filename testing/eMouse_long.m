@@ -1,8 +1,8 @@
 fpath = 'C:\Users\kirca\Desktop\NeuroZIP\testing';
-pathToYourConfigFile = 'C:\Users\kirca\Desktop\NeuroZIP\testing\'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
-testName = 'ampvarfrtest';
+pathToYourConfigFile = 'C:\Users\kirca\Desktop\NeuroZIP\testing\config'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
+testName = 'newunits3';
 useGPU = 1;
-gendata =  true;
+gendata =  false;
 
 if gendata
     make_eMouseChannelMap(fpath)
@@ -15,6 +15,7 @@ run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
 outpath = fullfile(fpath, 'results');
  
 [rez, DATA, uproj] = preprocessData(ops); % preprocess data and extract spikes for initialization
+compressionOps.batchSpikes = rez.batchSpikes;
 compressionRez                = compressData(compressionOps);
 %savefig(fullfile(outpath, ops.batchSetting));
 rez                = fitTemplates(rez, DATA, uproj, compressionRez.batchesToUse);  % fit templates iteratively

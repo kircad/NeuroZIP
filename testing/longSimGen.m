@@ -10,13 +10,21 @@ fr_bounds = [1 10]; % min and max of firing rates ([1 10])
 tsmooth   = 3; % gaussian smooth the noise with sig = this many samples (increase to make it harder) (3)
 chsmooth  = 1; % smooth the noise across channels too, with this sig (increase to make it harder) (1)
 amp_std   = .25; % standard deviation of single spike amplitude variability (increase to make it harder, technically std of gamma random variable of mean 1) (.25)
-wavidxs = randperm(76,30);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+if (mode == "newunits3")
+    numUnitsInit = 1;
+elseif (mode == "oneUnit")
+    numUnitsInit = 1;
+elseif (mode == "zero")
+    numUnitsInit = 0;
+else
+    numUnitsInit = 30;
+end
 if useGPU
     parallel.gpu.rng('default');
     parallel.gpu.rng(10191);  % set the seed of the random number generator
 end
+wavidxs = randperm(76,numUnitsInit); 
 
 rng('default');
 rng(101);  % set the seed of the random number generator
@@ -473,6 +481,78 @@ if (mode == "newunits2")
             else
                 dat(ts(i) + int64([1:82]), 2 + [1:32]) = dat(ts(i) + int64([1:82]), 2 + [1:32]) +...
                mu(ids(i)) * am(i) * wav(:,:,ids(i)); %for timepoints ts(i) + 1:82 and channels 1:32, add template waveform TODO CHECK THIS
+            end
+        end
+
+        dat_old    =  dat;    
+        dat = int16(200 * dat); %scale to int16 range
+        fwrite(fidW, dat(1:(NT-buff),invChanMap)', 'int16');
+        t_all = t_all + (NT-buff)/fs;
+
+        enoise_old = enoise;
+    end
+    clu = cat(1,clu, clunew);
+    spk_times = cat(1,spk_times, spk_timesnew);
+end
+
+if (mode == "newunits3")
+    newUnits = 2;
+    t_record2  = 1000;
+    tot_record = t_record + t_record2;
+    spk_timesnew = [];
+    clunew = [];
+    fr_boundsnew = [1 10];
+    frnew = fr_boundsnew(1) + (fr_boundsnew(2)-fr_boundsnew(1)) * rand(newUnits,1); % create variability in firing rates of NEW NEURONS
+    for j = 1:length(frnew) %now adding in new units 
+        dspks = int64(geornd(1/(fs/frnew(j)), ceil(2*frnew(j)*t_record2),1)); %dspks are ISIs
+        dspks(dspks<ceil(fs * 2/1000)) = [];  % remove ISIs below the refractory period
+        res = cumsum(dspks); %res = actual spike times: summing up ISIs tells you what timepoint each spike was at
+        spk_timesnew = cat(1, spk_timesnew, res);
+        clunew = cat(1, clunew, (j + NN)*ones(numel(res), 1)); %adding NN to account for new cluID
+    end
+    newidxrange = setdiff(1:60,wavidxs);
+    dat = load('simulation_parameters');
+    wavnew = dat.waves;
+    wavnew = wavnew(:,:,newidxrange(randperm(size(newidxrange,2),5)));
+    [spk_timesnew, isort] = sort(spk_timesnew); %ALL spike times sorted chronologically, regardless of cluster
+    clunew = clunew(isort); %now align their associated clusters
+    clunew       = clunew(spk_timesnew<t_record2*fs);
+    spk_timesnew = spk_timesnew(spk_timesnew<t_record2*fs); %remove spike times out of range (why generate for 2 * time * frequency? -- has to do with fft?)
+    nspikesnew = numel(spk_timesnew);
+    amps = gamrnd(1/amp_std^2,amp_std^2, nspikesnew,1); % this generates single spike amplitude variability of mean 1 AMPLITUDE VARIANCE
+    spk_timesnew = spk_timesnew + (fs * t_record); %adjusting for existing data before it
+    munew = mu_mean * (1 + (rand(newUnits,1) - 0.5));
+    while t_all<tot_record  %for each batch (hardcoded to 4s) TODO change batch sizes?
+        if useGPU
+            enoise = gpuArray.randn(NT, Nchan, 'single'); %literally random data of size Nchan x NT : noise
+        else
+            enoise = randn(NT, Nchan, 'single');
+        end
+        if t_all>0
+            enoise(1:buff, :) = enoise_old(NT-buff + [1:buff], :);
+        end
+
+        dat = enoise; %first set data equal to noise
+        dat = my_conv2(dat, [tsmooth chsmooth], [1 2]); %this is to smoothen noise across time and channels : uses convolution - higher is harder becuase smoothening suppresses the short-term fluctuations we care about
+        dat = zscore(dat, 1, 1);
+        dat = gather_try(dat);
+
+        if t_all>0
+            dat(1:buff/2, :) = dat_old(NT-buff/2 + [1:buff/2], :);
+        end
+
+        dat(:, [1 2]) = 0; % these are the "dead" channels
+
+        % now we add spikes on non-dead channels. 
+        ibatch =(spk_timesnew >= t_all*fs) & (spk_timesnew < t_all*fs+NT-buff); %spikes in this time range 
+        ts = spk_timesnew(ibatch) - t_all*fs; %put into range of batch
+        ids = clunew(ibatch); %which clusters are firing in this batch
+        am = amps(ibatch); %amplitudes of spikes in this batch
+
+        for i = 1:length(ts) %for all spikes in this batch
+            if (ids(i) > numUnitsInit)
+                dat(ts(i) + int64([1:82]), 2 + [1:32]) = dat(ts(i) + int64([1:82]), 2 + [1:32]) +...
+                munew((ids(i) - NN)) * am(i) * wavnew(:,:,(ids(i) - NN)); %for timepoints ts(i) + 1:82 and channels 1:32, add template waveform TODO CHECK THIS
             end
         end
 

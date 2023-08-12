@@ -97,7 +97,6 @@ function rez = compressData(ops)
                 clustLabels{i} = strcat("Cluster ", string(i));
                 
                 idx = find(finalAssignments == i);
-
                 scores = finalCluIndividual{i};
                 [~, isort] = sort(scores, 'descend');
                 iperm(n) = idx(isort(end));
@@ -134,6 +133,42 @@ function rez = compressData(ops)
             hold off
             savefig(fullfile(ops.plotPath, "finalClusts.fig"))
             
+            %TODO exclude shitty cluster members?
+            %FIGURE OUT HOW TO HANDLE HUGE UNCLUSTERABLE REGIONS
+            
+            if ops.profileClusters
+                plotRows = ceil(sqrt(ops.batchPCS));
+                plotCols = ceil(ops.batchPCS / plotRows);
+                for i = 0:max(finalAssignments) %TODO show representative templates, numSpikes (est. numUnits?), other measures of variance, etc.
+                    idx = find(finalAssignments == i);
+                    figure;
+                    for k = 1:ops.batchPCS
+                        subplot(plotRows, plotCols, k)
+                        hold on
+                        for j = 1:size(idx,2)
+                            if (k == 1)
+                                batchCols{j} = rand(1, 3); %TODO MAKE MORE EFFICIENT by preallocating
+                            end
+                            plot(squeeze(batchUs(idx(j),k,:))', 'Color', batchCols{j})
+                        end
+                        hold off
+                    end
+                    batchCols = {};
+                    savefig(fullfile(ops.plotPath, strcat("Cluster ", string(i), " Profile.fig")))
+                    close("all")
+                end
+                hold on
+                for i = 0:size(unique(finalCluScores),2) %TODO show representative templates, numSpikes (est. numUnits?), other measures of variance, etc.
+                    idx = find(finalAssignments == i);
+                    batchCols{i+1} = rand(1, 3); %TODO MAKE MORE EFFICIENT by preallocating
+                    for j = 1:size(idx,2)                          
+                        plot(squeeze(batchUs(idx(j),k,:))', 'Color', batchCols{i+1})
+                    end
+                end
+                hold off
+                savefig(fullfile(ops.plotPath, "AllClusters.fig"))
+                close("all")
+            end
             %num = floor(size(unclusterable,2) * size(iperm,2)) / (Nbatch - size(unclusterable,2));
             %temp = sortByVar(ops, num);
             %iperm = cat(2, temp, iperm);

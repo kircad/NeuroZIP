@@ -27,6 +27,7 @@ compressionOps.iterativeOptimization = 1;
 compressionOps.NchanDimKmeans = 0;
 compressionOps.meanPCs = 0;
 compressionOps.minOptimizationBatches = 20;
+compressionOps.profileClusters = 1;
 
 %RANDOM SETTINGS
-compressionOps.batchFactor = 55;
+compressionOps.batchFactor = 96;
