@@ -1,6 +1,6 @@
 fpath = 'C:\Users\kirca\Desktop\NeuroZIP\testing';
 pathToYourConfigFile = 'C:\Users\kirca\Desktop\NeuroZIP\testing\config'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
-testName = 'newunits3';
+testName = 'newunits2';
 useGPU = 1;
 gendata =  false;
 

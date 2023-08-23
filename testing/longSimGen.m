@@ -496,7 +496,7 @@ if (mode == "newunits2")
 end
 
 if (mode == "newunits3")
-    newUnits = 2;
+    newUnits = 1;
     t_record2  = 1000;
     tot_record = t_record + t_record2;
     spk_timesnew = [];

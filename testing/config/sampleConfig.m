@@ -23,11 +23,11 @@ compressionOps.kmeansMaxIter = 150; % between maxK + maxK/2 and maxK + maxK/4
 compressionOps.plotDiagnostics = 1;
 compressionOps.plotTemplates = 1;
 compressionOps.pcmerge = 0;
-compressionOps.iterativeOptimization = 1;
-compressionOps.NchanDimKmeans = 0;
+compressionOps.iterativeOptimization = 0;
+compressionOps.NchanDimKmeans = 1;
 compressionOps.meanPCs = 0;
 compressionOps.minOptimizationBatches = 20;
 compressionOps.profileClusters = 1;
 
 %RANDOM SETTINGS
-compressionOps.batchFactor = 96;
+compressionOps.batchFactor = 77;

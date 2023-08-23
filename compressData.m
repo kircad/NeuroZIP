@@ -83,7 +83,7 @@ function rez = compressData(ops)
             
             if ops.NchanDimKmeans
                 fprintf("SVD Complete. Running full-dimensional k-means clustering algorithm...\n")
-                [finalAssignments, finalCluScores, finalCluIndividual] = kmeansCustom(ops, batchUs);
+                [finalAssignments, finalCluScores, finalCluIndividual] = kmeansCustom(ops, batchUs); %TODO MAKE IT MATCH RETURN TYPE OF ABOVE OPTION FOR FINALASSIGNMENTS 
             end
             
             fprintf("Clustering complete. Picking representative batches...\n")                   
@@ -97,11 +97,11 @@ function rez = compressData(ops)
                 clustLabels{i} = strcat("Cluster ", string(i));
                 
                 idx = find(finalAssignments == i);
-                scores = finalCluIndividual{i};
+                scores = finalCluIndividual(i); %TODO FIX BRACE VS PARENTHESIS SHIT
                 [~, isort] = sort(scores, 'descend');
                 iperm(n) = idx(isort(end));
                 n = n + 1;
-
+                               
                 scatter(rez.mainPCReduction(finalAssignments == i,1)', rez.mainPCReduction(finalAssignments == i,2)','MarkerFaceColor', clustCols{i});
                 dbCentroid = mean(rez.mainPCReduction(finalAssignments == i,:),1);
 
@@ -119,7 +119,7 @@ function rez = compressData(ops)
             hold on
             for i = 1:size(unique(finalCluScores),2)
                 idx = find(finalAssignments == i);
-                scores = finalCluIndividual{i};
+                scores = finalCluIndividual(i);
                 [scoresSorted, isort] = sort(scores, 'descend');
                 scatter(idx(isort), scoresSorted, 'MarkerFaceColor', clustCols{i}, 'MarkerEdgeColor', 'black')
             end

@@ -176,12 +176,12 @@ function [assignments, silScores, clustSils, unclusterable] = kmeansCustom(ops, 
             savefig(fullfile(ops.plotPath, "clustSils.fig"))
             close();
         end
-        for i = 1:size(finalCluIndividual,2) %remove bad clusters TODO CHECK + FIX
-            if (finalCluIndividual(i) < ops.clusterThreshold)
-                for k = 1:size(assignmentIdxs,2)
-                    unclustered(unclusteredIdx) = assignmentIdxs(k);
-                    unclusteredIdx = unclusteredIdx + 1;
-                end
+        unclusteredIdx = 1;
+        unclustered = {};
+        for i = 1:size(bestClustSil,2) %remove bad clusters TODO CHECK + FIX
+            if (bestClustSil(i) < ops.clusterThreshold)
+                unclustered{unclusteredIdx} = find((bestAssignments(i,:) == 1));
+                unclusteredIdx = unclusteredIdx + 1;
             end
         end
         unclusterable = unclusteredIdx;
