@@ -1,0 +1,1 @@
+{"duration": 0.002000093460083008, "input_args": {"spike_ids": "array([     9,     61,     63, ..., 518653, 518657, 518721], dtype=int64)", "**": "{'channel_id': 59, 'channel_ids': array([59, 61, 58, 55, 57, 54, 52, 56, 53, 60, 63, 62], dtype=int64), 'first_cluster': 1, 'pc': None}"}}

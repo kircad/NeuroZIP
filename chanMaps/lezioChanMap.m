@@ -1,6 +1,6 @@
 function customChanMap(fpath)
 
-fpath = 'C:\Users\kirca\Desktop\kilosort1Edited\';
+fpath = 'C:\Users\kirca\Desktop\NeuroZIP\';
 
 chanMap = [16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 31 32 29 27 28 25 23 24 21 19 20 17 18 22 26 30 36 40 44 48 47 46 45 43 42 41 39 38 37 35 34 33 63 64 61 62 59 60 57 58 55 56 53 54 51 52 49 50];
 

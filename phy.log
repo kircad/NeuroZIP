@@ -1,0 +1,446 @@
+[90m15:44:41.837 [D] context:80           Create cache directory `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:44:41.837 [D] context:80           Create cache directory `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:44:41.931 [D] context:100          Initialize joblib cache dir at `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:44:41.931 [D] context:100          Initialize joblib cache dir at `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:44:41.931 [D] context:101          Reducing the size of the cache if needed.[0m
+[90m15:44:41.931 [D] context:101          Reducing the size of the cache if needed.[0m
+[90m15:44:41.946 [D] base:102             Add filter `high_pass`.[0m
+[90m15:44:41.946 [D] base:102             Add filter `high_pass`.[0m
+[90m15:44:41.946 [D] config:31            Load config file `C:\Users\kirca\.phy\phy_config.py`.[0m
+[90m15:44:41.946 [D] config:31            Load config file `C:\Users\kirca\.phy\phy_config.py`.[0m
+[90m15:44:41.946 [D] plugin:145           Loading 0 plugins.[0m
+[90m15:44:41.946 [D] plugin:145           Loading 0 plugins.[0m
+[90m15:44:41.962 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\new_cluster_id.pkl` doesn't exist.[0m
+[90m15:44:41.962 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\new_cluster_id.pkl` doesn't exist.[0m
+[90m15:44:41.962 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl` doesn't exist.[0m
+[90m15:44:41.962 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl` doesn't exist.[0m
+[90m15:44:41.962 [D] clustering:237       Recompute spikes_per_cluster manually: this might take a while.[0m
+[90m15:44:41.962 [D] clustering:237       Recompute spikes_per_cluster manually: this might take a while.[0m
+[90m15:44:42.040 [D] context:185          Save data to `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl`.[0m
+[90m15:44:42.040 [D] context:185          Save data to `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl`.[0m
+[90m15:44:42.056 [D] gui:463              Creating GUI.[0m
+[90m15:44:42.056 [D] gui:463              Creating GUI.[0m
+[90m15:44:42.087 [D] state:46             Load C:\Users\kirca\.phy\TemplateGUI\state.json for GUIState.[0m
+[90m15:44:42.087 [D] state:46             Load C:\Users\kirca\.phy\TemplateGUI\state.json for GUIState.[0m
+[90m15:44:43.111 [D] gui:718              Add view ClusterView to GUI.[0m
+[90m15:44:43.111 [D] gui:718              Add view ClusterView to GUI.[0m
+[90m15:44:43.163 [D] gui:718              Add view SimilarityView to GUI.[0m
+[90m15:44:43.163 [D] gui:718              Add view SimilarityView to GUI.[0m
+[90m15:44:43.220 [D] gui:718              Add view WaveformView to GUI.[0m
+[90m15:44:43.220 [D] gui:718              Add view WaveformView to GUI.[0m
+[90m15:44:43.229 [D] base:337             Set state for WaveformView.[0m
+[90m15:44:43.229 [D] base:337             Set state for WaveformView.[0m
+[90m15:44:43.244 [D] gui:718              Add view CorrelogramView to GUI.[0m
+[90m15:44:43.244 [D] gui:718              Add view CorrelogramView to GUI.[0m
+[90m15:44:43.246 [D] base:337             Set state for CorrelogramView.[0m
+[90m15:44:43.246 [D] base:337             Set state for CorrelogramView.[0m
+[90m15:44:43.272 [D] gui:718              Add view ISIView to GUI.[0m
+[90m15:44:43.272 [D] gui:718              Add view ISIView to GUI.[0m
+[90m15:44:43.274 [D] base:337             Set state for ISIView.[0m
+[90m15:44:43.274 [D] base:337             Set state for ISIView.[0m
+[90m15:44:43.302 [D] gui:718              Add view AmplitudeView to GUI.[0m
+[90m15:44:43.302 [D] gui:718              Add view AmplitudeView to GUI.[0m
+[90m15:44:43.304 [D] base:337             Set state for AmplitudeView.[0m
+[90m15:44:43.304 [D] base:337             Set state for AmplitudeView.[0m
+[90m15:44:43.330 [D] gui:718              Add view FiringRateView to GUI.[0m
+[90m15:44:43.330 [D] gui:718              Add view FiringRateView to GUI.[0m
+[90m15:44:43.332 [D] base:337             Set state for FiringRateView.[0m
+[90m15:44:43.332 [D] base:337             Set state for FiringRateView.[0m
+[90m15:44:43.349 [D] gui:718              Add view ProbeView to GUI.[0m
+[90m15:44:43.349 [D] gui:718              Add view ProbeView to GUI.[0m
+[90m15:44:43.351 [D] base:337             Set state for ProbeView.[0m
+[90m15:44:43.351 [D] base:337             Set state for ProbeView.[0m
+[90m15:44:43.376 [D] gui:718              Add view ClusterScatterView to GUI.[0m
+[90m15:44:43.376 [D] gui:718              Add view ClusterScatterView to GUI.[0m
+[90m15:44:43.377 [D] base:337             Set state for ClusterScatterView.[0m
+[90m15:44:43.377 [D] base:337             Set state for ClusterScatterView.[0m
+[90m15:44:43.378 [D] base:494             Set color scheme to random.[0m
+[90m15:44:43.378 [D] base:494             Set color scheme to random.[0m
+[90m15:44:43.378 [D] base:1623            Adding default color schemes to ClusterScatterView.[0m
+[90m15:44:43.378 [D] base:1623            Adding default color schemes to ClusterScatterView.[0m
+[90m15:44:43.560 [D] gui:519              Load the geometry state.[0m
+[90m15:44:43.560 [D] gui:519              Load the geometry state.[0m
+[90m15:44:48.964 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:44:48.964 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:44:51.138 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:44:51.138 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:44:52.120 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:44:52.120 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:44:52.508 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:44:52.508 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:44:53.667 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m15:44:53.667 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m15:44:53.946 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:44:53.946 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:44:55.929 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:44:55.929 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:45:40.232 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:45:40.232 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:45:42.403 [D] supervisor:813       Clusters selected: [7] (8)[0m
+[90m15:45:42.403 [D] supervisor:813       Clusters selected: [7] (8)[0m
+[90m15:45:42.733 [D] supervisor:813       Clusters selected: [8] (10)[0m
+[90m15:45:42.733 [D] supervisor:813       Clusters selected: [8] (10)[0m
+[90m15:45:43.753 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m15:45:43.753 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m15:45:44.571 [D] supervisor:813       Clusters selected: [11] (12)[0m
+[90m15:45:44.571 [D] supervisor:813       Clusters selected: [11] (12)[0m
+[90m15:45:45.307 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m15:45:45.307 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ClusterView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ClusterView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for WaveformView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for WaveformView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for CorrelogramView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for CorrelogramView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ISIView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ISIView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for AmplitudeView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for AmplitudeView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for FiringRateView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for FiringRateView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ProbeView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ProbeView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ClusterScatterView[0m
+[90m15:46:24.955 [D] state:171            Update GUI state for ClusterScatterView[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base._get_mean_waveforms`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base._get_mean_waveforms`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base._get_template_waveforms`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base._get_template_waveforms`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_mean_spike_template_amplitudes`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_mean_spike_template_amplitudes`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_template_counts`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_template_counts`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_template_for_cluster`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_template_for_cluster`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.template.gui.get_template_amplitude`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.template.gui.get_template_amplitude`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_cluster_amplitude`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_cluster_amplitude`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_mean_firing_rate`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_mean_firing_rate`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_best_channel`.[0m
+[90m15:46:24.955 [D] context:138          Save memcache for `phy.apps.base.get_best_channel`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.template.gui.get_best_channels`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.template.gui.get_best_channels`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.base.get_channel_shank`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.base.get_channel_shank`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.base.get_probe_depth`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.base.get_probe_depth`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.base.peak_channel_similarity`.[0m
+[90m15:46:24.971 [D] context:138          Save memcache for `phy.apps.base.peak_channel_similarity`.[0m
+[90m15:46:24.971 [D] gui:600              Save the geometry state.[0m
+[90m15:46:24.971 [D] gui:600              Save the geometry state.[0m
+[90m15:46:24.971 [D] state:218            Save global GUI state to `C:\Users\kirca\.phy\TemplateGUI\state.json`.[0m
+[90m15:46:24.971 [D] state:218            Save global GUI state to `C:\Users\kirca\.phy\TemplateGUI\state.json`.[0m
+[90m15:46:24.971 [D] state:232            Save local GUI state to `C:\Users\kirca\Desktop\NeuroZIP\.phy\state.json`.[0m
+[90m15:46:24.971 [D] state:232            Save local GUI state to `C:\Users\kirca\Desktop\NeuroZIP\.phy\state.json`.[0m
+[90m15:46:25.014 [D] __init__:87          Stop capturing exceptions.[0m
+[90m15:46:25.014 [D] __init__:87          Stop capturing exceptions.[0m
+[90m15:18:16.018 [D] context:80           Create cache directory `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:18:16.018 [D] context:80           Create cache directory `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:18:16.112 [D] context:100          Initialize joblib cache dir at `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:18:16.112 [D] context:100          Initialize joblib cache dir at `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m15:18:16.112 [D] context:101          Reducing the size of the cache if needed.[0m
+[90m15:18:16.112 [D] context:101          Reducing the size of the cache if needed.[0m
+[90m15:18:16.127 [D] base:102             Add filter `high_pass`.[0m
+[90m15:18:16.127 [D] base:102             Add filter `high_pass`.[0m
+[90m15:18:16.127 [D] config:31            Load config file `C:\Users\kirca\.phy\phy_config.py`.[0m
+[90m15:18:16.127 [D] config:31            Load config file `C:\Users\kirca\.phy\phy_config.py`.[0m
+[90m15:18:16.127 [D] plugin:145           Loading 0 plugins.[0m
+[90m15:18:16.127 [D] plugin:145           Loading 0 plugins.[0m
+[90m15:18:16.127 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\new_cluster_id.pkl` doesn't exist.[0m
+[90m15:18:16.127 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\new_cluster_id.pkl` doesn't exist.[0m
+[90m15:18:16.127 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl` doesn't exist.[0m
+[90m15:18:16.127 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl` doesn't exist.[0m
+[90m15:18:16.127 [D] clustering:237       Recompute spikes_per_cluster manually: this might take a while.[0m
+[90m15:18:16.127 [D] clustering:237       Recompute spikes_per_cluster manually: this might take a while.[0m
+[90m15:18:16.143 [D] context:185          Save data to `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl`.[0m
+[90m15:18:16.143 [D] context:185          Save data to `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl`.[0m
+[90m15:18:16.159 [D] gui:463              Creating GUI.[0m
+[90m15:18:16.159 [D] gui:463              Creating GUI.[0m
+[90m15:18:16.206 [D] state:46             Load C:\Users\kirca\.phy\TemplateGUI\state.json for GUIState.[0m
+[90m15:18:16.206 [D] state:46             Load C:\Users\kirca\.phy\TemplateGUI\state.json for GUIState.[0m
+[90m15:18:17.220 [D] gui:718              Add view ClusterView to GUI.[0m
+[90m15:18:17.220 [D] gui:718              Add view ClusterView to GUI.[0m
+[90m15:18:17.287 [D] gui:718              Add view SimilarityView to GUI.[0m
+[90m15:18:17.287 [D] gui:718              Add view SimilarityView to GUI.[0m
+[90m15:18:17.339 [D] gui:718              Add view WaveformView to GUI.[0m
+[90m15:18:17.339 [D] gui:718              Add view WaveformView to GUI.[0m
+[90m15:18:17.346 [D] base:337             Set state for WaveformView.[0m
+[90m15:18:17.346 [D] base:337             Set state for WaveformView.[0m
+[90m15:18:17.360 [D] gui:718              Add view CorrelogramView to GUI.[0m
+[90m15:18:17.360 [D] gui:718              Add view CorrelogramView to GUI.[0m
+[90m15:18:17.362 [D] base:337             Set state for CorrelogramView.[0m
+[90m15:18:17.362 [D] base:337             Set state for CorrelogramView.[0m
+[90m15:18:17.390 [D] gui:718              Add view ISIView to GUI.[0m
+[90m15:18:17.390 [D] gui:718              Add view ISIView to GUI.[0m
+[90m15:18:17.392 [D] base:337             Set state for ISIView.[0m
+[90m15:18:17.392 [D] base:337             Set state for ISIView.[0m
+[90m15:18:17.420 [D] gui:718              Add view AmplitudeView to GUI.[0m
+[90m15:18:17.420 [D] gui:718              Add view AmplitudeView to GUI.[0m
+[90m15:18:17.422 [D] base:337             Set state for AmplitudeView.[0m
+[90m15:18:17.422 [D] base:337             Set state for AmplitudeView.[0m
+[90m15:18:17.448 [D] gui:718              Add view FiringRateView to GUI.[0m
+[90m15:18:17.448 [D] gui:718              Add view FiringRateView to GUI.[0m
+[90m15:18:17.450 [D] base:337             Set state for FiringRateView.[0m
+[90m15:18:17.450 [D] base:337             Set state for FiringRateView.[0m
+[90m15:18:17.466 [D] gui:718              Add view ProbeView to GUI.[0m
+[90m15:18:17.466 [D] gui:718              Add view ProbeView to GUI.[0m
+[90m15:18:17.468 [D] base:337             Set state for ProbeView.[0m
+[90m15:18:17.468 [D] base:337             Set state for ProbeView.[0m
+[90m15:18:17.492 [D] gui:718              Add view ClusterScatterView to GUI.[0m
+[90m15:18:17.492 [D] gui:718              Add view ClusterScatterView to GUI.[0m
+[90m15:18:17.494 [D] base:337             Set state for ClusterScatterView.[0m
+[90m15:18:17.494 [D] base:337             Set state for ClusterScatterView.[0m
+[90m15:18:17.494 [D] base:494             Set color scheme to random.[0m
+[90m15:18:17.494 [D] base:494             Set color scheme to random.[0m
+[90m15:18:17.495 [D] base:1623            Adding default color schemes to ClusterScatterView.[0m
+[90m15:18:17.495 [D] base:1623            Adding default color schemes to ClusterScatterView.[0m
+[90m15:18:17.679 [D] gui:519              Load the geometry state.[0m
+[90m15:18:17.679 [D] gui:519              Load the geometry state.[0m
+[90m15:18:25.323 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:18:25.323 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:18:26.952 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:18:26.952 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:18:28.009 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:18:28.009 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:18:28.415 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:18:28.415 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:18:29.409 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m15:18:29.409 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m15:18:29.828 [D] supervisor:813       Clusters selected: [5] (6)[0m
+[90m15:18:29.828 [D] supervisor:813       Clusters selected: [5] (6)[0m
+[90m15:18:30.434 [D] supervisor:813       Clusters selected: [6] (7)[0m
+[90m15:18:30.434 [D] supervisor:813       Clusters selected: [6] (7)[0m
+[90m15:18:31.775 [D] supervisor:813       Clusters selected: [17] (None)[0m
+[90m15:18:31.775 [D] supervisor:813       Clusters selected: [17] (None)[0m
+[90m15:18:32.364 [D] supervisor:813       Clusters selected: [16] (17)[0m
+[90m15:18:32.364 [D] supervisor:813       Clusters selected: [16] (17)[0m
+[90m15:18:33.291 [D] supervisor:813       Clusters selected: [17] (None)[0m
+[90m15:18:33.291 [D] supervisor:813       Clusters selected: [17] (None)[0m
+[90m15:18:33.974 [D] supervisor:813       Clusters selected: [16] (17)[0m
+[90m15:18:33.974 [D] supervisor:813       Clusters selected: [16] (17)[0m
+[90m15:18:35.492 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:18:35.492 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:18:55.358 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:18:55.358 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:18:56.358 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:18:56.358 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m15:18:56.671 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:18:56.671 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:18:57.656 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m15:18:57.656 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m15:18:58.140 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:18:58.140 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m15:18:59.239 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:18:59.239 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m15:19:00.963 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:19:00.963 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m15:19:02.462 [D] supervisor:813       Clusters selected: [17] (None)[0m
+[90m15:19:02.462 [D] supervisor:813       Clusters selected: [17] (None)[0m
+[90m15:19:23.623 [D] supervisor:813       Clusters selected: [16] (17)[0m
+[90m15:19:23.623 [D] supervisor:813       Clusters selected: [16] (17)[0m
+[90m15:19:24.203 [D] supervisor:813       Clusters selected: [15] (16)[0m
+[90m15:19:24.203 [D] supervisor:813       Clusters selected: [15] (16)[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ClusterView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ClusterView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for WaveformView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for WaveformView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for CorrelogramView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for CorrelogramView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ISIView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ISIView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for AmplitudeView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for AmplitudeView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for FiringRateView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for FiringRateView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ProbeView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ProbeView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ClusterScatterView[0m
+[90m15:19:27.875 [D] state:171            Update GUI state for ClusterScatterView[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base._get_mean_waveforms`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base._get_mean_waveforms`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base._get_template_waveforms`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base._get_template_waveforms`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_mean_spike_template_amplitudes`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_mean_spike_template_amplitudes`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_template_counts`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_template_counts`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_template_for_cluster`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_template_for_cluster`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.template.gui.get_template_amplitude`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.template.gui.get_template_amplitude`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_cluster_amplitude`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_cluster_amplitude`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_mean_firing_rate`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_mean_firing_rate`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_best_channel`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_best_channel`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.template.gui.get_best_channels`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.template.gui.get_best_channels`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_channel_shank`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_channel_shank`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_probe_depth`.[0m
+[90m15:19:27.875 [D] context:138          Save memcache for `phy.apps.base.get_probe_depth`.[0m
+[90m15:19:27.891 [D] context:138          Save memcache for `phy.apps.base.peak_channel_similarity`.[0m
+[90m15:19:27.891 [D] context:138          Save memcache for `phy.apps.base.peak_channel_similarity`.[0m
+[90m15:19:27.891 [D] gui:600              Save the geometry state.[0m
+[90m15:19:27.891 [D] gui:600              Save the geometry state.[0m
+[90m15:19:27.891 [D] state:218            Save global GUI state to `C:\Users\kirca\.phy\TemplateGUI\state.json`.[0m
+[90m15:19:27.891 [D] state:218            Save global GUI state to `C:\Users\kirca\.phy\TemplateGUI\state.json`.[0m
+[90m15:19:27.891 [D] state:232            Save local GUI state to `C:\Users\kirca\Desktop\NeuroZIP\.phy\state.json`.[0m
+[90m15:19:27.891 [D] state:232            Save local GUI state to `C:\Users\kirca\Desktop\NeuroZIP\.phy\state.json`.[0m
+[90m15:19:27.951 [D] __init__:87          Stop capturing exceptions.[0m
+[90m15:19:27.951 [D] __init__:87          Stop capturing exceptions.[0m
+[90m16:20:13.657 [D] context:80           Create cache directory `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m16:20:13.657 [D] context:80           Create cache directory `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m16:20:13.760 [D] context:100          Initialize joblib cache dir at `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m16:20:13.760 [D] context:100          Initialize joblib cache dir at `C:\Users\kirca\Desktop\NeuroZIP\.phy`.[0m
+[90m16:20:13.760 [D] context:101          Reducing the size of the cache if needed.[0m
+[90m16:20:13.760 [D] context:101          Reducing the size of the cache if needed.[0m
+[90m16:20:13.770 [D] base:102             Add filter `high_pass`.[0m
+[90m16:20:13.770 [D] base:102             Add filter `high_pass`.[0m
+[90m16:20:13.771 [D] config:31            Load config file `C:\Users\kirca\.phy\phy_config.py`.[0m
+[90m16:20:13.771 [D] config:31            Load config file `C:\Users\kirca\.phy\phy_config.py`.[0m
+[90m16:20:13.772 [D] plugin:145           Loading 0 plugins.[0m
+[90m16:20:13.772 [D] plugin:145           Loading 0 plugins.[0m
+[90m16:20:13.776 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\new_cluster_id.pkl` doesn't exist.[0m
+[90m16:20:13.776 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\new_cluster_id.pkl` doesn't exist.[0m
+[90m16:20:13.777 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl` doesn't exist.[0m
+[90m16:20:13.777 [D] context:209          The file `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl` doesn't exist.[0m
+[90m16:20:13.783 [D] clustering:237       Recompute spikes_per_cluster manually: this might take a while.[0m
+[90m16:20:13.783 [D] clustering:237       Recompute spikes_per_cluster manually: this might take a while.[0m
+[90m16:20:13.823 [D] context:185          Save data to `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl`.[0m
+[90m16:20:13.823 [D] context:185          Save data to `C:\Users\kirca\Desktop\NeuroZIP\.phy\spikes_per_cluster.pkl`.[0m
+[90m16:20:13.838 [D] gui:463              Creating GUI.[0m
+[90m16:20:13.838 [D] gui:463              Creating GUI.[0m
+[90m16:20:13.892 [D] state:46             Load C:\Users\kirca\.phy\TemplateGUI\state.json for GUIState.[0m
+[90m16:20:13.892 [D] state:46             Load C:\Users\kirca\.phy\TemplateGUI\state.json for GUIState.[0m
+[90m16:20:14.880 [D] gui:718              Add view ClusterView to GUI.[0m
+[90m16:20:14.880 [D] gui:718              Add view ClusterView to GUI.[0m
+[90m16:20:14.940 [D] gui:718              Add view SimilarityView to GUI.[0m
+[90m16:20:14.940 [D] gui:718              Add view SimilarityView to GUI.[0m
+[90m16:20:14.996 [D] gui:718              Add view WaveformView to GUI.[0m
+[90m16:20:14.996 [D] gui:718              Add view WaveformView to GUI.[0m
+[90m16:20:15.002 [D] base:337             Set state for WaveformView.[0m
+[90m16:20:15.002 [D] base:337             Set state for WaveformView.[0m
+[90m16:20:15.016 [D] gui:718              Add view CorrelogramView to GUI.[0m
+[90m16:20:15.016 [D] gui:718              Add view CorrelogramView to GUI.[0m
+[90m16:20:15.018 [D] base:337             Set state for CorrelogramView.[0m
+[90m16:20:15.018 [D] base:337             Set state for CorrelogramView.[0m
+[90m16:20:15.045 [D] gui:718              Add view ISIView to GUI.[0m
+[90m16:20:15.045 [D] gui:718              Add view ISIView to GUI.[0m
+[90m16:20:15.047 [D] base:337             Set state for ISIView.[0m
+[90m16:20:15.047 [D] base:337             Set state for ISIView.[0m
+[90m16:20:15.076 [D] gui:718              Add view AmplitudeView to GUI.[0m
+[90m16:20:15.076 [D] gui:718              Add view AmplitudeView to GUI.[0m
+[90m16:20:15.078 [D] base:337             Set state for AmplitudeView.[0m
+[90m16:20:15.078 [D] base:337             Set state for AmplitudeView.[0m
+[90m16:20:15.104 [D] gui:718              Add view FiringRateView to GUI.[0m
+[90m16:20:15.104 [D] gui:718              Add view FiringRateView to GUI.[0m
+[90m16:20:15.107 [D] base:337             Set state for FiringRateView.[0m
+[90m16:20:15.107 [D] base:337             Set state for FiringRateView.[0m
+[90m16:20:15.123 [D] gui:718              Add view ProbeView to GUI.[0m
+[90m16:20:15.123 [D] gui:718              Add view ProbeView to GUI.[0m
+[90m16:20:15.125 [D] base:337             Set state for ProbeView.[0m
+[90m16:20:15.125 [D] base:337             Set state for ProbeView.[0m
+[90m16:20:15.151 [D] gui:718              Add view ClusterScatterView to GUI.[0m
+[90m16:20:15.151 [D] gui:718              Add view ClusterScatterView to GUI.[0m
+[90m16:20:15.153 [D] base:337             Set state for ClusterScatterView.[0m
+[90m16:20:15.153 [D] base:337             Set state for ClusterScatterView.[0m
+[90m16:20:15.153 [D] base:494             Set color scheme to random.[0m
+[90m16:20:15.153 [D] base:494             Set color scheme to random.[0m
+[90m16:20:15.154 [D] base:1623            Adding default color schemes to ClusterScatterView.[0m
+[90m16:20:15.154 [D] base:1623            Adding default color schemes to ClusterScatterView.[0m
+[90m16:20:15.336 [D] gui:519              Load the geometry state.[0m
+[90m16:20:15.336 [D] gui:519              Load the geometry state.[0m
+[90m16:20:18.162 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m16:20:18.162 [D] supervisor:813       Clusters selected: [0] (1)[0m
+[90m16:20:20.112 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m16:20:20.112 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m16:20:21.462 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m16:20:21.462 [D] supervisor:813       Clusters selected: [2] (3)[0m
+[90m16:20:22.491 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m16:20:22.491 [D] supervisor:813       Clusters selected: [3] (4)[0m
+[90m16:20:23.193 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m16:20:23.193 [D] supervisor:813       Clusters selected: [4] (5)[0m
+[90m16:20:24.256 [D] supervisor:813       Clusters selected: [5] (6)[0m
+[90m16:20:24.256 [D] supervisor:813       Clusters selected: [5] (6)[0m
+[90m16:20:25.010 [D] supervisor:813       Clusters selected: [6] (7)[0m
+[90m16:20:25.010 [D] supervisor:813       Clusters selected: [6] (7)[0m
+[90m16:20:26.027 [D] supervisor:813       Clusters selected: [7] (8)[0m
+[90m16:20:26.027 [D] supervisor:813       Clusters selected: [7] (8)[0m
+[90m16:20:26.518 [D] supervisor:813       Clusters selected: [8] (9)[0m
+[90m16:20:26.518 [D] supervisor:813       Clusters selected: [8] (9)[0m
+[90m16:20:27.566 [D] supervisor:813       Clusters selected: [9] (10)[0m
+[90m16:20:27.566 [D] supervisor:813       Clusters selected: [9] (10)[0m
+[90m16:20:27.962 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m16:20:27.962 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m16:20:29.030 [D] supervisor:813       Clusters selected: [11] (12)[0m
+[90m16:20:29.030 [D] supervisor:813       Clusters selected: [11] (12)[0m
+[90m16:20:29.356 [D] supervisor:813       Clusters selected: [12] (13)[0m
+[90m16:20:29.356 [D] supervisor:813       Clusters selected: [12] (13)[0m
+[90m16:20:30.435 [D] supervisor:813       Clusters selected: [13] (14)[0m
+[90m16:20:30.435 [D] supervisor:813       Clusters selected: [13] (14)[0m
+[90m16:20:30.813 [D] supervisor:813       Clusters selected: [14] (15)[0m
+[90m16:20:30.813 [D] supervisor:813       Clusters selected: [14] (15)[0m
+[90m16:20:32.091 [D] supervisor:813       Clusters selected: [23] (24)[0m
+[90m16:20:32.091 [D] supervisor:813       Clusters selected: [23] (24)[0m
+[90m16:20:32.496 [D] supervisor:813       Clusters selected: [22] (23)[0m
+[90m16:20:32.496 [D] supervisor:813       Clusters selected: [22] (23)[0m
+[90m16:20:33.886 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m16:20:33.886 [D] supervisor:813       Clusters selected: [10] (11)[0m
+[90m16:20:34.445 [D] supervisor:813       Clusters selected: [9] (10)[0m
+[90m16:20:34.445 [D] supervisor:813       Clusters selected: [9] (10)[0m
+[90m16:20:35.706 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m16:20:35.706 [D] supervisor:813       Clusters selected: [1] (2)[0m
+[90m16:20:39.418 [D] state:171            Update GUI state for ClusterView[0m
+[90m16:20:39.418 [D] state:171            Update GUI state for ClusterView[0m
+[90m16:20:39.418 [D] state:171            Update GUI state for WaveformView[0m
+[90m16:20:39.418 [D] state:171            Update GUI state for WaveformView[0m
+[90m16:20:39.419 [D] state:171            Update GUI state for CorrelogramView[0m
+[90m16:20:39.419 [D] state:171            Update GUI state for CorrelogramView[0m
+[90m16:20:39.419 [D] state:171            Update GUI state for ISIView[0m
+[90m16:20:39.419 [D] state:171            Update GUI state for ISIView[0m
+[90m16:20:39.419 [D] state:171            Update GUI state for AmplitudeView[0m
+[90m16:20:39.419 [D] state:171            Update GUI state for AmplitudeView[0m
+[90m16:20:39.420 [D] state:171            Update GUI state for FiringRateView[0m
+[90m16:20:39.420 [D] state:171            Update GUI state for FiringRateView[0m
+[90m16:20:39.420 [D] state:171            Update GUI state for ProbeView[0m
+[90m16:20:39.420 [D] state:171            Update GUI state for ProbeView[0m
+[90m16:20:39.420 [D] state:171            Update GUI state for ClusterScatterView[0m
+[90m16:20:39.420 [D] state:171            Update GUI state for ClusterScatterView[0m
+[90m16:20:39.421 [D] context:138          Save memcache for `phy.apps.base._get_mean_waveforms`.[0m
+[90m16:20:39.421 [D] context:138          Save memcache for `phy.apps.base._get_mean_waveforms`.[0m
+[90m16:20:39.423 [D] context:138          Save memcache for `phy.apps.base._get_template_waveforms`.[0m
+[90m16:20:39.423 [D] context:138          Save memcache for `phy.apps.base._get_template_waveforms`.[0m
+[90m16:20:39.426 [D] context:138          Save memcache for `phy.apps.base.get_mean_spike_template_amplitudes`.[0m
+[90m16:20:39.426 [D] context:138          Save memcache for `phy.apps.base.get_mean_spike_template_amplitudes`.[0m
+[90m16:20:39.428 [D] context:138          Save memcache for `phy.apps.base.get_template_counts`.[0m
+[90m16:20:39.428 [D] context:138          Save memcache for `phy.apps.base.get_template_counts`.[0m
+[90m16:20:39.429 [D] context:138          Save memcache for `phy.apps.base.get_template_for_cluster`.[0m
+[90m16:20:39.429 [D] context:138          Save memcache for `phy.apps.base.get_template_for_cluster`.[0m
+[90m16:20:39.430 [D] context:138          Save memcache for `phy.apps.template.gui.get_template_amplitude`.[0m
+[90m16:20:39.430 [D] context:138          Save memcache for `phy.apps.template.gui.get_template_amplitude`.[0m
+[90m16:20:39.432 [D] context:138          Save memcache for `phy.apps.base.get_cluster_amplitude`.[0m
+[90m16:20:39.432 [D] context:138          Save memcache for `phy.apps.base.get_cluster_amplitude`.[0m
+[90m16:20:39.433 [D] context:138          Save memcache for `phy.apps.base.get_mean_firing_rate`.[0m
+[90m16:20:39.433 [D] context:138          Save memcache for `phy.apps.base.get_mean_firing_rate`.[0m
+[90m16:20:39.434 [D] context:138          Save memcache for `phy.apps.base.get_best_channel`.[0m
+[90m16:20:39.434 [D] context:138          Save memcache for `phy.apps.base.get_best_channel`.[0m
+[90m16:20:39.435 [D] context:138          Save memcache for `phy.apps.template.gui.get_best_channels`.[0m
+[90m16:20:39.435 [D] context:138          Save memcache for `phy.apps.template.gui.get_best_channels`.[0m
+[90m16:20:39.436 [D] context:138          Save memcache for `phy.apps.base.get_channel_shank`.[0m
+[90m16:20:39.436 [D] context:138          Save memcache for `phy.apps.base.get_channel_shank`.[0m
+[90m16:20:39.437 [D] context:138          Save memcache for `phy.apps.base.get_probe_depth`.[0m
+[90m16:20:39.437 [D] context:138          Save memcache for `phy.apps.base.get_probe_depth`.[0m
+[90m16:20:39.438 [D] context:138          Save memcache for `phy.apps.base.peak_channel_similarity`.[0m
+[90m16:20:39.438 [D] context:138          Save memcache for `phy.apps.base.peak_channel_similarity`.[0m
+[90m16:20:39.439 [D] gui:600              Save the geometry state.[0m
+[90m16:20:39.439 [D] gui:600              Save the geometry state.[0m
+[90m16:20:39.439 [D] state:218            Save global GUI state to `C:\Users\kirca\.phy\TemplateGUI\state.json`.[0m
+[90m16:20:39.439 [D] state:218            Save global GUI state to `C:\Users\kirca\.phy\TemplateGUI\state.json`.[0m
+[90m16:20:39.441 [D] state:232            Save local GUI state to `C:\Users\kirca\Desktop\NeuroZIP\.phy\state.json`.[0m
+[90m16:20:39.441 [D] state:232            Save local GUI state to `C:\Users\kirca\Desktop\NeuroZIP\.phy\state.json`.[0m
+[90m16:20:39.479 [D] __init__:87          Stop capturing exceptions.[0m
+[90m16:20:39.479 [D] __init__:87          Stop capturing exceptions.[0m

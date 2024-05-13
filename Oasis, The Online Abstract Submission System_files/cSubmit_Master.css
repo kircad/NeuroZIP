@@ -1,0 +1,2125 @@
+/* Default Styles */
+body, p {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    padding: 0pt;
+    border: 0pt;
+    color: black;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-size: 14px;
+    line-height: 14pt;
+}
+
+li {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    padding: 0pt;
+    border: 0pt;
+    color: black;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-size: 14px;
+    line-height: 14pt;
+}
+/* Font Family and Font Size added in by Greygoo */
+p {
+    border-style: none;
+    padding: 2pt;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 11px;
+}
+
+hr {
+    color: #007A87;
+}
+
+.custom_button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* background-image: none; */
+    border: 1px solid transparent;
+    border-radius: 0;
+    background-color: #007A87;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.main_button {
+    display: inline-block;
+    padding: 6px 12px 5px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* background-image: none; */
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+    .main_button.main_button_incomplete {
+        background-color: #edca80;
+    }
+
+    .main_button.main_button_deleted {
+        background-color: #e5a18f;
+    }
+
+    .main_button.main_button_completed {
+        background-color: #8ce071;
+    }
+
+    .main_button.main_button_finalized {
+        background-color: #bde2e7;
+    }
+
+table.DisplayTable, td.DisplayTable {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    padding: 1pt;
+    border: 2pt;
+    border-style: solid;
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-size: 8pt;
+    line-height: 10pt;
+}
+/* Default table settings */
+table {
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    padding: 0pt;
+    border: 1pt;
+    border-style: none;
+}
+/** Login Specific styles **/
+.WelcomeMessage {
+    display: inline;
+    color: white;
+    /*font-family: "arial", sans-serif;*/
+    font-size: 8pt;
+    font-weight: normal;
+}
+
+.PowerMessage {
+    display: inline;
+    color: #11AF4A;
+    /*font-family: "arial", sans-serif;*/
+    font-size: 8pt;
+    line-height: 10pt;
+    font-weight: normal;
+}
+
+
+/** Home/Main Page **/
+.Salutation {
+    display: inline;
+    color: #007A87;
+    /*font-family: "arial", sans-serif;*/
+    font-size: 8pt;
+    line-height: 14pt;
+    font-weight: normal;
+}
+
+.MeetingBar, a.MeetingBar:active, a.MeetingBar:link, a.MeetingBar:visited {
+    background-color: #007A87;
+    margin-top: 0pt;
+    margin-bottom: 0pt;
+    margin-left: 0pt;
+    margin-right: 0pt;
+    padding: 0pt;
+    border: 1pt;
+    border-style: none;
+    color: white;
+    /*font-family: "arial", sans-serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 12pt;
+    text-decoration: none;
+}
+
+.MeetingName, a.MeetingName:active, a.MeetingName:link, a.MeetingName:visited {
+    display: inline;
+    background-color: #007A87;
+    color: white;
+    /*font-family: "arial", sans-serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 12pt;
+    text-decoration: none;
+}
+
+.MeetingInformation, a.MeetingInformation:active, a.MeetingInformation:link, a.MeetingInformation:visited {
+    display: inline;
+    background-color: #007A87;
+    color: white;
+    /*font-family: "arial", sans-serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 12pt;
+    text-decoration: none;
+}
+
+.ActivityBar {
+    background-color: #EEEEFF;
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-size: 14px;
+    line-height: 10pt;
+}
+
+.ControlListHeader {
+    background-color: #FFFFFF;
+    color: black;
+    /*font-family: "arial", sans-serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-weight: 800;
+    font-size: 8pt;
+    line-height: 10pt;
+}
+
+.ControlListItem {
+    background-color: #FFFFFF;
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-weight: normal;
+    font-size: 14px;
+}
+
+div.SearchPrompt {
+    color: #464646;
+    /*font-family: arial, helvetica, arial, sans-serif; */
+    font-size: 11px;
+    line-height: 11px;
+}
+
+.delete_x {
+    margin-right: 4px;
+    margin-bottom: -1px;
+}
+
+.table_down td:first-child {
+    padding-right: 20px;
+}
+
+/** Step pages **/
+.StepListItemComplete, a.StepListItemComplete:active, a.StepListItemComplete:link, a.StepListItemComplete:visited {
+    color: #464646;
+    ;
+    /*font-family: "arial", arial, sans-serif;*/
+    font-size: 11px;
+    font-weight: normal;
+}
+
+A.StepListItemComplete:Hover {
+    color: #007A87;
+    text-decoration: underline;
+}
+
+.StepListItemIncomplete, a.StepListItemIncomplete:active, a.StepListItemIncomplete:link, a.StepListItemIncomplete:visited {
+    color: #464646;
+    ;
+    /*font-family: "arial", arial, sans-serif;*/
+    font-size: 11px;
+    font-weight: normal;
+}
+
+A.StepListItemIncomplete:Hover {
+    color: #007A87;
+    text-decoration: underline;
+}
+
+.StepListCurrent, a.StepListCurrent:active, a.StepListCurrent:link, a.StepListCurrent:visited {
+    color: #464646;
+    ;
+    /*font-family: "arial", arial, sans-serif;*/
+    font-size: 11px;
+    font-weight: normal;
+}
+
+A.StepListCurrent:Hover {
+    color: #FF0066;
+    text-decoration: underline;
+}
+
+.CurrentlyEditing {
+    color: #007A87;
+    /*font-family: "arial", serif;*/
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.SideBarInstructions {
+    color: Black;
+    /*font-family: "arial", serif;*/
+    font-size: 8pt;
+    font-weight: 500;
+}
+
+.SubmitButton {
+    background-color: #ddccaa;
+    border-color: #ddccaa;
+    border-style: ridge;
+    border-width: 3pt;
+    color: #007A87;
+    font-size: 8pt;
+    /*font-family: arial;*/
+}
+
+.EditorButton {
+    background-color: #444488;
+    border-color: #333399;
+    border-style: ridge;
+    border-width: 3pt;
+    color: white;
+    font-size: 8pt;
+    /*font-family: arial;*/
+}
+
+
+body.SummaryPage {
+    color: #007A87;
+    background-color: #eeeeee;
+}
+
+td.ToolBarItem, a.ToolBarItem, div.ToolBarItem {
+    color: #007A87;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 8pt;
+    font-weight: 600;
+    line-height: 9pt;
+}
+
+.SystemHeader {
+    /*color: #007A87;
+    font-family: "arial", Sans-Serif;
+    font-size: 13pt;        
+    line-height: 14pt; 
+    font-weight: 800;
+    font-style: normal;     /* Selects between italics, oblique, and normal. 
+    font-variant: small-caps;    Currently has two values: small-caps and normal.*/
+    color: #000;
+    font-weight: bold;
+    line-height: 16pt;
+    font-size: 14px;
+}
+
+.SystemHeaderAlert {
+    color: red;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 14pt;
+    line-height: 16pt;
+    font-weight: 800;
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: small-caps; /* Currently has two values: small-caps and normal. */
+}
+
+.AffirmationText {
+    color: #007A87;
+    /*font-family: "arial", serif;*/
+    font-size: 14px;
+    line-height: 14pt;
+    font-weight: normal;
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+}
+
+.IntroductionText /** Association defined Intro Text **/ {
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-size: 14px;
+    line-height: 16pt;
+    font-weight: normal;
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+}
+
+.InstructionalText /** Instructions for the page **/ {
+    color: black;
+    /*font-family: "arial", sans-serif;*/
+    font-size: 14px;
+    line-height: 12pt;
+    font-weight: normal;
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    margin-bottom: 15px;
+}
+
+.InformationalText /** Information regarding status, word count, headers, etc. **/ {
+    color: black;
+    /*font-family: "arial", sans-serif;*/
+    /*font-size: 14px;*/
+    font-size: 14px;
+    line-height: 12pt;
+    font-weight: normal;
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    margin-left: 5px;
+}
+
+
+.ActionItem {
+    color: #007A87;
+    /*font-family: "arial", serif;*/
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.ActionList {
+    color: black;
+    /*font-family: "arial", sans-serif;*/
+    font-size: 14px;
+    font-weight: normal;
+}
+
+
+/* div.FormPrompt, p.FormPrompt, td.FormPrompt*/
+.FormPrompt {
+    /*display: inline; */
+    display: inline-block;
+    color: black;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 14px;
+    line-height: 14pt;
+    font-weight: 700;
+    margin-top: 2px;
+    width: 100%;
+}
+/*div.FormPromptRequired, p.FormPromptRequired, td.FormPromptRequired*/
+.FormPromptRequired {
+    display: inline;
+    color: #007A87;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 14px;
+    line-height: 14pt;
+    font-weight: 700
+}
+
+
+.DataLabel {
+    color: #007A87;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 14px;
+    line-height: 14pt;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.DataDisplay {
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-size: 14px;
+    line-height: 14pt;
+    font-weight: normal;
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+}
+
+.DataHighlight {
+    background-color: #EEEEFF;
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-size: 14px;
+    line-height: 16pt;
+}
+
+    .DataHighlight div {
+        margin-left: 5px;
+    }
+
+.SubmitAlert {
+    color: red;
+    /*font-family: "Arial", Sans-Serif;*/
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+
+.MeetingFooter {
+    /*font-family: "arial", serif;*/
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+.TechnicalSupportTag {
+    color: #007A87;
+    /*font-family: "arial", serif;*/
+    font-size: 14px;
+}
+
+td.CopyrightNotice {
+    font-weight: 400;
+    border-width: 0;
+    padding-top: 0;
+}
+
+.CopyrightNotice {
+    color: #007A87;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 8pt;
+}
+
+.LogoTag {
+    color: #007A87;
+    /*font-family: "arial", Sans-Serif;*/
+    font-size: 7pt;
+}
+
+.PlannerOptionHeader {
+    display: inline;
+    color: black;
+    /*font-family: "Arial", sans-serif, "arial";*/
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+.PlannerOptionSubHeader {
+    display: inline;
+    color: red;
+    /*font-family: "Arial", sans-serif, "arial";*/
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.ResultListItem {
+    background-color: #FFFFFF;
+    color: black;
+    /*font-family: "arial", serif;*/
+    font-style: normal; /* Selects between italics, oblique, and normal. */
+    font-variant: normal; /* Currently has two values: small-caps and normal. */
+    font-weight: normal;
+    font-size: 8pt;
+    line-height: 10pt;
+    text-align: left;
+}
+
+.ErrorMessage {
+    display: block;
+    color: red;
+    /*font-family: "arial, arial, sans-serif";*/
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 12pt;
+    text-decoration: none;
+}
+
+.AddEditButton {
+    background-color: #D6E7F7;
+    border-color: #007A87;
+    border-style: ridge;
+    border-width: 1pt;
+    color: #007A87;
+    font-size: 8pt;
+    /*font-family: arial;*/
+    CURSOR: hand
+}
+/*font.comment           { font-family: arial, helvetica, arial, sans-serif; font-size: 10px; line-height: 11px; }
+font.error             { font-family : arial, arial, sans-serif; font-size : 14px; color : #FF0000; }
+font.splat             { font-family : arial, arial, sans-serif; font-size : 14px; color : #FF0000; }
+font.primarynav        { color: #464646; font-family: arial, helvetica, arial, sans-serif; font-size: 11px; line-height: 11px; }
+font.primarynavsubtitle { color: #464646; font-family: arial, helvetica, arial, sans-serif; font-size: 11px; line-height: 11px; }
+font.primarynavsub     { font-family: arial, helvetica, arial, sans-serif; font-size: 11px; line-height: 11px; font-weight: bold;}
+font.secondarynav      { color: #464646; font-family: arial, helvetica, arial, sans-serif; font-size: 10px; line-height: 11px; }
+.small   { font-family: arial, arial, sans-serif, helvetica; font-size: 10px; line-height: 11px; }
+
+A.normallink           { color : #464646; text-decoration : none; }
+A.normallink:Visited   { color : #464646; text-decoration : none; }
+A.normallink:Active    { color : #464646; text-decoration : none; }
+A.normallink:Hover     { color : #FF0066; text-decoration : underline; }
+
+A.content              { color : #0033CC; text-decoration : underline; }
+A.content:Visited      { color : #0033CC; text-decoration : underline; }
+A.content:Active       { color : #0033CC; text-decoration : underline; }
+A.content:Hover        { color : #FF0066; text-decoration : underline; }
+
+
+font.featurestext      { font-family : arial, arial, sans-serif; font-size : 14px; color : rgb(0, 0, 0); }
+p                      { font-family : arial, arial, sans-serif; font-size : 14px; color : rgb(0, 0, 0); }
+ul, li, ol             { font-family : arial, arial, sans-serif; font-size : 14px; color : rgb(0, 0, 0); }
+div                    { font-family : arial, arial, sans-serif; font-size : 14px; color : rgb(0, 0, 0); }
+body, table, td, tr    { font-family : arial, arial, sans-serif; font-size : 14px; color : rgb(0, 0, 0); }
+span.hdr1              { font-family : times, arial, sans-serif; font-size : 18pt; font-style:italic; color : rgb(102, 102, 102); }
+
+.error { font-family : arial, arial, sans-serif; font-size : 14px; color : #FF0000; }
+.data  { font-family : arial, arial, sans-serif; font-size : 14px; color : #000000; }
+.label { font-family : arial, arial, sans-serif; font-size : 14px; }
+.graylabel { font-family : arial, arial, sans-serif; font-size : 14px; background-color : #EBEBEB; }
+
+.return{ font-family : arial, arial, sans-serif; font-size : 8pt; color : #000000; }
+.subsection{ font-family : arial, arial, sans-serif; font-size : 8.5pt; font-weight : bold; }
+
+.gray { font-family : arial, arial, sans-serif; font-size : 14px; background-color : #EEEEEE }*/
+
+font.comment {
+    font-size: 10px;
+    line-height: 11px;
+}
+
+font.error {
+    font-size: 14px;
+    color: #FF0000;
+}
+
+font.splat {
+    font-size: 14px;
+    color: #FF0000;
+}
+
+font.primarynav {
+    color: #464646;
+    font-size: 11px;
+    line-height: 11px;
+}
+
+font.primarynavsubtitle {
+    color: #464646;
+    font-size: 11px;
+    line-height: 11px;
+}
+
+font.primarynavsub {
+    font-size: 11px;
+    line-height: 11px;
+    font-weight: bold;
+}
+
+font.secondarynav {
+    color: #464646;
+    font-size: 10px;
+    line-height: 11px;
+}
+
+.small {
+    font-size: 10px;
+    line-height: 11px;
+}
+
+A.normallink {
+    color: #464646;
+    text-decoration: none;
+}
+
+    A.normallink:Visited {
+        color: #464646;
+        text-decoration: none;
+    }
+
+    A.normallink:Active {
+        color: #464646;
+        text-decoration: none;
+    }
+
+    A.normallink:Hover {
+        color: #FF0066;
+        text-decoration: underline;
+    }
+
+A.content {
+    color: #0033CC;
+    text-decoration: underline;
+}
+
+    A.content:Visited {
+        color: #0033CC;
+        text-decoration: underline;
+    }
+
+    A.content:Active {
+        color: #0033CC;
+        text-decoration: underline;
+    }
+
+    A.content:Hover {
+        color: #FF0066;
+        text-decoration: underline;
+    }
+
+
+font.featurestext {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+p {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+ul, li, ol {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+div {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+body, table, td, tr {
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+span.hdr1 {
+    font-size: 18pt;
+    font-style: italic;
+    color: rgb(102, 102, 102);
+}
+
+.error {
+    font-size: 14px;
+    color: #FF0000;
+}
+
+.data {
+    font-size: 14px;
+    color: #000000;
+}
+
+.label {
+    font-size: 14px;
+}
+
+.graylabel {
+    font-size: 14px;
+    background-color: #EBEBEB;
+}
+
+.return {
+    font-size: 8pt;
+    color: #000000;
+}
+
+.subsection {
+    font-size: 8.5pt;
+    font-weight: bold;
+}
+
+.gray {
+    font-size: 14px;
+    background-color: #EEEEEE
+}
+
+A.maplink {
+    color: #464646;
+    text-decoration: none;
+    font-size: 9pt;
+}
+
+    A.maplink:Visited {
+        color: #464646;
+        text-decoration: none;
+        font-size: 9pt;
+    }
+
+    A.maplink:Active {
+        color: #464646;
+        text-decoration: none;
+        font-size: 9pt;
+    }
+
+    A.maplink:Hover {
+        color: #FF0066;
+        text-decoration: underline;
+        font-size: 9pt;
+    }
+
+<!--
+#primarymenu {
+    position: absolute;
+    left: 16;
+    top: 114;
+    width: 97;
+    height: 150;
+    z-index: 0;
+    visibility: hidden;
+}
+
+#patch {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12;
+    height: 36;
+    z-index: 1;
+}
+
+#primarymenuchoice1 {
+    position: absolute;
+    left: 149;
+    top: 113;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice2 {
+    position: absolute;
+    left: 149;
+    top: 148;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice3 {
+    position: absolute;
+    left: 149;
+    top: 183;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice4 {
+    position: absolute;
+    left: 149;
+    top: 218;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice5 {
+    position: absolute;
+    left: 149;
+    top: 253;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice6 {
+    position: absolute;
+    left: 149;
+    top: 288;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice7 {
+    position: absolute;
+    left: 149;
+    top: 323;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice8 {
+    position: absolute;
+    left: 149;
+    top: 358;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice9 {
+    position: absolute;
+    left: 149;
+    top: 393;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice10 {
+    position: absolute;
+    left: 149;
+    top: 428;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice11 {
+    position: absolute;
+    left: 149;
+    top: 463;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+
+#primarymenuchoice12 {
+    position: absolute;
+    left: 149;
+    top: 498;
+    width: 136;
+    height: 29;
+    z-index: 1;
+    visibility: hidden;
+}
+-->
+
+
+/* Login Page CSS */
+.body_login {
+    /*margin-right: 0%;
+    margin-left: 9%;*/
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+}
+
+.welcome_login {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 28px;
+    /*color: #000080;*/
+    color: #007A87;
+}
+
+.action_login {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+.login_info {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    padding-left: 40px;
+}
+
+.cn_updated {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+    border-top-color: #c4c4c4;
+    border-top-style: solid;
+    border-width: thin;
+    padding-top: 10px;
+}
+
+.header_table {
+    width: 90%;
+    padding: 10px;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+.header_td {
+    background-color: #fff;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+}
+
+.login_td {
+    background-color: #fff;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+}
+
+    .login_td input[name="inLogin"], .login_td input[name="inPass"] {
+        width: 146px;
+    }
+
+.login_table {
+    /*width: 100%;*/
+    width: 90%;
+    padding: 10px;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+.login_form {
+    padding-left: 90px;
+    margin-bottom: -10px;
+}
+
+.continue-login {
+    margin-left: -154px;
+}
+
+.create-new {
+    /*margin-right:10px;*/
+    margin-right: -15px;
+}
+
+.forgotten {
+    margin-right: 5px;
+}
+
+.greenDot {
+    /*background-image: url("dotActionItem_new.gif");*/
+    background-image: url("dotActionItem_new.png");
+    height: 15px;
+    width: 15px;
+    vertical-align: middle;
+}
+
+.new_user {
+    background-image: url('new_user.png');
+    height: 26px;
+    width: 26px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+.forgot_password {
+    background-image: url('lock.png');
+    height: 26px;
+    width: 26px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+.table-border-left {
+    border-left: #c4c4c4;
+    border-left-style: solid;
+    border-width: thin;
+}
+
+.loginContinue {
+    /*background-image: url("ButtonContinue_new.gif");*/
+    /*margin-left:-40px;*/
+    /*width: 128px;
+    height: 32px;*/
+    width: 147px;
+    height: 31px;
+}
+
+.iconHelp {
+    background-image: url("IconHelp_new.png");
+    /*width: 28px;
+    height: 51px;*/
+    width: 38px;
+    height: 37px;
+    border: 0 !important;
+    outline: 0 !important;
+}
+
+.p_login {
+    width: 320px !important;
+}
+
+
+/* Page 1 Table Styles – "MAIN" */
+.body_main {
+    /*margin-right: 5%;
+    margin-left: 5%;*/
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+}
+
+.td_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 300;
+    padding-top: 22px !important;
+}
+/*
+.td_main>tbody>tr>td>table>tbody>tr>td {
+    background-color:white;
+}
+*/
+.abar_main {
+    background-color: #f9f9f9 !important;
+    border-top: #444;
+    border-top-style: solid;
+    border-width: thin;
+}
+
+.mda_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    /*font-size:16px;*/
+    font-size: 14px;
+    font-weight: 400;
+    /*padding-top: 20px;*/
+    padding-bottom: 20px;
+    padding-left: 10px;
+    /*line-height: 1.3;*/
+}
+
+div.MainDisplayActivity {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.cfp_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+.mdad_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 10px;
+    margin-top: -36px;
+}
+
+div.mdad_main {
+    background-color: #f9f9f9;
+    /*  padding-bottom: 20px; */
+}
+
+.CLH_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 700;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    border-bottom: #b1b1b1;
+    border-bottom-style: solid;
+    border-width: thin;
+}
+
+.CLI_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 500;
+    padding-top: 15px;
+}
+
+.mn_main, a.mn_main:active, a.mn_main:link, a.mn_main:visited {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 22px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    text-transform: uppercase;
+    line-height: 1;
+    text-decoration: none !important;
+    padding-left: 5px;
+}
+
+.mi_main, a.mi_main:active, a.mi_main:link, a.mi_main:visited {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    text-decoration: none !important;
+    padding-left: 5px;
+}
+
+.mb_main {
+    background-color: #fff;
+    /*  margin-bottom: 100px; */
+}
+
+#SubmissionHome {
+    width: 90%;
+    margin: 0 auto;
+}
+
+    #SubmissionHome > table > tbody > tr:first-of-type > td {
+        padding-left: 5px;
+    }
+
+/*
+.table_main>tbody>tr>td:first-of-type{
+    background-color:white;
+}
+*/
+.table_main > tbody > tr.ActivityBar > td > div.MainDisplayActivityDeadline > img:last-child {
+    display: none;
+}
+
+.newsub_main {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    margin-right: 10px;
+    /*  margin-top: 10px; */
+}
+
+.table-down {
+    margin-top: 40px;
+    margin-bottom: 25px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.DotGoldReverse {
+    /*background-image: url("DotGoldReverse_new.gif");*/
+    background-image: url("DotGoldReverse_new.png");
+    height: 10px;
+    width: 10px;
+    margin-right: 5px;
+    display: none;
+}
+
+.statusIncomplete {
+    background-image: url("StatusButtonIncomplete_new.gif");
+    width: 100px;
+    height: 24px;
+}
+
+.statusComplete {
+    background-image: url("StatusButtonCompleted_new.gif");
+    width: 100px;
+    height: 24px;
+}
+
+.statusDeleted {
+    background-image: url("StatusButtonDeleted_new.gif");
+    width: 100px;
+    height: 24px;
+}
+
+.statusFinalized {
+    background-image: url("StatusButtonFinalized_new.gif");
+    width: 100px;
+    height: 24px;
+}
+
+.white_background {
+    background-color: #ffffff;
+}
+
+.submission_steps {
+    margin: 0 67px 10px;
+}
+
+.nav_icon {
+    margin-right: 65px;
+}
+
+@media (max-width: 767px) {
+    .nav_icon {
+        display: none;
+    }
+}
+
+/* Step 1 Title Style – submitStepTitle */
+.intro_title {
+    line-height: 16pt !important;
+    margin-bottom: 20px;
+}
+
+.fpr_submitStepTitle {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px !important;
+    font-weight: 600;
+    display: block;
+}
+
+.tablestyles_global > tbody > tr > td:first-of-type {
+    /*border-right: solid #c4c4c4 1px; removed vertical line */
+    /*padding-right:41px;*/
+    padding-right: 145px;
+    margin-right: 30px;
+    display: block;
+    min-height: 350px;
+}
+
+.title_table_left {
+    margin-left: -7px !important;
+}
+
+    .title_table_left > tbody > tr:not(:first-of-type) td:last-of-type {
+        padding-left: 4px;
+    }
+
+.step_name_nav {
+    padding-top: 5px !important;
+}
+
+
+
+/* Step 2 Topic Style – submitStepTopic */
+.curredit {
+    font-size: 20px !important;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    line-height: 1.2;
+    padding-bottom: 10px;
+    /*
+    border-bottom-color: #c4c4c4;
+    border-bottom-style: solid;
+    border-width: thin;
+*/
+    /*  margin-right:-140px; */
+    /*margin-top: 20px;*/
+}
+/*this class formerly ht-step1 */
+.hr_hide {
+    display: none;
+}
+
+p {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    /*font-weight: 200;*/
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.fpr_submitStepTopic {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.ta-step1 {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.td-step1 {
+    background-color: #ffffff;
+    margin-top: -40px;
+}
+
+.sbi {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 11px;
+    width: 250px;
+    margin-left: 0px;
+}
+
+.slcurrent {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+    font-weight: bold;
+    /*  margin-right: 200px; */
+    /*  margin-left:8px; */
+    /*color:#009e39;*/
+    text-transform: uppercase;
+    margin-left: 65px;
+    color: #fff;
+    text-transform: uppercase;
+    background-image: url('current_highlighted.png');
+    height: 24px;
+    width: 241px;
+    display: inline-block;
+    padding: 3px 0 0 34px;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+}
+
+.slcurrent_complete {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+    font-weight: bold;
+    /*  margin-right: 200px; */
+    /*  margin-left:8px; */
+    /*color:#009e39;*/
+    text-transform: uppercase;
+    margin-left: 65px;
+    color: #fff;
+    text-transform: uppercase;
+    background-image: url('current_highlighted_completed.png');
+    height: 24px;
+    width: 241px;
+    display: inline-block;
+    padding: 3px 0 0 34px;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+}
+/*
+.slcurrent:before {
+  content: url("CheckboxCurrent_new.gif");
+  margin-left:9px;
+}
+*/
+.triangle_current {
+    padding: 0 0 4px 56px;
+    margin-left: 20px;
+}
+
+.slinc, a.slinc:active, a.slinc:link, a.slinc:visited {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+    line-height: 2;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.slcomp, a.slcomp:active, a.slcomp:link, a.slcomp:visited {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px;
+    line-height: 2;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+table#Table2 > tbody > tr > td > table > tbody > tr > td > table > tbody > tr > td > img:nth-child(2) {
+    display: none;
+}
+
+table#Table2 > tbody > tr > td > form > table > tbody > tr > td > img:first-child {
+    display: none;
+}
+
+/*#Table2 > tbody > tr > td:last-of-type > table > tbody > tr:not(:first-of-type):not(:last-of-type) td:first-of-type{
+    display: none;
+}*/
+
+#Table2 {
+    margin-top: 30px;
+}
+
+    #Table2 > tbody > tr > td:last-of-type > table > tbody > tr:not(:first-of-type):not(:last-of-type) td p {
+        padding-left: 0;
+    }
+
+    #Table2 > tbody > tr > td:last-of-type > table > tbody > tr:not(:first-of-type):not(:last-of-type) td input {
+        margin-left: 0;
+    }
+
+#PublishingTitleEditor {
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 400px;
+    height: 17px;
+    outline: 0;
+}
+
+.data_display_new {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    /*  margin-left: -40px; */
+}
+
+.stepListHead {
+    background-image: url("stepListHead_new.gif");
+    /*width: 91px;
+    height: 46px;*/
+    width: 147px;
+    height: 14px;
+    margin-left: 48px;
+    margin-bottom: 10px;
+}
+
+.no_bg {
+    background-image: none;
+}
+
+.number1 {
+    background-image: url("SideInstructionsNumber1_new.png");
+    width: 65px;
+    height: 24px;
+}
+
+.number2 {
+    background-image: url("SideInstructionsNumber2_new.png");
+    width: 65px;
+    height: 24px;
+}
+
+.number3 {
+    background-image: url("SideInstructionsNumber3_new.png");
+    width: 65px;
+    height: 24px;
+}
+
+.extend_step_table {
+    width: 267px !important;
+}
+
+.left-padding-completed {
+    margin-left: 66px;
+    margin-right: 11px;
+}
+
+.iconHome {
+    background-image: url("IconHome_new.png");
+    /*width: 29px;
+    height: 52px;*/
+    width: 38px;
+    height: 37px;
+}
+
+.iconProfile {
+    background-image: url("IconProfile_new.png");
+    /*width: 37px;
+    height: 51px;*/
+    width: 38px;
+    height: 37px;
+}
+
+.iconLogout {
+    background-image: url("IconLogout_new.png");
+    /*width: 29px;
+    height: 52px;*/
+    width: 38px;
+    height: 37px;
+}
+
+.intro_text {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 11px;
+}
+
+.feedback {
+    text-transform: uppercase;
+}
+
+.saveContinueButton {
+    background-image: url("save-continue.png");
+    width: 169px;
+    height: 31px;
+}
+
+.dotBlue {
+    /*background-image: url("DotBlue_new.gif");*/
+    background-image: url("DotBlue_new.png");
+    width: 9px;
+    height: 9px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.check_inc_adjust {
+    margin-left: 66px;
+    margin-right: 11px;
+}
+
+.topic_table_left {
+    margin-left: -3px;
+}
+
+
+/* Step 3 Keyword Style – submitStepKeyword */
+.fpr_submitStepKeyword {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px !important;
+    font-weight: 600;
+}
+
+.fp_submitStepKeyword {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px !important;
+    font-weight: 600;
+}
+
+.keyword_text {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    line-height: 16pt;
+    font-weight: 400;
+}
+
+.hide_image {
+    display: none;
+}
+
+.keyword_select_margin {
+    margin-bottom: 10px;
+}
+
+.keyword_input_margin {
+    margin-bottom: 20px;
+}
+
+
+
+
+
+/* Step 3a Keyword Style – SubmitKeywordSearchList */
+.search_top_margin {
+    margin-top: -30px;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+.search_left_margin {
+    margin-left: -23px;
+}
+
+
+
+
+
+/* Step 4 Author Style – submitStepAuthorEdit */
+.section_header {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 18px !important;
+    font-weight: 500 !important;
+}
+
+.fp_submitStepAuthorEdit {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+}
+
+.fpr_submitStepAuthorEdit {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 700 !important;
+}
+
+.primaryAuthor {
+    font-size: 16px;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+.disclosure_section {
+    padding-top: 11px !important;
+}
+
+.generic_intro {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 16pt;
+}
+
+input {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+select {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+.company_question {
+    margin-bottom: 5px !important;
+    margin-top: 10px !important;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    display: block;
+}
+
+.author_margin_left {
+    margin-left: -5px;
+}
+
+.checkbox_text {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 16pt;
+    display: inline-block !important;
+}
+
+.author_information_table {
+    text-align: left;
+}
+
+    .author_information_table thead tr {
+        background-color: #fff;
+        color: #000;
+    }
+
+        .author_information_table thead tr td {
+            border-bottom: 1px solid #b1b1b1;
+        }
+
+#theTable {
+    text-align: left;
+    border-spacing: 0;
+    margin-bottom: 20px;
+}
+
+    #theTable th {
+        border-bottom: 1px solid #b1b1b1;
+    }
+
+    #theTable td, #theTable th {
+        padding-right: 20px;
+    }
+
+.emailAllBtn {
+    margin-bottom: 20px;
+}
+
+select[name="ContactCountry"] {
+    width: 295px;
+}
+
+dir {
+    padding: 0;
+    margin: 0;
+}
+
+    dir:last-of-type {
+        margin: 0 0 20px;
+    }
+
+/* submitStepAuthorSearch */
+
+#Table3 {
+    text-align: left;
+    border-spacing: 0;
+}
+
+    #Table3 th {
+        text-align: left;
+        border-bottom: 1px solid #b1b1b1;
+        border-top-width: 0;
+        border-left-width: 0;
+        border-right-width: 0;
+        padding-right: 10px;
+    }
+
+    #Table3 td {
+        text-align: left;
+        border-width: 0;
+        padding-right: 10px;
+        padding-top: 5px;
+    }
+
+/* Step 5 Biography – submitStepBiography */
+.bio_intro {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 16pt;
+    padding-left: 0;
+}
+
+.open_sans {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    display: inline;
+}
+
+.edit_link {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px !important;
+}
+
+.step_name_header {
+    font-size: 16px;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    margin-left: 2px;
+}
+
+.biography_margin_left {
+    margin-left: -15px;
+}
+
+.biography_header {
+    font-size: 16px;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    margin-left: -2px;
+    margin-top: 28px;
+}
+
+/* Step 5b Edit Biography – submitStepBiographyEdit */
+.text_area_header {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: bold !important;
+    font-size: 14px !important;
+    margin-top: 15px;
+}
+
+.edit_bio_margin_left {
+    margin-left: -57px;
+}
+
+
+/* Step 5b Upload Biography – submitStepBiographyUpload */
+.upload-text-indent {
+    margin-left: 9px;
+}
+
+.upload_bio_margin_left {
+    margin-left: -13px;
+}
+
+
+
+/* Step 6 Abstract – submitStepAbstract */
+.small_link {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 8pt;
+    /*color: #000080;*/
+    color: #007A87;
+    font-weight: bold;
+}
+
+.abstract_margin_left {
+    /*margin-left: -17px;*/
+    margin-left: -4px;
+}
+/*
+.margin_left_1 {
+    margin-left: -208px;
+    }
+*/
+.margin_left_2 {
+    margin-left: 15px;
+}
+
+
+
+
+/* Step 6e - submitStepAbstractTableEditData */
+.table_label {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 12px !important;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.table_label_input {
+    display: block;
+    margin-bottom: 15px;
+    margin-top: 7px;
+}
+
+.table_side_label {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 10px !important;
+    line-height: 1.1 !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-top: 35px !important;
+    padding-right: 15px;
+}
+
+.save_table_edit {
+    margin-top: -40px;
+}
+
+/* Step 7 - submitStepAdditional0 */
+.section_header_bottom {
+    margin-bottom: -20px;
+}
+
+.fpr_submitStepAdditional0 {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 700;
+}
+
+.fp_submitStepAdditional0 {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+}
+
+.input_submitStepAdditional0 {
+    margin-bottom: 8px !important;
+}
+
+.prompts_submitStepAdditional0 {
+    padding-right: 40px;
+}
+
+    .prompts_submitStepAdditional0 div {
+        display: block;
+    }
+
+.notif_margin_left {
+    margin-left: -13px;
+}
+
+.additional_button_margin {
+    /*margin-left: 9px;*/
+}
+
+#inIRBApproval {
+    width: 300px;
+}
+
+/* Step: submitstepAddFile */
+.fp_submitstepAddFile {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 500;
+    margin-left: -10px;
+    margin-bottom: 15px;
+}
+
+.file_content_margin_left {
+    margin-left: -6px;
+}
+
+.file_margin_left {
+    margin-left: -6px;
+}
+
+/* Step 9 - submitStepPresentationPreference */
+.fpr_submitStepPresentationPreference {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    /*  margin-left:-9px; */
+}
+
+.select_pres_pref {
+    /*  margin-left:-9px; */
+}
+
+.pres_pref_title {
+    margin: 0 !important;
+}
+
+.preference_margin {
+    margin-left: -3px;
+}
+
+/* Step Groups – submitStepGroups */
+.groups_margin_left {
+    margin-left: -9px;
+}
+
+.groups_margin_1 {
+    margin-left: -4px;
+}
+
+.groups_header {
+    font-size: 16px;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+/* Step 12 - submitStepPayment */
+.payment_amount {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    /*  margin-top:-20px !important; */
+    font-size: 15px !important;
+}
+
+.payment_margin_left {
+    /*  margin-left: -27px; */
+}
+
+.payment_margin_left2 {
+    /*  margin-left:-33px; */
+}
+
+.md {
+    margin-left: 25px;
+}
+
+/* Step 13 - submitStepPaymentCredit */
+.credit_field {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    margin-right: 5px;
+    width: 160px;
+}
+
+.save_credit {
+    /*margin-left: 177px;*/
+    margin-top: 10px;
+}
+
+.reevaluate_payment {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 16pt;
+    padding-left: 177px;
+    font-size: 12px;
+}
+
+.table_credit {
+    margin-top: 40px;
+}
+
+.credit_intro {
+    margin-left: 70px;
+}
+
+/* Step: submitStepAbstract2 */
+.submitStepAbstract2_margin_left {
+    margin-left: -17px;
+}
+
+.char_count_left {
+    margin-left: -210px;
+}
+
+
+/* Step 15 - submitSummary */
+.print_icon {
+    background-image: url("print_new.png");
+    height: 30px;
+    width: 30px;
+    margin-bottom: 8px;
+}
+
+.email_icon {
+    background-image: url("email.png");
+    height: 30px;
+    width: 30px;
+    margin-bottom: 8px;
+}
+
+.red_notification {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 16pt;
+    font-color: #ff0000 !important;
+}
+
+.delete_submission {
+    background-image: url("ButtonCancelSubmission_new.png");
+    width: 172px;
+    height: 20px;
+}
+
+.data_highlight_new {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+/* Step: submitStepAbstract2Edit */
+.Abstract2Edit_margin_left {
+    margin-left: -3px;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+/* Step: submitStepAbstract2Upload */
+.Abstract2Upload_margin_left {
+    margin-left: -8px;
+}
+
+/* Step 16 - submitPrinterFriendlyVersion */
+.print_logoMargin {
+    margin-bottom: 20px;
+}
+
+.print_margin {
+    margin: 40px !important;
+}
+
+/* Step: viewDeleted */
+.deleted_intro {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 16pt;
+    /*margin-top: 30px;*/
+    width: 90%;
+    margin: 30px auto 30px auto;
+    padding-left: 15px;
+}
+
+.CLH_deleted {
+    /*font-family:Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size:12px;
+    font-weight: 700;
+    padding-bottom: 5px;
+    padding-top: 10px;*/
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-size: 14px;
+    font-weight: 700;
+    padding-top: 25px;
+    padding-bottom: 10px;
+    border-bottom: #b1b1b1;
+    border-bottom-style: solid;
+    border-width: thin;
+}
+
+.CLI_deleted {
+    padding-top: 15px;
+}
+
+.deleted_table {
+    /*margin-bottom: 15px;*/
+    width: 90%;
+    margin: 0 auto 15px auto;
+    padding: 0 10px;
+}
+
+.deleted_data {
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+    font-weight: 400 !important;
+    line-height: 11pt;
+    font-size: 14px;
+}
+
+.click_to_home {
+    margin: 5px;
+    display: block;
+}
+
+/* HELP Pages */
+.help_margin {
+    margin: 40px !important;
+}
+
+.top_margin_25 {
+    margin-top: 25px !important;
+    font-weight: 500;
+}
+
+.top_margin_5 {
+    margin-top: 5px !important;
+    margin-bottom: 2px !important;
+    font-weight: 500;
+}
+
+.example_box {
+    margin: 0;
+    font-weight: 500;
+}
+
+.help_table_header {
+    margin: 0;
+    font-weight: bold;
+}
+
+.help_body {
+    font-weight: 400;
+    font-family: Segoe,"Segoe UI","Lucida Grande",Tahoma,Arial,FreeSans,"Liberation Sans",Helvetica,sans serif,"Droid Sans";
+}
+
+.margin_btm_none {
+    margin-bottom: 0px;
+}
+
+.browser_hr {
+    color: #cccccc;
+}
+
+.checkedBox {
+    background-image: url("CheckboxChecked_new.png");
+    width: 24px;
+    height: 24px;
+}
+
+
+.uncheckedBox {
+    background-image: url("CheckboxUnchecked_new.png");
+    width: 24px;
+    height: 24px;
+}

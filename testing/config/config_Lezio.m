@@ -5,11 +5,11 @@ ops.verbose             = 0; % whether to print command line progress
 ops.showfigures         = 1; % whether to plot figures during optimization		
 		
 ops.datatype            = 'dat';  % binary ('dat', 'bin') or 'openEphys'		
-ops.fbinary             = fullfile(fpath, 'Vole_J17.dat'); % will be created for 'openEphys'		
+ops.fbinary             = fullfile(fpath, 'testdata.dat'); % will be created for 'openEphys'		
 ops.fproc               = fullfile(fpath, 'temp_wh.dat'); % residual from RAM of preprocessed data		
 ops.root                = fpath; % 'openEphys' only: where raw files are		
 % define the channel map as a filename (string) or simply an array		
-ops.chanMap             = fullfile(fpath, 'chanMaps', 'lezioChanMap.mat'); % make this file using createChannelMapFile.m		
+ops.chanMap             = fullfile(fpath, 'chanMaps', 'chanMap.mat'); % make this file using createChannelMapFile.m		
 % ops.chanMap = 1:ops.Nchan; % treated as linear probe if unavailable chanMap file		
 
 ops.Nfilt               = 64;  % number of clusters to use (2-4 times more than Nchan, should be a multiple of 32)     		

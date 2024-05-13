@@ -69,7 +69,7 @@ end
 [W, U, mu, UtU, nu] = decompose_dWU(ops, dWU, Nrank, rez.ops.kcoords);
 W0 = W; %First N columns/rows of W0 = to vals of W
 W0(NT, 1) = 0; %set remaining NT - n rows/vols to 0 (preallocate)
-fW = fft(W0, [], 1); %fourier transform-- go from time domain to frequency (...what?)
+fW = fft(W0, [], 1); %fourier transform-- go from time domain to frequency 
 fW = conj(fW); %complex conjugate of each element in matrix (why?) - basically figuring out distribution of frequencies of all waveforms?
 
 nspikes = zeros(Nfilt, Nbatch);
@@ -254,4 +254,6 @@ if ~ops.GPU
 end
 rez.dWU               = gather_try(dWU); %  THESE ARE OPTIMIZED TEMPLATES
 rez.nspikes               = nspikes;
+close("all")
+
 % %%

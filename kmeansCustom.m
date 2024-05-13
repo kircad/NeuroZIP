@@ -1,4 +1,4 @@
-function [assignments, silScores, clustSils, unclusterable] = kmeansCustom(ops, vectors)
+function [finalAssignments, silScores, clustSils, unclusterable] = kmeansCustom(ops, vectors)
         Nbatch = ops.Nbatch;
         
         silScores = zeros(1,Nbatch);
@@ -16,7 +16,7 @@ function [assignments, silScores, clustSils, unclusterable] = kmeansCustom(ops, 
         Ks = zeros(1, maxIter);
         bestKcost = [];
         currIter = 1;
-        while k <= limK %TODO MOVE ENTIRE LOOP TO GPU + VECTORIZE!!! CHANGE TO WHILE LOOP
+        while k <= limK %TODO MOVE ENTIRE LOOP TO GPU + VECTORIZE!!! 
             randIndices = randperm(Nbatch);
             centroids([1:k],:,:) = vectors(randIndices(1:k), :, :); %randomly initialize k clusters
             assignments = zeros(k,Nbatch);
@@ -178,17 +178,24 @@ function [assignments, silScores, clustSils, unclusterable] = kmeansCustom(ops, 
         end
         unclusteredIdx = 1;
         unclustered = {};
-        for i = 1:size(bestClustSil,2) %remove bad clusters TODO CHECK + FIX
-            if (bestClustSil(i) < ops.clusterThreshold)
-                unclustered{unclusteredIdx} = find((bestAssignments(i,:) == 1));
-                unclusteredIdx = unclusteredIdx + 1;
-            end
-        end
+        cluID = 1;
+        finalCluScores = {};
+        %TODO CLUSTSILS SHOULD HAVE EACH POINT'S CLU SCORE 
+        finalAssignments = zeros(1, ops.Nbatch);
         unclusterable = unclusteredIdx;
-        clustSils = bestClustSil;
         silScores = bestSilScores;
         rez.bestCost = bestCost;
         rez.bestDiff = bestDiff;
+        for i = 1:size(bestClustSil, 2)
+            if (isnan(bestClustSil(i))|| bestClustSil(i) < ops.clusterThreshold)
+                unclustered{end + 1} = find(bestAssignments(i,:) == 1);
+            else
+                finalAssignments((bestAssignments(i,:) == 1)) = cluID;
+                finalCluScores{cluID} = silScores(bestAssignments(i,:) == 1);
+                cluID = cluID + 1;
+            end %TODO HOW TO HANDLE 1-CLUSTS? I THOUGHT K-MEANS WASNT SUPPOSED TO ALLOW!
+        end %TODO APPLY ITERATIVE STRATEGY USING THIS KMEANS METHOD?
+        clustSils = finalCluScores;
 end
 
 

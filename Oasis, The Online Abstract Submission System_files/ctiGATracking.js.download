@@ -1,0 +1,121 @@
+/**
+* Function to capture Googke Analytics
+*/
+
+
+(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-9497747-1', 'auto');  // CTI property ID = UA-9497747-1
+ga('set', 'anonymizeIp', true);    // anonymizeIp
+
+if (location.pathname.toLowerCase() == "/pp8/") {
+    ga('send', 'pageview', window.location.href.replace(/^.*\/\/[^\/]+/, ''));
+}
+else {
+    ga('send', 'pageview', location.pathname + location.search);
+}
+
+
+/**
+* Function that captures a click on an outbound link in Analytics.
+* This function takes a valid URL string as an argument, and uses that URL string
+* as the event label. Setting the transport method to 'beacon' lets the hit be sent
+* using 'navigator.sendBeacon' in browser that support it.
+*/
+var captureOutboundLink = function (url, target) {
+    ga('send', 'event', 'outbound', 'click', url, {
+        'transport': 'beacon',
+        'hitCallback': function () {
+            if ((target == "_self") || (target == "")) {
+                document.location = url;
+            }
+            else if ((target == "_blank") || (target == "_parent") || (target == "_top")) {
+                window.open(url, '_blank');
+            }
+        }
+    });
+}
+
+/*-----------------------------------------------------------------------------------------------------------*/
+const loggingOptions = {
+    "cadmin": 'GTM-59CHJSZ',
+    "admin": 'GTM-TMW3JJK',
+};
+
+const { pathname } = location;
+const [base] = pathname.split('/').filter(e => e);
+const gtmCode = loggingOptions[base.toLowerCase()];
+
+(function (w, d, s, l, i) {
+    w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+    }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+})(window, document, 'script', 'dataLayer', gtmCode);
+
+
+const gtmLogEvent = (eventText, attributes) => {
+    var dataLayer = window.dataLayer = window.dataLayer || [];
+    dataLayer.push({ event: eventText, attributes });
+}
+
+const pageLoad = ({ page_url, page_path, page_type, page_referrer }) => {
+    gtmLogEvent('pageview_load', { page_url, page_path, page_type, page_referrer, })
+}
+
+var userLoggedIn = function (user_id) {
+    gtmLogEvent('user_logged_in', { user_id })
+}
+
+const link_click = (text, url, eventType = 'link_click') => {
+    gtmLogEvent(eventType, { click_text: text, click_url: url })
+}
+
+const monitorPageLinks = () => {
+    const findTag = (e, tags) => {
+        const path = e.composedPath();
+        return path.find((item) => {
+            return item?.matches?.(tags.join(","));
+        })
+    }
+    const iconMapping = [
+        { regex: /^<i[^>]*fa[^>]*eye[^>]*>/, label: "Preview" },
+        { regex: /^<i[^>]*fa[^>]*left[^>]*>/, label: "Details" },
+        { regex: /^<i[^>]*fa[^>]*trash[^>]*>/, label: "Delete" },
+        { regex: /^<i[^>]*fa[^>]*pencil[^>]*>/, label: "Edit" },
+        { regex: /^<i[^>]*fa[^>]*up[^>]*>/, label: "Up" },
+        { regex: /^<i[^>]*fa[^>]*down[^>]*>/, label: "Down" },
+    ]
+
+    const findLabel = (text, mapping) => {
+        for (let index = 0; index < mapping.length; index++) {
+            const { regex, label } = mapping[index];
+            if (regex.test(text)) return label;
+        }
+    }
+
+
+    document.addEventListener('click', e => {
+        const target = findTag(e, ["a", "button", "input[type=button]", "input[type=submit]"]);
+        if (!target) return;
+        const { innerText, innerHTML, title, ariaLabel, href: url, value, dataset: { gtmevent = 'link_click' } } = target;
+        const text = value || innerText || title || ariaLabel || findLabel(innerHTML, iconMapping);
+        link_click(text, url, gtmevent);
+    }, true)
+
+}
+
+
+monitorPageLinks();
+document.addEventListener('DOMContentLoaded', (event) => {
+    const { title: page_type, referrer: page_referrer } = document;
+    const { href: page_url, pathname: page_path } = location;
+    pageLoad({ page_url, page_path, page_type, page_referrer })
+});

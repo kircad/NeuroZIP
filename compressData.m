@@ -1,4 +1,4 @@
-function rez = compressData(ops)
+function rez = compressData(ops, preprocRez)
     rng('default');
     rng(1);
     
@@ -18,11 +18,9 @@ function rez = compressData(ops)
         memallocated = ops.ForceMaxRAMforDat;
     end
     nint16s      = memallocated/2;
-    NTbuff      = NT + 4*ops.ntbuff;
-    Nbatch      = ceil(d.bytes/2/ops.Nchan /(NT));
-    Nbatch_buff = floor(4/5 * nint16s/ops.Nchan /(NT)); % factor of 4/5 for storing PCs of spikes TODO use this?
-    Nbatch_buff = min(Nbatch_buff, Nbatch);
-    Nchan 	= ops.Nchan;
+    NTbuff      = preprocRez.NTbuff;
+    Nbatch      = preprocRez.Nbatch;
+    Nbatch_buff = preprocRez.Nbatch_buff;
     batchstart = 0:NT:NT*Nbatch;
     ops.Nbatch = Nbatch;
     ops.NTbuff = NTbuff;
@@ -83,21 +81,21 @@ function rez = compressData(ops)
             
             if ops.NchanDimKmeans
                 fprintf("SVD Complete. Running full-dimensional k-means clustering algorithm...\n")
-                [finalAssignments, finalCluScores, finalCluIndividual] = kmeansCustom(ops, batchUs); %TODO MAKE IT MATCH RETURN TYPE OF ABOVE OPTION FOR FINALASSIGNMENTS 
+                [finalAssignments, finalCluScores, finalCluIndividual, unclusterable] = kmeansCustom(ops, batchUs); %TODO MAKE IT MATCH RETURN TYPE OF ABOVE OPTION FOR FINALASSIGNMENTS 
             end
             
             fprintf("Clustering complete. Picking representative batches...\n")                   
             
             figure;
             subplot(1, 2, 1);
-            hold on
+            hold on %TODO MAKE SURE BOTH METHODS STILL WORK
             n = 1;
-            for i = 1:size(unique(finalCluScores),2) %TODO improve selection
+            for i = 1:size(finalCluIndividual,2) %TODO improve selection
                 clustCols{i} = rand(1, 3);
                 clustLabels{i} = strcat("Cluster ", string(i));
                 
                 idx = find(finalAssignments == i);
-                scores = finalCluIndividual(i); %TODO FIX BRACE VS PARENTHESIS SHIT
+                scores = finalCluIndividual{i}; 
                 [~, isort] = sort(scores, 'descend');
                 iperm(n) = idx(isort(end));
                 n = n + 1;
@@ -117,9 +115,9 @@ function rez = compressData(ops)
             
             subplot(1, 2, 2);
             hold on
-            for i = 1:size(unique(finalCluScores),2)
+            for i = 1:size(finalCluIndividual,2)
                 idx = find(finalAssignments == i);
-                scores = finalCluIndividual(i);
+                scores = finalCluIndividual{i};
                 [scoresSorted, isort] = sort(scores, 'descend');
                 scatter(idx(isort), scoresSorted, 'MarkerFaceColor', clustCols{i}, 'MarkerEdgeColor', 'black')
             end

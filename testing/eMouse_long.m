@@ -1,6 +1,6 @@
 fpath = 'C:\Users\kirca\Desktop\NeuroZIP\testing';
 pathToYourConfigFile = 'C:\Users\kirca\Desktop\NeuroZIP\testing\config'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
-testName = 'newunits2';
+testName = 'newunits1';
 useGPU = 1;
 gendata =  false;
 
@@ -15,8 +15,8 @@ run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
 outpath = fullfile(fpath, 'results');
  
 [rez, DATA, uproj] = preprocessData(ops); % preprocess data and extract spikes for initialization
-compressionOps.batchSpikes = rez.batchSpikes;
-compressionRez                = compressData(compressionOps);
+compressionOps.batchSpikes = rez.batchSpikes; 
+compressionRez                = compressData(compressionOps, rez.temp);
 %savefig(fullfile(outpath, ops.batchSetting));
 rez                = fitTemplates(rez, DATA, uproj, compressionRez.batchesToUse);  % fit templates iteratively
 rez                = fullMPMU(rez, DATA);% extract final spike times (overlapping extraction)
