@@ -4,3 +4,7 @@
 *.fig
 *.csv
 *.npy
+*.phy
+*.git
+/env/
+/.phy/
