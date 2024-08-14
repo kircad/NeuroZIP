@@ -1,0 +1,15 @@
+{
+    "sorter_name": "kilosort",
+    "sorter_version": "git-301162029b5a",
+    "datetime": "2024-08-08T12:10:38.529496",
+    "runtime_trace": [
+        "",
+        "(env) C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP>C:",
+        "",
+        "(env) C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP>cd C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\test\\PAIRED_CRCNS_HC1\\paired_crcns\\d11221_d11221.002\\kilosort\\sorter_output",
+        "",
+        "(env) C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\test\\PAIRED_CRCNS_HC1\\paired_crcns\\d11221_d11221.002\\kilosort\\sorter_output>matlab -nosplash -wait -r \"kilosort_master('C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\test\\PAIRED_CRCNS_HC1\\paired_crcns\\d11221_d11221.002\\kilosort\\sorter_output', 'C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\KiloSort')\""
+    ],
+    "error": false,
+    "run_time": 27.15710080001736
+}

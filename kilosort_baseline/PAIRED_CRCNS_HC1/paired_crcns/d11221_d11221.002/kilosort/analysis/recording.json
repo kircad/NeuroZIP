@@ -1,0 +1,163 @@
+{
+    "class": "spikeinterface.preprocessing.common_reference.CommonReferenceRecording",
+    "module": "spikeinterface",
+    "version": "0.101.0",
+    "kwargs": {
+        "recording": {
+            "class": "spikeinterface.preprocessing.filter.BandpassFilterRecording",
+            "module": "spikeinterface",
+            "version": "0.101.0",
+            "kwargs": {
+                "recording": {
+                    "class": "spikeforest.load_extractors.MdaRecordingExtractorV2.MdaRecordingExtractorV2.MdaRecordingExtractorV2",
+                    "module": "spikeforest",
+                    "version": "0.12.7",
+                    "kwargs": {
+                        "raw_path": "../../../../../../../../.kachery-cloud/sha1/01/c6/a9/01c6a9bbeac9d6513a25fb669d98f600994f2e6b",
+                        "params": {
+                            "samplerate": 20000,
+                            "scale_factor": 0.305176,
+                            "spike_sign": -1
+                        },
+                        "geom": [
+                            [
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                0.0,
+                                25.0
+                            ],
+                            [
+                                0.0,
+                                50.0
+                            ],
+                            [
+                                0.0,
+                                75.0
+                            ]
+                        ]
+                    },
+                    "annotations": {
+                        "is_filtered": false,
+                        "probes_info": [
+                            {}
+                        ]
+                    },
+                    "properties": {
+                        "group": [
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        "location": [
+                            [
+                                0.0,
+                                0.0
+                            ],
+                            [
+                                0.0,
+                                25.0
+                            ],
+                            [
+                                0.0,
+                                50.0
+                            ],
+                            [
+                                0.0,
+                                75.0
+                            ]
+                        ],
+                        "gain_to_uV": null,
+                        "offset_to_uV": null
+                    },
+                    "relative_paths": false
+                },
+                "freq_min": 300,
+                "freq_max": 6000,
+                "margin_ms": 5.0,
+                "dtype": "<i2"
+            },
+            "annotations": {
+                "is_filtered": true,
+                "probes_info": [
+                    {}
+                ]
+            },
+            "properties": {
+                "group": [
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "location": [
+                    [
+                        0.0,
+                        0.0
+                    ],
+                    [
+                        0.0,
+                        25.0
+                    ],
+                    [
+                        0.0,
+                        50.0
+                    ],
+                    [
+                        0.0,
+                        75.0
+                    ]
+                ],
+                "gain_to_uV": null,
+                "offset_to_uV": null
+            },
+            "relative_paths": false
+        },
+        "reference": "global",
+        "groups": null,
+        "operator": "median",
+        "ref_channel_ids": null,
+        "local_radius": [
+            30.0,
+            55.0
+        ],
+        "dtype": "<i2"
+    },
+    "annotations": {
+        "is_filtered": true,
+        "probes_info": [
+            {}
+        ]
+    },
+    "properties": {
+        "group": [
+            0,
+            0,
+            0,
+            0
+        ],
+        "location": [
+            [
+                0.0,
+                0.0
+            ],
+            [
+                0.0,
+                25.0
+            ],
+            [
+                0.0,
+                50.0
+            ],
+            [
+                0.0,
+                75.0
+            ]
+        ],
+        "gain_to_uV": null,
+        "offset_to_uV": null
+    },
+    "relative_paths": true
+}

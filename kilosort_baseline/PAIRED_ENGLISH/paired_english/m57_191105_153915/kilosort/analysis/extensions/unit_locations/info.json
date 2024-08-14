@@ -1,0 +1,5 @@
+{
+    "class": "spikeinterface.postprocessing.unit_locations.ComputeUnitLocations",
+    "module": "spikeinterface",
+    "version": "0.101.0"
+}

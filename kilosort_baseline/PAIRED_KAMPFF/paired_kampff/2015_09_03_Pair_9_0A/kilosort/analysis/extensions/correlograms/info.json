@@ -1,0 +1,5 @@
+{
+    "class": "spikeinterface.postprocessing.correlograms.ComputeCorrelograms",
+    "module": "spikeinterface",
+    "version": "0.101.0"
+}
