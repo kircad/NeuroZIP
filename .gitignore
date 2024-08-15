@@ -9,5 +9,6 @@
 *.png
 *.docx
 /kilosort_baseline/
+/spikeforest_results/
 /env/
 /.phy/

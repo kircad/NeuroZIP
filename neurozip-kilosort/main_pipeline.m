@@ -1,4 +1,4 @@
-useGPU = 1; % do you have a GPU? Kilosorting 1000sec of 32chan simulated data takes 55 seconds on gtx 1080 + M2 SSD.
+useGPU = 0; % do you have a GPU? Kilosorting 1000sec of 32chan simulated data takes 55 seconds on gtx 1080 + M2 SSD.
 
 %fpath    = 'D:\ksdata\';
 %fpath = 'Z:\Brendon\SortingLongRecordings\LezioVolesACB10_J17\Vole_J17';

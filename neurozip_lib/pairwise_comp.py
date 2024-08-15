@@ -99,15 +99,12 @@ def compile_study_info(full_comps, run_times, savepath):
     for i in full_comps.keys():
         full_comps[i].to_excel(f'{savepath}/{i}_comps.xlsx', sheet_name='RESULTS', index=False, header=True)
 
-def run_sorter_helper(sorter, outpath, params, overwrite):  # runs sorter on all spikeforest datasets and saves the full sorting to basepath, overwriting if specified to and file already exists
-    # TODO PARALLELIZE! RUN N_RUNS TIMES FOR EACH RECORDING
-    all_recordings = sf.load_spikeforest_recordings()
-    for R in all_recordings:
+def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorter on all spikeforest datasets and saves the full sorting to basepath, overwriting if specified to and file already exists
+    for R in sf.load_spikeforest_recordings():
         if (R.study_set_name not in datasets):
             print('Skipping...')
             continue
-        print(f'{R.study_set_name}/{R.study_name}/{R.recording_name}')
-        recording = R.get_recording_extractor()
+        print(f'{sorter} -- {R.study_set_name}/{R.study_name}/{R.recording_name}')
         out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
         if params:
             out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
@@ -117,22 +114,30 @@ def run_sorter_helper(sorter, outpath, params, overwrite):  # runs sorter on all
             print(f'Overwriting files at {out_path}')
         if not os.path.exists(out_path):
             try:
-                if (params):
-                    if tmp_path:
-                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=tmp_path, NT=params['batch_size'], spacing=params['spacing'])
-                        shutil.copytree(tmp_path, out_path) # TODO INFINITE LOOP IN PREPROCESSING LOOP - WHY???
-                        shutil.rmtree(tmp_path)
-                    else:
-                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=out_path, NT=params['batch_size'], spacing=params['spacing'])
+                job_list = []
+                if params:
+                    for i in range(n_runs):
+                        job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}', 'NT':params['batch_size'], 'spacing':params['spacing']})
                 else:
-                    if tmp_path:
-                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=tmp_path)
-                        shutil.copytree(tmp_path, out_path)
-                        shutil.rmtree(tmp_path)
-                    else:
-                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=out_path)
-                se.NpzSortingExtractor.write_sorting(sorting, out_path)
-                write_runtime_to_file(run_time, f'{out_path}/run_time.txt')
+                    for i in range(n_runs):
+                        job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}'})
+                results = ss.run_sorter_jobs(job_list=job_list, engine='joblib', engine_kwargs={'n_jobs': len(job_list)}, return_output=True)
+                for rez, job, counter in zip(results, job_list, range(len(job_list))):
+                    run_time, sorting = rez[0], rez[1]
+                    shutil.rmtree(job['folder'])
+                    # for filename in os.listdir(tmp_out):
+                    #     file_path = os.path.join(tmp_out, filename)
+                    #     if os.path.isfile(file_path):
+                    #         os.remove(file_path)
+                    #     elif os.path.isdir(file_path):
+                    #         shutil.rmtree(file_path)
+                    #     if not os.path.exists(out_path):
+                    #         os.makedirs(out_path)
+                    if not os.path.exists(out_path):
+                        os.makedirs(out_path)
+                    se.NpzSortingExtractor.write_sorting(sorting, f'{out_path}/Run_{counter}.npz')
+                    write_runtime_to_file(run_time, f'{out_path}/Run_{counter}_run_time.txt')
+
             except Exception as e:
                 print(f'Failed sorting {R.study_set_name}/{R.study_name}/{R.recording_name} - {e}')
                 continue
@@ -152,41 +157,45 @@ def run_sorter_helper(sorter, outpath, params, overwrite):  # runs sorter on all
         #     analyzer.compute(extensions_to_compute, extension_params=extension_params)
         #     analyzer.save_as(folder=analyzer_outpath)
 
-def get_sorter_results(sorter, outpath, params):
+def get_sorter_results(sorter, outpath, params, n_runs):
     all_recordings = sf.load_spikeforest_recordings()
     comps, run_times = pd.DataFrame(columns=(['Dataset'] + ['Recording'] + columns)), pd.DataFrame(columns=['Dataset', 'Recording', 'Run Time'])
     for R in all_recordings:
         if (R.study_set_name not in datasets):
             print('Skipping...')
             continue
-        sorting_true = R.get_sorting_true_extractor()
+        perfs, runtimes = [], []
+        for i in range(n_runs):
+            out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
+            if sorter == 'neurozip_kilosort':
+                out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}'
+            sorting_outpath = out_path
+            #analyzer_outpath =  f'{out_path}/analysis'
 
-        out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
-        if sorter == 'neurozip_kilosort':
-            out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
-        sorting_outpath = out_path
-        #analyzer_outpath =  f'{out_path}/analysis'
+            if os.path.exists(sorting_outpath) and os.listdir(sorting_outpath) == (n_runs * 2):
+                try:
+                    sorting = se.read_npz_sorting(f'{out_path}/Run_{i}.npz')
+                    run_time = read_runtime_from_file(f'{sorting_outpath}/Run_{i}_run_time.txt')
+                except Exception:
+                    print(f'Failed collecting spike sorting results {R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}')
 
-        if os.path.exists(f'{sorting_outpath}/sorter_output'):
-            try:
-                sorting = se.read_phy(f'{sorting_outpath}/sorter_output')
-                run_time = read_runtime_from_file(f'{sorting_outpath}/run_time.txt')
-            except Exception:
-                print(f'Failed collecting spike sorting results {R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}')
+            # if os.path.exists(analyzer_outpath):
+                #analyzer = si.load_sorting_analyzer(folder=analyzer_outpath)
 
-        # if os.path.exists(analyzer_outpath):
-            #analyzer = si.load_sorting_analyzer(folder=analyzer_outpath)
+            #plot_templates(analyzer, f'{fig_outpath}/templates.png')
 
-        #plot_templates(analyzer, f'{fig_outpath}/templates.png')
+            #w1 = sw.plot_quality_metrics(analyzer, backend='matplotlib')
+            #w2 = sw.plot_sorting_summary(analyzer, backend="sortingview")
+            #w1.figure.savefig(f'{fig_outpath}/quality_metrics.png') TODO why does this look so bad
+            #w2.figure.savefig(f'{fig_outpath}/sorting_summary.png') TODO FIGURE OUT HOW TO SAVE THIS/is it different from phy?
+            comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=R.get_sorting_true_extractor(), tested_sorting=sorting)
 
-        #w1 = sw.plot_quality_metrics(analyzer, backend='matplotlib')
-        #w2 = sw.plot_sorting_summary(analyzer, backend="sortingview")
-        #w1.figure.savefig(f'{fig_outpath}/quality_metrics.png') TODO why does this look so bad
-        #w2.figure.savefig(f'{fig_outpath}/sorting_summary.png') TODO FIGURE OUT HOW TO SAVE THIS/is it different from phy?
-        comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=sorting_true, tested_sorting=sorting)
-
-        perf = comp_gt.get_performance(method='pooled_with_average')
-        perf.columns = columns
+            perf = comp_gt.get_performance(method='pooled_with_average')
+            perf.columns = columns
+            perfs.append(perf)
+            runtimes.append(run_time)
+        perf = sum(perfs) / len(perfs)
+        run_time = sum(runtimes) / len(runtimes)
         comps.loc[len(comps)] = [R.study_name, R.recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
         run_times.loc[len(run_times)] = [R.study_name, R.recording_name, run_time]
     return comps, run_times

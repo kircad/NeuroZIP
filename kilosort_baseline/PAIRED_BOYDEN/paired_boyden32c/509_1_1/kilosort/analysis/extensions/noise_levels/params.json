@@ -1,5 +1,0 @@
-{
-    "num_chunks_per_segment": 20,
-    "chunk_size": 10000,
-    "seed": null
-}

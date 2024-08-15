@@ -1,5 +1,0 @@
-{
-    "class": "spikeinterface.postprocessing.spike_amplitudes.ComputeSpikeAmplitudes",
-    "module": "spikeinterface",
-    "version": "0.101.0"
-}
