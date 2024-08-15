@@ -1,7 +1,7 @@
 function rez = compressData(ops, preprocRez)
     rng('default');
     rng(1);
-    
+    fprintf('GOT HERE')
     %figure out batch size according to size of file+memory allocated
     %(Pachitariu code)
     NT  	= ops.NT;
@@ -18,12 +18,12 @@ function rez = compressData(ops, preprocRez)
         memallocated = ops.ForceMaxRAMforDat;
     end
     nint16s      = memallocated/2;
-    NTbuff      = preprocRez.NTbuff;
+    %NTbuff      = preprocRez.NTbuff;
     Nbatch      = preprocRez.Nbatch;
     Nbatch_buff = preprocRez.Nbatch_buff;
     batchstart = 0:NT:NT*Nbatch;
     ops.Nbatch = Nbatch;
-    ops.NTbuff = NTbuff;
+    %ops.NTbuff = NTbuff;
     fprintf("Beginning %s sampling...\n", ops.batchSetting)
     switch ops.batchSetting 
         case 'numSpikes'

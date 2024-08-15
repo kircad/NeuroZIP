@@ -6,5 +6,8 @@
 *.npy
 *.phy
 *.git
+*.png
+*.docx
+/kilosort_baseline/
 /env/
 /.phy/

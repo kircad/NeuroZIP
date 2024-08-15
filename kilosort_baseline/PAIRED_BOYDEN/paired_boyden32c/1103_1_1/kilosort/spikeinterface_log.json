@@ -1,15 +1,15 @@
 {
     "sorter_name": "kilosort",
     "sorter_version": "git-301162029b5a",
-    "datetime": "2024-08-08T03:28:13.228370",
+    "datetime": "2024-08-15T08:39:59.380073",
     "runtime_trace": [
         "",
-        "(env) C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP>C:",
+        "C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP>C:",
         "",
-        "(env) C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP>cd C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\test\\PAIRED_BOYDEN\\paired_boyden32c\\1103_1_1\\kilosort\\sorter_output",
+        "C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP>cd C:\\Users\\kirca_t5ih59c\\Desktop\\tmp\\sorter_output",
         "",
-        "(env) C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\test\\PAIRED_BOYDEN\\paired_boyden32c\\1103_1_1\\kilosort\\sorter_output>matlab -nosplash -wait -r \"kilosort_master('C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\test\\PAIRED_BOYDEN\\paired_boyden32c\\1103_1_1\\kilosort\\sorter_output', 'C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\KiloSort')\""
+        "C:\\Users\\kirca_t5ih59c\\Desktop\\tmp\\sorter_output>matlab -nosplash -wait -r \"kilosort_master('C:\\Users\\kirca_t5ih59c\\Desktop\\tmp\\sorter_output', 'C:\\Users\\kirca_t5ih59c\\Desktop\\NeuroZIP\\KiloSort')\""
     ],
     "error": false,
-    "run_time": 61.218396299984306
+    "run_time": 52.60424110000167
 }

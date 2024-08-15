@@ -1,16 +1,16 @@
 useGPU = 1; % do you have a GPU? Kilosorting 1000sec of 32chan simulated data takes 55 seconds on gtx 1080 + M2 SSD.
 
-fpath    = 'C:\Users\kirca\Desktop\kilosortData\test\'; % where on disk do you want the simulation? ideally and SSD...
+fpath    = "C:\Users\kirca_t5ih59c\Desktop\test"; % where on disk do you want the simulation? ideally and SSD...
 %fpath    = 'C/Users/kirca/Desktop'; % where on disk do you want the simulation? ideally and SSD...
 if ~exist(fpath, 'dir'); mkdir(fpath); end
 
 % This part adds paths
-addpath(genpath('C:\Users\kirca\Desktop\Kilosort1Edited')) % path to kilosort folder
-addpath(genpath('C:\Users\kirca\Desktop\Kilosort1Edited\npy-matlab')) % path to npy-matlab scripts
-pathToYourConfigFile = 'C:\Users\kirca\Desktop\Kilosort1Edited\eMouse'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
+addpath(genpath("C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\neurozip-kilosort\edited_kilosort")) % path to kilosort folder
+addpath(genpath('C:\Users\kirca_t5ih59c\Desktop\Kilosort1Edited\npy-matlab')) % path to npy-matlab scripts
+pathToYourConfigFile = "C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\neurozip-kilosort\edited_kilosort\configFiles"; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
 
 % Run the configuration file, it builds the structure of options (ops)
-run(fullfile(pathToYourConfigFile, 'config_eMouse.m'))
+run(fullfile(pathToYourConfigFile, 'long_eMouse.m'))
 
 % This part makes the channel map for this simulation
 make_eMouseChannelMap(fpath); 

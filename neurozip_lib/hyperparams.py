@@ -5,6 +5,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np 
 from neurozip_lib.utils import *
+from neurozip_lib.globals import *
 
 import spikeforest as sf
 import spikeinterface as si  # import core only
@@ -65,14 +66,13 @@ def make_heatmap(data, opt_param, recording, outpath):
     plt.tight_layout()
     plt.savefig(f'{outpath}/{recording}_heatmaps_grid.png')
 
+# TODO REFACTOR
 def hyperparameter_sweep(recordings, outpaths): # TODO PARALLELIZE
     # TODO JUST SAVE PANDAS DATAFRAME IN ADDITION TO SORTINGS, GIVE OPTION TO JUST LOAD THAT
     Wr = 0.7
     Wa = 0.3
     outpath = outpaths['neurozip_kilosort']
     ks_outpath = outpaths['kilosort']
-    base_batch_size = 16 * 1024
-    buffer_size = 64
     batch_size_multipliers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     spacings = [1, 2, 3, 4, 5,6 ,7 , 8, 9, 10] # replace with batch factor for random
     hyperparam_columns = ['Dataset', 'Spacing', 'Batch Size Multiplier', 'Relative Accuracy', 'Relative Runtime', 'Composite Score'] # TODO NORMALIZE COMPOSITE SCORE?

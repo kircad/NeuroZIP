@@ -8,9 +8,9 @@ from neurozip_lib.utils import *
 from neurozip_lib.globals import *
 
 import spikeforest as sf
-import spikeinterface as si  # import core only
+#import spikeinterface as si  # import core only
 import spikeinterface.extractors as se
-import spikeinterface.preprocessing as spre
+#import spikeinterface.preprocessing as spre
 import spikeinterface.sorters as ss
 import spikeinterface.comparison as sc
 
@@ -28,77 +28,79 @@ def plot_templates(analyzer, save_path):
     ax.legend()
     plt.savefig(save_path)
 
-def compile_study_info(combined_comps, run_times, savepath): #  TODO FIX SCHEME OF GETTING DATA FROM COMBINED_COMPS, RUN_TIMES, SHOULD BE A LOT EASIER NOW
-    # Create subplots
-    metrics = combined_comps[list(combined_comps.keys())[0]].columns
-    num_metrics = len(metrics)
-    fig, axes = plt.subplots(1, num_metrics + 1, figsize=(6 * num_metrics, 6))
-    if num_metrics == 1:
-        axes = [axes]  # Ensure axes is always a list
-    
-    # Define color palette
-    palette = sns.color_palette("husl", len(combined_comps['kilosort'].index))
-    color_dict = {name: color for name, color in zip(combined_comps['kilosort'].index, palette)}
-    
-    legend_handles = []
-    legend_labels = []
-    
-    for k in range(len(combined_comps)):
-        sorter = list(combined_comps.keys())[k]
-        comps = combined_comps[sorter]
-        
-        # Plot each metric individually
-        for i, metric in enumerate(metrics):
-            ax = axes[i]
-            
-            # Create box plot
-            sns.boxplot(x=k, y=comps[metric], ax=ax, color='lightgray', fliersize=0)
-            
-            # Overlay individual data points with colors
-            for _, recording in enumerate(comps.index):
-                y = comps.loc[recording, metric]
-                x = np.random.normal(k, 0.05)
-                scatter = ax.plot(x, y, 'o', color=color_dict[recording], markersize=8, alpha=0.7)[0]
+def compile_study_info(full_comps, run_times, savepath):
+    unique_cols = full_comps['kilosort'][full_comps['kilosort'].columns[0]].unique()
+    for j in range(len(unique_cols) + 1):
+        legend_handles = []
+        legend_labels = []
+
+        if j == len(unique_cols):
+            dataset = 'AVERAGE'
+        else:
+            dataset = unique_cols[j]
+            palette = sns.color_palette("husl", len(full_comps['kilosort'].loc[full_comps['kilosort']['Dataset'] == dataset]))
+            color_dict = {name: color for name, color in zip(full_comps['kilosort'].loc[full_comps['kilosort']['Dataset'] == dataset]['Recording'], palette)}
+        fig, axes = plt.subplots(1, len(columns) + 1, figsize=(6 * len(columns), 6))
+        for k in range(len(full_comps.keys())):
+            sorter = list(full_comps.keys())[k]
+            if j == len(unique_cols):
+                comps = full_comps[sorter].groupby('Dataset')[columns].mean().reset_index().rename(columns={'Dataset' : 'Recording'})
+                runtimes = run_times[sorter].groupby('Dataset')["Run Time"].mean().reset_index().rename(columns={'Dataset' : 'Recording'})
+                palette = sns.color_palette("husl", len(comps))
+                color_dict = {name: color for name, color in zip(comps['Recording'], palette)}
+            else:
+                comps = full_comps[sorter].loc[full_comps[sorter]['Dataset'] == dataset]
+                runtimes = run_times[sorter].loc[run_times[sorter]['Dataset'] == dataset]
+            # Plot each metric individually
+            for i, metric in enumerate(columns):
+                ax = axes[i]
                 
-                if i == 0 and k == 0 and recording not in legend_labels:
-                    legend_handles.append(scatter)
-                    legend_labels.append(recording)
-            
-            # Customize plot
-            ax.set_title(metric, fontsize=14)
+                sns.boxplot(x=k, y=comps[metric], ax=ax, color='lightgray', fliersize=0)
+                
+                # Overlay individual data points with colors
+
+                for recording in comps['Recording']:
+                    y = comps.loc[comps['Recording'] == recording][metric].iloc[0]
+                    x = np.random.normal(k, 0.05)
+                    scatter = ax.plot(x, y, 'o', color=color_dict[recording], markersize=8, alpha=0.7)[0]
+                    
+                    if i == 0 and k == 0 and recording not in legend_labels:
+                        legend_handles.append(scatter)
+                        legend_labels.append(recording)
+                
+                ax.set_title(metric, fontsize=14)
+                ax.set_xlabel("Spike Sorting Method")
+                ax.set_ylabel('Value', fontsize=12)
+                ax.tick_params(axis='both', which='major', labelsize=10)
+                ax.set_xticks(range(len(list(full_comps.keys()))))
+                ax.set_xticklabels(list(full_comps.keys()), rotation=45, ha='right')
+        
+            #  plot runtimes
+            ax = axes[-1]
+            sns.boxplot(x=k, y=runtimes['Run Time'], ax=ax, color='lightgray', fliersize=0)
+            for _, recording in enumerate(runtimes['Recording']):
+                    y = runtimes.loc[comps['Recording'] == recording]['Run Time'].iloc[0]
+                    x = np.random.normal(k, 0.05)
+                    scatter = ax.plot(x, y, 'o', color=color_dict[recording], markersize=8, alpha=0.7)[0]
+            ax.set_title('Runtime', fontsize=14)
             ax.set_xlabel("Spike Sorting Method")
-            ax.set_ylabel('Value', fontsize=12)
+            ax.set_ylabel('Time(s)', fontsize=12)
             ax.tick_params(axis='both', which='major', labelsize=10)
-            ax.set_xticks(range(len(list(combined_comps.keys()))))
-            ax.set_xticklabels(list(combined_comps.keys()), rotation=45, ha='right')
-    
-        #  plot runtimes
-        ax = axes[-1]
-        run_times = pd.DataFrame(run_times)
-        sns.boxplot(x=k, y=run_times[sorter], ax=ax, color='lightgray', fliersize=0)
-        for _, recording in enumerate(run_times.index):
-                y = run_times.loc[recording, sorter]
-                x = np.random.normal(k, 0.05)
-                scatter = ax.plot(x, y, 'o', color=color_dict[recording], markersize=8, alpha=0.7)[0]
-        ax.set_title('Runtime', fontsize=14)
-        ax.set_xlabel("Spike Sorting Method")
-        ax.set_ylabel('Time(s)', fontsize=12)
-        ax.tick_params(axis='both', which='major', labelsize=10)
-        ax.set_xticks(range(len(list(combined_comps.keys()))))
-        ax.set_xticklabels(list(combined_comps.keys()), rotation=45, ha='right')
-    
-    fig.legend(legend_handles, legend_labels, title='Recordings',
-               loc='center left', bbox_to_anchor=(1, 0.5))
-    
-    # Adjust layout
-    plt.subplots_adjust(right=0.85)  # Make room for the legend
-    plt.tight_layout()
-    
-    # Save and show plot
-    plt.savefig(savepath, bbox_inches='tight')
+            ax.set_xticks(range(len(list(full_comps.keys()))))
+            ax.set_xticklabels(list(full_comps.keys()), rotation=45, ha='right')
+        
+            fig.legend(legend_handles, legend_labels, title='Recordings', loc='center left', bbox_to_anchor=(1, 0.5))
+                
+        plt.subplots_adjust(right=0.85)  # Make room for the legend
+        plt.tight_layout()
+        
+        plt.savefig(f'{savepath}/{dataset}_pairwise.png', bbox_inches='tight')
+
+    for i in full_comps.keys():
+        full_comps[i].to_excel(f'{savepath}/{i}_comps.xlsx', sheet_name='RESULTS', index=False, header=True)
 
 def run_sorter_helper(sorter, outpath, params, overwrite):  # runs sorter on all spikeforest datasets and saves the full sorting to basepath, overwriting if specified to and file already exists
-    # TODO PARALLELIZE!
+    # TODO PARALLELIZE! RUN N_RUNS TIMES FOR EACH RECORDING
     all_recordings = sf.load_spikeforest_recordings()
     for R in all_recordings:
         if (R.study_set_name not in datasets):
@@ -108,7 +110,7 @@ def run_sorter_helper(sorter, outpath, params, overwrite):  # runs sorter on all
         recording = R.get_recording_extractor()
         out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
         if params:
-            out_path = f'{outpath}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
+            out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
         #analyzer_outpath =  f'{out_path}/analysis'
         if overwrite and os.path.exists(f'{out_path}/sorter_output'):
             shutil.rmtree(out_path)
@@ -116,13 +118,23 @@ def run_sorter_helper(sorter, outpath, params, overwrite):  # runs sorter on all
         if not os.path.exists(out_path):
             try:
                 if (params):
-                    run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=out_path, NT=params['batch_size'], spacing=params['spacing']) # TODO HAVE SOMETHING FOR NEUROZIP PARAMS
+                    if tmp_path:
+                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=tmp_path, NT=params['batch_size'], spacing=params['spacing'])
+                        shutil.copytree(tmp_path, out_path) # TODO INFINITE LOOP IN PREPROCESSING LOOP - WHY???
+                        shutil.rmtree(tmp_path)
+                    else:
+                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=out_path, NT=params['batch_size'], spacing=params['spacing'])
                 else:
-                    run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=out_path)
+                    if tmp_path:
+                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=tmp_path)
+                        shutil.copytree(tmp_path, out_path)
+                        shutil.rmtree(tmp_path)
+                    else:
+                        run_time, sorting = ss.run_sorter(sorter_name=sorter, recording=recording, folder=out_path)
                 se.NpzSortingExtractor.write_sorting(sorting, out_path)
                 write_runtime_to_file(run_time, f'{out_path}/run_time.txt')
-            except Exception:
-                print(f'Failed sorting {R.study_set_name}/{R.study_name}/{R.recording_name}')
+            except Exception as e:
+                print(f'Failed sorting {R.study_set_name}/{R.study_name}/{R.recording_name} - {e}')
                 continue
 
         # if os.path.exists(analyzer_outpath):
@@ -151,7 +163,7 @@ def get_sorter_results(sorter, outpath, params):
 
         out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
         if sorter == 'neurozip_kilosort':
-            out_path = f'{out_path}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
+            out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
         sorting_outpath = out_path
         #analyzer_outpath =  f'{out_path}/analysis'
 

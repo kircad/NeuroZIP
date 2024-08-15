@@ -43,5 +43,4 @@ kcoords = [NaN NaN 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 
 % would be good to also save the sampling frequency here
 fs = 25000; 
-fpath = 'C:\Users\kirca\Desktop\NeuroZIP\testing';
 save(fullfile(fpath, 'chanMap.mat'), 'chanMap', 'connected', 'xcoords', 'ycoords', 'kcoords', 'fs')

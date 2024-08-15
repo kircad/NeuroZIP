@@ -2,13 +2,12 @@ useGPU = 1; % do you have a GPU? Kilosorting 1000sec of 32chan simulated data ta
 
 %fpath    = 'D:\ksdata\';
 %fpath = 'Z:\Brendon\SortingLongRecordings\LezioVolesACB10_J17\Vole_J17';
-fpath = 'C:\Users\kirca\Desktop\NeuroZIP';
+fpath = 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP';
 
-pathToYourConfigFile = 'C:\Users\kirca\Desktop\NeuroZIP\testing\config'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
+pathToYourConfigFile = 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\neurozip-kilosort\edited_kilosort\configFiles'; % for this example it's ok to leave this path inside the repo, but for your own config file you *must* put it somewhere else!  
 
 % Run the configuration file, it builds the structure of options (ops)
-run(fullfile(pathToYourConfigFile, 'config_Lezio.m'))
-run(fullfile(pathToYourConfigFile, 'sampleConfig.m'))
+run(fullfile(pathToYourConfigFile, 'idk.m'))
 outpath = fullfile(fpath, 'results');
  
 

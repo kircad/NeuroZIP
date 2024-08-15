@@ -1,6 +1,6 @@
-from neurozip_lib.utils import *
 from neurozip_lib.globals import *
-from neurozip_lib.pairwise_comp import *
+from neurozip_lib.pairwise_comp import run_sorter_helper, get_sorter_results, compile_study_info
+from neurozip_lib.hyperparams import hyperparameter_sweep
 
 import spikeinterface.sorters as ss
 
@@ -9,13 +9,13 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
     ss.NeuroZIP_KilosortSorter.set_nzkilosort_path('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/neurozip-kilosort')
     calc_sortings = True
     full_comps, full_runtimes = {}, {}
-    # params = {'kilosort' : {} , 'neurozip_kilosort' : {'spacing' : 5, 'batch_size' : 2}}
-    # overwrite = {'kilosort': False, 'neurozip_kilosort': False}
-    # basepaths = {'kilosort': 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/kilosort_baseline', 'neurozip_kilosort': 'D:/test'}
-    params = {'kilosort' : {}}
-    overwrite = {'kilosort': False}
-    basepaths = {'kilosort': 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/kilosort_baseline'}
-    analysis_path = 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP'
+    params = {'kilosort' : {} , 'neurozip_kilosort' : {'spacing' : 5, 'batch_size' : (base_batch_size * 5) + buffer_size}}
+    overwrite = {'kilosort': False, 'neurozip_kilosort': False}
+    basepaths = {'kilosort': 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/kilosort_baseline', 'neurozip_kilosort': 'D:/test'}
+    # params = {'kilosort' : {}}
+    # overwrite = {'kilosort': False}
+    # basepaths = {'kilosort': 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/kilosort_baseline'}
+    analysis_path = 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/spikeforest_results'
     for i in params.keys():
         if (calc_sortings):
             run_sorter_helper(i, basepaths[i], params[i], overwrite[i])

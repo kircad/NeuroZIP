@@ -1,6 +1,6 @@
 
-(env) C:\Users\kirca_t5ih59c\Desktop\NeuroZIP>C:
+C:\Users\kirca_t5ih59c\Desktop\NeuroZIP>C:
 
-(env) C:\Users\kirca_t5ih59c\Desktop\NeuroZIP>cd C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\test\PAIRED_BOYDEN\paired_boyden32c\1103_1_1\kilosort\sorter_output 
+C:\Users\kirca_t5ih59c\Desktop\NeuroZIP>cd C:\Users\kirca_t5ih59c\Desktop\tmp\sorter_output 
 
-(env) C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\test\PAIRED_BOYDEN\paired_boyden32c\1103_1_1\kilosort\sorter_output>matlab -nosplash -wait -r "kilosort_master('C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\test\PAIRED_BOYDEN\paired_boyden32c\1103_1_1\kilosort\sorter_output', 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\KiloSort')" 
+C:\Users\kirca_t5ih59c\Desktop\tmp\sorter_output>matlab -nosplash -wait -r "kilosort_master('C:\Users\kirca_t5ih59c\Desktop\tmp\sorter_output', 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\KiloSort')" 
