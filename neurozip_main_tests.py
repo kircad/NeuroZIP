@@ -25,7 +25,7 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
     for i in params.keys():
         if (calc_sortings):
             run_sorter_helper(i, basepaths[i], params[i], overwrite[i], n_runs)
-        full_comps[i], full_runtimes[i] = get_sorter_results(i, basepaths[i], params[i], n_runs) # TODO MAKE WORK WITH PARALLEL
+        full_comps[i], full_runtimes[i] = get_sorter_results(i, basepaths[i], params[i], n_runs)
     compile_study_info(full_comps, full_runtimes, analysis_path)
     print('done!')
 
