@@ -6,6 +6,7 @@ import seaborn as sns
 import numpy as np 
 from neurozip_lib.utils import *
 from neurozip_lib.globals import *
+from neurozip_lib.compress import *
 
 import spikeforest as sf
 #import spikeinterface as si  # import core only
@@ -117,22 +118,18 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
                 job_list = []
                 if params:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}', 'NT':params['batch_size'], 'spacing':params['spacing']})
+                        job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}', 'batchesToUse':get_batches(R.get_recording_extractor(), params)})
                 else:
                     for i in range(n_runs):
                         job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}'})
-                results = ss.run_sorter_jobs(job_list=job_list, engine='joblib', engine_kwargs={'n_jobs': len(job_list)}, return_output=True)
-                for rez, job, counter in zip(results, job_list, range(len(job_list))):
+                minijobs = [job_list[i:min(i+max_concurrent_jobs, len(job_list))] for i in range(0, len(job_list), max_concurrent_jobs)] # TODO CHECK THIS
+                for batch in minijobs:
+                    results = ss.run_sorter_jobs(job_list=batch, 
+                    engine='joblib', engine_kwargs={'n_jobs': len(batch)}, return_output=True)
+                
+                for rez, job, counter in zip(results, job_list, len(job_list)):
                     run_time, sorting = rez[0], rez[1]
                     shutil.rmtree(job['folder'])
-                    # for filename in os.listdir(tmp_out):
-                    #     file_path = os.path.join(tmp_out, filename)
-                    #     if os.path.isfile(file_path):
-                    #         os.remove(file_path)
-                    #     elif os.path.isdir(file_path):
-                    #         shutil.rmtree(file_path)
-                    #     if not os.path.exists(out_path):
-                    #         os.makedirs(out_path)
                     if not os.path.exists(out_path):
                         os.makedirs(out_path)
                     se.NpzSortingExtractor.write_sorting(sorting, f'{out_path}/Run_{counter}.npz')
@@ -172,7 +169,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             sorting_outpath = out_path
             #analyzer_outpath =  f'{out_path}/analysis'
 
-            if os.path.exists(sorting_outpath) and os.listdir(sorting_outpath) == (n_runs * 2):
+            if os.path.exists(sorting_outpath) and len(os.listdir(sorting_outpath)) == (n_runs * 2):
                 try:
                     sorting = se.read_npz_sorting(f'{out_path}/Run_{i}.npz')
                     run_time = read_runtime_from_file(f'{sorting_outpath}/Run_{i}_run_time.txt')
@@ -188,7 +185,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             #w2 = sw.plot_sorting_summary(analyzer, backend="sortingview")
             #w1.figure.savefig(f'{fig_outpath}/quality_metrics.png') TODO why does this look so bad
             #w2.figure.savefig(f'{fig_outpath}/sorting_summary.png') TODO FIGURE OUT HOW TO SAVE THIS/is it different from phy?
-            comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=R.get_sorting_true_extractor(), tested_sorting=sorting)
+            comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=R.get_sorting_true_extractor(), tested_sorting=sorting) # TODO SAVE GET_SORTING_TRUE_EXTRACTOR FOLDER TO PERMANENT LOCATION IN DISK!!!
 
             perf = comp_gt.get_performance(method='pooled_with_average')
             perf.columns = columns

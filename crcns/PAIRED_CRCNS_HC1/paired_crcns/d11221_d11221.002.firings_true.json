@@ -1,0 +1,5 @@
+{
+    "firings": "sha1://b878bf038592a19a8c6766bf8b47aae789621802?label=firings_true.mda",
+    "samplerate": 20000.0,
+    "self_reference": "sha1://27fb6e6bddd425507c8f73fe02ca48d5c56ab313?label=PAIRED_CRCNS_HC1/paired_crcns/d11221_d11221.002.firings_true.json"
+}

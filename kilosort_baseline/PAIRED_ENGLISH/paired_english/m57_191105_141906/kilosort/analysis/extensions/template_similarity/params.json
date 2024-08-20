@@ -1,5 +1,0 @@
-{
-    "method": "cosine",
-    "max_lag_ms": 0,
-    "support": "union"
-}

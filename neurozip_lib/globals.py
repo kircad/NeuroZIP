@@ -24,3 +24,4 @@ tmp_path = 'C:/Users/kirca_t5ih59c/Desktop/tmp'
 
 base_batch_size = 16 * 1024
 buffer_size = 64
+max_concurrent_jobs = 4

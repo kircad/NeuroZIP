@@ -1,5 +1,0 @@
-{
-    "class": "spikeinterface.postprocessing.template_similarity.ComputeTemplateSimilarity",
-    "module": "spikeinterface",
-    "version": "0.101.0"
-}
