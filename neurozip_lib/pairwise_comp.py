@@ -96,24 +96,24 @@ def compile_study_info(full_comps, run_times, savepath):
         plt.subplots_adjust(right=0.85)  # Make room for the legend
         plt.tight_layout()
         
-        plt.savefig(f'{savepath}/{dataset}_pairwise.png', bbox_inches='tight')
+        plt.savefig(f"{savepath}/{dataset}_pairwise.png", bbox_inches='tight')
 
     for i in full_comps.keys():
-        full_comps[i].to_excel(f'{savepath}/{i}_comps.xlsx', sheet_name='RESULTS', index=False, header=True)
+        full_comps[i].to_excel(f"{savepath}/{i}_comps.xlsx", sheet_name='RESULTS', index=False, header=True)
 
 def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorter on all spikeforest datasets and saves the full sorting to basepath, overwriting if specified to and file already exists
     if not use_downloaded:
         all_recs = sf.load_spikeforest_recordings()
     else:
-        with open(f'{local_recordings}/master.json', 'r') as file:
+        with open(f"{local_recordings}/master.json", 'r') as file:
             all_recs = json.load(file)
     for R in all_recs:
         if use_downloaded:
             study_set_name = R['study_set_name']
             study_name = R['study_name']
             recording_name = R['recording_name']
-            path = f'{local_recordings}/{R['study_name']}/{R['recording_name']}/'
-            recording = se.BinaryFolderRecording.load_from_folder(f'{path}recording')
+            path = f"{local_recordings}/{R['study_name']}/{R['recording_name']}/"
+            recording = se.BinaryFolderRecording.load_from_folder(f"{path}recording")
         else:
             study_set_name = R.study_set_name
             study_name = R.study_name
@@ -122,23 +122,23 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
         if (study_set_name not in datasets):
             print('Skipping...')
             continue
-        print(f'{sorter} -- {study_set_name}/{study_name}/{recording_name}')
-        out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/{sorter}'
+        print(f"{sorter} -- {study_set_name}/{study_name}/{recording_name}")
+        out_path = f"{outpath}/{study_set_name}/{study_name}/{recording_name}/{sorter}"
         if params:
-            out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
-        #analyzer_outpath =  f'{out_path}/analysis'
-        if overwrite and os.path.exists(f'{out_path}/sorter_output'):
+            out_path = f"{outpath}/{study_set_name}/{study_name}/{recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/"
+        #analyzer_outpath =  f"{out_path}/analysis"
+        if overwrite and os.path.exists(f"{out_path}/sorter_output"):
             shutil.rmtree(out_path)
-            print(f'Overwriting files at {out_path}')
+            print(f"Overwriting files at {out_path}")
         if not os.path.exists(out_path):
             try:
                 job_list = []
                 if params:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f'{tmp_path}/{i}', 'batchesToUse':get_batches(recording, params)})
+                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}", 'batchesToUse':get_batches(recording, params)})
                 else:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f'{tmp_path}/{i}'})
+                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}"})
                 minijobs = [job_list[i:min(i+max_concurrent_jobs, len(job_list))] for i in range(0, len(job_list), max_concurrent_jobs)] # TODO CHECK THIS
                 results = []
                 for batch in minijobs:
@@ -150,11 +150,11 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
                     shutil.rmtree(job['folder'])
                     if not os.path.exists(out_path):
                         os.makedirs(out_path)
-                    se.NpzSortingExtractor.write_sorting(sorting, f'{out_path}/Run_{counter}.npz')
-                    write_runtime_to_file(run_time, f'{out_path}/Run_{counter}_run_time.txt')
+                    se.NpzSortingExtractor.write_sorting(sorting, f"{out_path}/Run_{counter}.npz")
+                    write_runtime_to_file(run_time, f"{out_path}/Run_{counter}_run_time.txt")
 
             except Exception as e:
-                print(f'Failed sorting {study_set_name}/{study_name}/{recording_name} - {e}')
+                print(f"Failed sorting {study_set_name}/{study_name}/{recording_name} - {e}")
                 continue
 
         # if os.path.exists(analyzer_outpath):
@@ -174,7 +174,7 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
 
 def get_sorter_results(sorter, outpath, params, n_runs):
     if use_downloaded:
-        with open(f'{local_recordings}/master.json', 'r') as file:
+        with open(f"{local_recordings}/master.json", 'r') as file:
             all_recordings = json.load(file)
     else:
         all_recordings = sf.load_spikeforest_recordings()
@@ -184,8 +184,8 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             study_set_name = R['study_set_name']
             study_name = R['study_name']
             recording_name = R['recording_name']
-            path = f'{local_recordings}/{R['study_name']}/{R['recording_name']}/'
-            gt_sorting = se.read_npz_sorting(f'{path}sorting_true.npz')
+            path = f"{local_recordings}/{R['study_name']}/{R['recording_name']}/"
+            gt_sorting = se.read_npz_sorting(f"{path}sorting_true.npz")
         else:
             study_set_name = R.study_set_name
             study_name = R.study_name
@@ -196,28 +196,28 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             continue
         perfs, runtimes = [], []
         for i in range(n_runs):
-            out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/{sorter}'
+            out_path = f"{outpath}/{study_set_name}/{study_name}/{recording_name}/{sorter}"
             if sorter == 'neurozip_kilosort':
-                out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}'
+                out_path = f"{outpath}/{study_set_name}/{study_name}/{recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}"
             sorting_outpath = out_path
-            #analyzer_outpath =  f'{out_path}/analysis'
+            #analyzer_outpath =  f"{out_path}/analysis"
 
             if os.path.exists(sorting_outpath) and len(os.listdir(sorting_outpath)) == (n_runs * 2):
                 try:
-                    sorting = se.read_npz_sorting(f'{out_path}/Run_{i}.npz')
-                    run_time = read_runtime_from_file(f'{sorting_outpath}/Run_{i}_run_time.txt')
+                    sorting = se.read_npz_sorting(f"{out_path}/Run_{i}.npz")
+                    run_time = read_runtime_from_file(f"{sorting_outpath}/Run_{i}_run_time.txt")
                 except Exception:
-                    print(f'Failed collecting spike sorting results {study_set_name}/{study_name}/{recording_name}/{sorter}')
+                    print(f"Failed collecting spike sorting results {study_set_name}/{study_name}/{recording_name}/{sorter}")
 
             # if os.path.exists(analyzer_outpath):
                 #analyzer = si.load_sorting_analyzer(folder=analyzer_outpath)
 
-            #plot_templates(analyzer, f'{fig_outpath}/templates.png')
+            #plot_templates(analyzer, f"{fig_outpath}/templates.png")
 
             #w1 = sw.plot_quality_metrics(analyzer, backend='matplotlib')
             #w2 = sw.plot_sorting_summary(analyzer, backend="sortingview")
-            #w1.figure.savefig(f'{fig_outpath}/quality_metrics.png') TODO why does this look so bad
-            #w2.figure.savefig(f'{fig_outpath}/sorting_summary.png') TODO FIGURE OUT HOW TO SAVE THIS/is it different from phy?
+            #w1.figure.savefig(f"{fig_outpath}/quality_metrics.png") TODO why does this look so bad
+            #w2.figure.savefig(f"{fig_outpath}/sorting_summary.png") TODO FIGURE OUT HOW TO SAVE THIS/is it different from phy?
             comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=gt_sorting, tested_sorting=sorting) # TODO SAVE GET_SORTING_TRUE_EXTRACTOR FOLDER TO PERMANENT LOCATION IN DISK!!!
 
             perf = comp_gt.get_performance(method='pooled_with_average')
@@ -232,7 +232,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
 
     # TODO play around with spikeinterface compare multiple sorters thing
         #w_conf = sw.plot_confusion_matrix(comp_gt)
-        #w_conf.figure.savefig(f'{fig_outpath}/ground_truth_comparison.png') # only useful if we have > 1 unit lol - TODO plot this combining units across recordings?
+        #w_conf.figure.savefig(f"{fig_outpath}/ground_truth_comparison.png") # only useful if we have > 1 unit lol - TODO plot this combining units across recordings?
 
 
 # TODO ADD SOMETHING THAT STOPS WHOLE PIPELINE FROM CRASHING ON FAILED SORTING
