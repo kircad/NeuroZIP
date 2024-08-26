@@ -10,5 +10,6 @@
 *.docx
 /kilosort_baseline/
 /spikeforest_results/
+/local_recordings/
 /env/
 /.phy/

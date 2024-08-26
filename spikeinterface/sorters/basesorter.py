@@ -258,11 +258,12 @@ class BaseSorter:
         t0 = time.perf_counter()
 
         try:
-            run_time = SorterClass._run_from_folder(sorter_output_folder, sorter_params, verbose)
+            max_memory = SorterClass._run_from_folder(sorter_output_folder, sorter_params, verbose)
             t1 = time.perf_counter()
             run_time = float(t1 - t0)
             has_error = False
         except Exception as err:
+            print(err)
             has_error = True
             run_time = None
             log["error"] = True
@@ -301,7 +302,7 @@ class BaseSorter:
                 f"Spike sorting error trace:\n{error_log_to_display}\n"
                 f"Spike sorting failed. You can inspect the runtime trace in {output_folder}/spikeinterface_log.json."
             )
-        return run_time
+        return max_memory, run_time
 
     @classmethod
     def get_result_from_folder(cls, output_folder, register_recording=True, sorting_info=True):

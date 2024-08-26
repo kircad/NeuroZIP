@@ -13,7 +13,7 @@ def main():
     dtype = "int16"
     recording = si.read_binary(file_paths=fpath, sampling_frequency=sampling_frequency,
                             num_channels=num_channels, dtype=dtype)
-    ops = {'method':'linear', 'spacing': 5, 'batch_size': (16 * 1024) + 64}
+    ops = {'method':'dynamic', 'spacing': 5, 'batch_size': (16 * 1024) + 64}
     get_batches(recording, ops)
 
 def get_batches(recording, ops): # assumes input is SpikeInterface Extractor

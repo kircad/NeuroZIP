@@ -1,6 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 import shutil
+import json
 import pandas as pd
 import seaborn as sns
 import numpy as np 
@@ -101,14 +102,30 @@ def compile_study_info(full_comps, run_times, savepath):
         full_comps[i].to_excel(f'{savepath}/{i}_comps.xlsx', sheet_name='RESULTS', index=False, header=True)
 
 def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorter on all spikeforest datasets and saves the full sorting to basepath, overwriting if specified to and file already exists
-    for R in sf.load_spikeforest_recordings():
-        if (R.study_set_name not in datasets):
+    if not use_downloaded:
+        all_recs = sf.load_spikeforest_recordings()
+    else:
+        with open(f'{local_recordings}/master.json', 'r') as file:
+            all_recs = json.load(file)
+    for R in all_recs:
+        if use_downloaded:
+            study_set_name = R['study_set_name']
+            study_name = R['study_name']
+            recording_name = R['recording_name']
+            path = f'{local_recordings}/{R['study_name']}/{R['recording_name']}/'
+            recording = se.BinaryFolderRecording.load_from_folder(f'{path}recording')
+        else:
+            study_set_name = R.study_set_name
+            study_name = R.study_name
+            recording_name = R.recording_name
+            recording = R.get_recording_extractor()
+        if (study_set_name not in datasets):
             print('Skipping...')
             continue
-        print(f'{sorter} -- {R.study_set_name}/{R.study_name}/{R.recording_name}')
-        out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
+        print(f'{sorter} -- {study_set_name}/{study_name}/{recording_name}')
+        out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/{sorter}'
         if params:
-            out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
+            out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}/'
         #analyzer_outpath =  f'{out_path}/analysis'
         if overwrite and os.path.exists(f'{out_path}/sorter_output'):
             shutil.rmtree(out_path)
@@ -118,16 +135,17 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
                 job_list = []
                 if params:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}', 'batchesToUse':get_batches(R.get_recording_extractor(), params)})
+                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f'{tmp_path}/{i}', 'batchesToUse':get_batches(recording, params)})
                 else:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': R.get_recording_extractor(), 'folder':f'{tmp_path}/{i}'})
+                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f'{tmp_path}/{i}'})
                 minijobs = [job_list[i:min(i+max_concurrent_jobs, len(job_list))] for i in range(0, len(job_list), max_concurrent_jobs)] # TODO CHECK THIS
+                results = []
                 for batch in minijobs:
-                    results = ss.run_sorter_jobs(job_list=batch, 
-                    engine='joblib', engine_kwargs={'n_jobs': len(batch)}, return_output=True)
-                
-                for rez, job, counter in zip(results, job_list, len(job_list)):
+                    results.append(ss.run_sorter_jobs(job_list=batch, 
+                    engine='joblib', engine_kwargs={'n_jobs': len(batch)}, return_output=True))
+                results = [item for subarray in results for item in subarray] # TODO CHECK!
+                for rez, job, counter in zip(results, job_list, range(len(job_list))):
                     run_time, sorting = rez[0], rez[1]
                     shutil.rmtree(job['folder'])
                     if not os.path.exists(out_path):
@@ -136,7 +154,7 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
                     write_runtime_to_file(run_time, f'{out_path}/Run_{counter}_run_time.txt')
 
             except Exception as e:
-                print(f'Failed sorting {R.study_set_name}/{R.study_name}/{R.recording_name} - {e}')
+                print(f'Failed sorting {study_set_name}/{study_name}/{recording_name} - {e}')
                 continue
 
         # if os.path.exists(analyzer_outpath):
@@ -155,17 +173,32 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
         #     analyzer.save_as(folder=analyzer_outpath)
 
 def get_sorter_results(sorter, outpath, params, n_runs):
-    all_recordings = sf.load_spikeforest_recordings()
+    if use_downloaded:
+        with open(f'{local_recordings}/master.json', 'r') as file:
+            all_recordings = json.load(file)
+    else:
+        all_recordings = sf.load_spikeforest_recordings()
     comps, run_times = pd.DataFrame(columns=(['Dataset'] + ['Recording'] + columns)), pd.DataFrame(columns=['Dataset', 'Recording', 'Run Time'])
     for R in all_recordings:
-        if (R.study_set_name not in datasets):
+        if use_downloaded:
+            study_set_name = R['study_set_name']
+            study_name = R['study_name']
+            recording_name = R['recording_name']
+            path = f'{local_recordings}/{R['study_name']}/{R['recording_name']}/'
+            gt_sorting = se.read_npz_sorting(f'{path}sorting_true.npz')
+        else:
+            study_set_name = R.study_set_name
+            study_name = R.study_name
+            recording_name = R.recording_name
+            gt_sorting = R.get_sorting_true_extractor()
+        if (study_set_name not in datasets):
             print('Skipping...')
             continue
         perfs, runtimes = [], []
         for i in range(n_runs):
-            out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}'
+            out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/{sorter}'
             if sorter == 'neurozip_kilosort':
-                out_path = f'{outpath}/{R.study_set_name}/{R.study_name}/{R.recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}'
+                out_path = f'{outpath}/{study_set_name}/{study_name}/{recording_name}/mult_{params['batch_size']}/spacing_{params['spacing']}'
             sorting_outpath = out_path
             #analyzer_outpath =  f'{out_path}/analysis'
 
@@ -174,7 +207,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
                     sorting = se.read_npz_sorting(f'{out_path}/Run_{i}.npz')
                     run_time = read_runtime_from_file(f'{sorting_outpath}/Run_{i}_run_time.txt')
                 except Exception:
-                    print(f'Failed collecting spike sorting results {R.study_set_name}/{R.study_name}/{R.recording_name}/{sorter}')
+                    print(f'Failed collecting spike sorting results {study_set_name}/{study_name}/{recording_name}/{sorter}')
 
             # if os.path.exists(analyzer_outpath):
                 #analyzer = si.load_sorting_analyzer(folder=analyzer_outpath)
@@ -185,7 +218,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             #w2 = sw.plot_sorting_summary(analyzer, backend="sortingview")
             #w1.figure.savefig(f'{fig_outpath}/quality_metrics.png') TODO why does this look so bad
             #w2.figure.savefig(f'{fig_outpath}/sorting_summary.png') TODO FIGURE OUT HOW TO SAVE THIS/is it different from phy?
-            comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=R.get_sorting_true_extractor(), tested_sorting=sorting) # TODO SAVE GET_SORTING_TRUE_EXTRACTOR FOLDER TO PERMANENT LOCATION IN DISK!!!
+            comp_gt = sc.compare_sorter_to_ground_truth(gt_sorting=gt_sorting, tested_sorting=sorting) # TODO SAVE GET_SORTING_TRUE_EXTRACTOR FOLDER TO PERMANENT LOCATION IN DISK!!!
 
             perf = comp_gt.get_performance(method='pooled_with_average')
             perf.columns = columns
@@ -193,8 +226,8 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             runtimes.append(run_time)
         perf = sum(perfs) / len(perfs)
         run_time = sum(runtimes) / len(runtimes)
-        comps.loc[len(comps)] = [R.study_name, R.recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
-        run_times.loc[len(run_times)] = [R.study_name, R.recording_name, run_time]
+        comps.loc[len(comps)] = [study_name, recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
+        run_times.loc[len(run_times)] = [study_name, recording_name, run_time]
     return comps, run_times
 
     # TODO play around with spikeinterface compare multiple sorters thing

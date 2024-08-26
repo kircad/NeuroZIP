@@ -7,7 +7,9 @@ import argparse
 import numpy as np
 import kachery_cloud as ka
 import os
+import shutil
 import spikeforest as sf
+import spikeinterface.extractors as se
 from spikeforest.load_extractors.MdaRecordingExtractorV2.MdaRecordingExtractorV2 import readmda
 
 def main():
@@ -26,122 +28,25 @@ def main():
     parser.add_argument('--output_dir', help='The output directory (e.g., recordings)')
     # parser.add_argument('--verbose', action='store_true', help='Turn on verbose output')
 
-    output_dir = 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/crcns'
+    basedir = 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/local_recordings'
     all_recordings = sf.load_spikeforest_recordings()
-
-    basedir = output_dir
     if not os.path.exists(basedir):
         os.mkdir(basedir)
-    studySets = []
-    raw_data_paths = []
+    recordings = []
     for R in all_recordings:
-        studyset_name = R.study_set_name
-        if (studyset_name == 'PAIRED_CRCNS_HC1'):
-            studysetdir_local = os.path.join(basedir, studyset_name)
-            if not os.path.exists(studysetdir_local):
-                os.mkdir(studysetdir_local)
-            study_name = R.study_name
-            print('STUDY: {}/{}'.format(studyset_name, study_name))
-            studydir_local = os.path.join(studysetdir_local, study_name)
-            if not os.path.exists(studydir_local):
-                os.mkdir(studydir_local)
-            recname = R.recording_name
-            recfile = os.path.join(studydir_local, recname + '.json')
-            obj = _json_serialize(R.recording_object)
-            obj['self_reference'] = ka.store_json(obj,
-                                                label='{}/{}/{}.json'.format(studyset_name, study_name,
-                                                                            recname))
-            with open(recfile, 'w') as f:
-                json.dump(obj, f, indent=4)
-            firings_true_file = os.path.join(studydir_local, recname + '.firings_true.json')
-            obj2 = R.sorting_true_object
-            obj2['self_reference'] = ka.store_json(obj2, label='{}/{}/{}.firings_true.json'.format(studyset_name,
-                                                                                                study_name,
-                                                                                                recname))
-            with open(firings_true_file, 'w') as f:
-                json.dump(obj2, f, indent=4)
-            study = {}
-            study['self_reference'] = ka.store_json(study, label='{}.json'.format(study_name))
-            with open(os.path.join(studydir_local, study_name + '.json'), 'w') as f:
-                json.dump(study, f, indent=4)
-            studyset = {}
-            studyset['self_reference'] = ka.store_json(studyset, label='{}.json'.format(studyset_name))
-            with open(os.path.join(studysetdir_local, studyset_name + '.json'), 'w') as f:
-                json.dump(studyset, f, indent=4)
-            print('getting raw data for {}/{}'.format(studyset_name, study_name))
-            rec = R.get_recording_extractor()
-            mda = readmda(rec._kwargs['raw_path'])
-            with open(os.path.join(studydir_local, recname), 'wb') as f:
-                f.write(mda.tobytes())
-            #np.save(os.path.join(studydir_local, recname), mda)
-            raw_data_paths.append(rec._kwargs['raw_path'])
-            studySets.append(studyset)
-            studysets_obj = dict(
-                StudySets=studySets
-            )
-            studysets_path = ka.store_json(studysets_obj, label='studysets.json')
-            with open(os.path.join(basedir, 'studysets'), 'w') as f:
-                f.write(studysets_path)
-
-# def patch_recording_geom(recording, geom_fname):
-#     print(f'PATCHING geom for recording: {recording["name"]}')
-#     geom_info = ka.get_file_info(geom_fname)
-#     x = recording['directory']
-#     y = ka.store_dir(x).replace('sha1dir://', 'sha1://')
-#     obj = ka.load_object(y)
-#     obj['files']['geom.csv'] = dict(
-#         size=geom_info['size'],
-#         sha1=geom_info['sha1']
-#     )
-#     x2 = ka.store_object(obj)
-#     recording['directory'] = 'sha1dir://' + ka.get_file_hash(x2) + '.patched'
-
-
-def _listify_ndarray(x):
-    if x.ndim == 1:
-        if np.issubdtype(x.dtype, np.integer):
-            return [int(val) for val in x]
+        print('STUDY: {}'.format(R.study_name))
+        studydir_local = os.path.join(basedir, R.study_name, R.recording_name)
+        recpath = os.path.join(studydir_local, 'recording')
+        recordings.append({'study_name' : R.study_name, 'study_set_name': R.study_set_name, 'recording_name': R.recording_name})
+        if not os.path.exists(recpath):
+            os.makedirs(recpath)
         else:
-            return [float(val) for val in x]
-    elif x.ndim == 2:
-        ret = []
-        for j in range(x.shape[1]):
-            ret.append(_listify_ndarray(x[:, j]))
-        return ret
-    elif x.ndim == 3:
-        ret = []
-        for j in range(x.shape[2]):
-            ret.append(_listify_ndarray(x[:, :, j]))
-        return ret
-    elif x.ndim == 4:
-        ret = []
-        for j in range(x.shape[3]):
-            ret.append(_listify_ndarray(x[:, :, :, j]))
-        return ret
-    else:
-        raise Exception('Cannot listify ndarray with {} dims.'.format(x.ndim))
-
-
-def _json_serialize(x):
-    if isinstance(x, np.ndarray):
-        return _listify_ndarray(x)
-    elif isinstance(x, np.integer):
-        return int(x)
-    elif isinstance(x, np.floating):
-        return float(x)
-    elif type(x) == dict:
-        ret = dict()
-        for key, val in x.items():
-            ret[key] = _json_serialize(val)
-        return ret
-    elif type(x) == list:
-        ret = []
-        for i, val in enumerate(x):
-            ret.append(_json_serialize(val))
-        return ret
-    else:
-        return x
-
+            continue
+        rec = R.get_recording_extractor()
+        rec.save_to_folder(recpath, overwrite=True)
+        se.NpzSortingExtractor.write_sorting(R.get_sorting_true_extractor(), f'{studydir_local}/sorting_true')
+    with open(f'{basedir}/master.json', 'w') as file:
+            json.dump(recordings, file, indent=4)
 
 if __name__ == '__main__':
     main()

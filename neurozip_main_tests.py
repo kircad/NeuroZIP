@@ -12,9 +12,9 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
     ss.KilosortSorter.set_kilosort_path('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/KiloSort')
     ss.NeuroZIP_KilosortSorter.set_nzkilosort_path('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/neurozip-kilosort')
     calc_sortings = True
-    offset_tests = True
+    run_offset_tests = False
     full_comps, full_runtimes = {}, {}
-    params = {'kilosort' : {} , 'neurozip_kilosort' : {'spacing' : 5, 'batch_size' : (base_batch_size * 5) + buffer_size}, 'starting': 0}
+    params = {'kilosort' : {} , 'neurozip_kilosort' : {'method': 'linear', 'spacing' : 5, 'batch_size' : (base_batch_size * 5) + buffer_size}, 'starting': 0}
     overwrite = {'kilosort': False, 'neurozip_kilosort': False}
     basepaths = {'kilosort': 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/kilosort_baseline', 'neurozip_kilosort': 'D:/test'}
     # params = {'kilosort' : {}}
@@ -22,8 +22,8 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
     # basepaths = {'kilosort': 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/kilosort_baseline'}
     analysis_path = 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/spikeforest_results'
     n_runs = 8
-    if offset_tests:
-        offset_tests('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/offset_tests', params, 1)
+    if run_offset_tests:
+        offset_tests('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/offset_tests', params['neurozip_kilosort'], 1)
     if os.path.exists(tmp_path):
         shutil.rmtree(tmp_path)
     for i in params.keys():
