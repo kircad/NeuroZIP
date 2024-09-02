@@ -1,7 +1,7 @@
 import os 
 import shutil
 
-from neurozip_lib.globals import *
+from parse_config import *
 from neurozip_lib.pairwise_comp import run_sorter_helper, get_sorter_results, compile_study_info
 from neurozip_lib.offset_tests import offset_tests
 from neurozip_lib.hyperparams import hyperparameter_sweep

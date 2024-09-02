@@ -8,41 +8,59 @@ def read_config(file_path='config.ini'):
 
 config = read_config()
 
-# Reading string values
-log_level = config['DEFAULT']['LOG_LEVEL']
-db_host = config['DATABASE']['HOST']
+# Paths
+kilosort_path = config['PATHS']['KILOSORT_PATH']
+neuroZIP_path = config['PATHS']['NEUROZIP_PATH']
+analysis_path = config['PATHS']['ANALYSIS_PATH']
+tmp_path = config['PATHS']['TMP_PATH']
+local_recordings = config['PATHS']['LOCAL_RECORDINGS']
 
-# Reading integer values
-db_port = config.getint('DATABASE', 'PORT')
-api_timeout = config.getint('API', 'TIMEOUT')
+# Sorting settings
+calc_sortings = config.getboolean('SORTING', 'CALC_SORTINGS')
+run_offset_tests = config.getboolean('SORTING', 'RUN_OFFSET_TESTS')
+run_hyperparameter_sweep = config.getboolean('SORTING', 'RUN_HYPERPARAMETER_SWEEP')
 
-# Reading boolean values
-debug_mode = config.getboolean('DEFAULT', 'DEBUG')
-enable_caching = config.getboolean('FEATURES', 'ENABLE_CACHING')
+# Kilosort and NeuroZIP settings
+ss.KilosortSorter.set_kilosort_path(kilosort_path)
+ss.NeuroZIP_KilosortSorter.set_nzkilosort_path(neuroZIP_path)
 
-# Reading float values (if you have any)
-# some_float = config.getfloat('SECTION', 'FLOAT_KEY')
+params = {
+    'kilosort': {},
+    'neurozip_kilosort': {
+        'method': config['NEUROZIP_KILOSORT']['METHOD'],
+        'spacing': config.getint('NEUROZIP_KILOSORT', 'SPACING'),
+        'batch_size': (config.getint('BATCH_SETTINGS', 'BASE_BATCH_SIZE') * 5) + config.getint('BATCH_SETTINGS', 'BUFFER_SIZE')
+    }
+}
 
-# Printing some values to verify
-print(f"Log Level: {log_level}")
-print(f"Database: {db_host}:{db_port}")
-print(f"API Timeout: {api_timeout} seconds")
-print(f"Debug Mode: {debug_mode}")
-print(f"Caching Enabled: {enable_caching}")
+overwrite = {
+    'kilosort': config.getboolean('KILOSORT', 'OVERWRITE'),
+    'neurozip_kilosort': config.getboolean('NEUROZIP_KILOSORT', 'OVERWRITE')
+}
 
-# Accessing a value that might not exist (with a fallback)
-fallback_value = config.get('FEATURES', 'UNKNOWN_SETTING', fallback='DefaultValue')
-print(f"Unknown Setting: {fallback_value}")
+basepaths = {
+    'kilosort': config['KILOSORT']['BASE_PATH'],
+    'neurozip_kilosort': config['NEUROZIP_KILOSORT']['BASE_PATH']
+}
 
+# Datasets and extensions
+datasets = config['DATASETS']['NAMES'].split(', ')
+extensions_to_compute = config['EXTENSIONS']['COMPUTE'].split(', ')
 
+extension_params = {
+    "unit_locations": {"method": config['EXTENSION_PARAMS']['UNIT_LOCATIONS_METHOD']},
+    "spike_locations": {"ms_before": config.getfloat('EXTENSION_PARAMS', 'SPIKE_LOCATIONS_MS_BEFORE')},
+    "correlograms": {"bin_ms": config.getfloat('EXTENSION_PARAMS', 'CORRELOGRAMS_BIN_MS')},
+    "template_similarity": {"method": config['EXTENSION_PARAMS']['TEMPLATE_SIMILARITY_METHOD']}
+}
 
-ss.KilosortSorter.set_kilosort_path('/home/kirca/NeuroZIP/KiloSort/')
-ss.NeuroZIP_KilosortSorter.set_nzkilosort_path('/home/kirca/NeuroZIP/neurozip-kilosort')
-calc_sortings = True
-run_offset_tests = False
-run_hyperparameter_sweep = True
-full_comps, full_runtimes, full_comp_variations, full_runtime_variations = {}, {}, {}, {} # TODO MIGHT BE BETTER TO JUST MAKE THIS ONE BIG PD DATAFRAME!
-params = {'kilosort' : {} , 'neurozip_kilosort' : {'method': 'linspace', 'spacing' : 5, 'batch_size' : (base_batch_size * 5) + buffer_size}}
-overwrite = {'kilosort': False, 'neurozip_kilosort': False}
-basepaths = {'kilosort': '/home/kirca/NeuroZIP/kilosort_baseline', 'neurozip_kilosort': '/home/kirca/NeuroZIP/test'}
-analysis_path = '/home/kirca/NeuroZIP/spikeforest_results'
+columns = config['COLUMNS']['NAMES'].split(', ')
+
+# Batch settings
+base_batch_size = config.getint('BATCH_SETTINGS', 'BASE_BATCH_SIZE')
+buffer_size = config.getint('BATCH_SETTINGS', 'BUFFER_SIZE')
+max_concurrent_jobs = config.getint('BATCH_SETTINGS', 'MAX_CONCURRENT_JOBS')
+
+# Miscellaneous
+use_downloaded = config.getboolean('MISC', 'USE_DOWNLOADED')
+n_runs = config.getint('MISC', 'N_RUNS')

@@ -5,9 +5,9 @@ import pandas as pd
 import seaborn as sns
 import numpy as np 
 from neurozip_lib.utils import *
-from neurozip_lib.globals import *
+from parse_config import *
 from neurozip_lib.pairwise_comp import *
-from neurozip_lib.globals import *
+from parse_config import *
 
 import spikeforest as sf
 import spikeinterface as si  # import core only
@@ -20,9 +20,6 @@ import spikeinterface.comparison as sc
 import spikeinterface.exporters as sexp
 import spikeinterface.curation as scur
 import spikeinterface.widgets as sw
-
-from neurozip_lib.pairwise_comp import *
-from neurozip_lib.globals import *
 
 def plot_params(data_full, outpath):
     datasets = data_full['Dataset'].unique()
@@ -90,6 +87,7 @@ def hyperparameter_sweep(outpaths):
             recordings = json.load(file)
     for i in batch_size_multipliers:
         for j in spacings:
+            batch_size = (base_batch_size * i) + buffer_size
             if os.path.exists(tmp_path):
                 shutil.rmtree(tmp_path)
             tmpdata = pd.DataFrame(columns=hyperparam_columns)

@@ -6,7 +6,7 @@ import pandas as pd
 import seaborn as sns
 import numpy as np 
 from neurozip_lib.utils import *
-from neurozip_lib.globals import *
+from parse_config import *
 from neurozip_lib.compress import *
 
 import spikeforest as sf
