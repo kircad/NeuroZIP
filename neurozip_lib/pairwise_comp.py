@@ -135,7 +135,8 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
                 job_list = []
                 if params:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}", 'batchesToUse':get_batches(recording, params)})
+                        #job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}", 'batchesToUse':get_batches(recording, params)})
+                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}", 'spacing':params['spacing'], 'NT':params['batch_size']})
                 else:
                     for i in range(n_runs):
                         job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}"})
@@ -224,7 +225,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             perf.columns = columns
             perfs.append(perf)
             runtimes.append(run_time)
-        perf = sum(perfs) / len(perfs)
+        perf = sum(perfs) / len(perfs) # TODO PLOT DIFFERENCE BETWEEN METRICS ACROSS RUNS HERE!!
         run_time = sum(runtimes) / len(runtimes)
         comps.loc[len(comps)] = [study_name, recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
         run_times.loc[len(run_times)] = [study_name, recording_name, run_time]

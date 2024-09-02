@@ -46,7 +46,9 @@ class NeuroZIP_KilosortSorter(KilosortBase, BaseSorter):
         "wave_length": 61,
         "delete_tmp_files": ("matlab_files",),
         "delete_recording_dat": False,
-        'batchesToUse': None
+        "spacing": None,
+        "batchSetting" : "linspace"
+        #'batchesToUse': None
     }
 
     _params_description = {
@@ -215,6 +217,7 @@ class NeuroZIP_KilosortSorter(KilosortBase, BaseSorter):
             "wave_length"
         ]  # size of the waveform extracted around each detected peak. Be sure to make it odd to make alignment easier.
         
-        ops['batchesToUse'] = params['batchesToUse']
-        
+        #ops['batchesToUse'] = params['batchesToUse']
+        ops['spacing'] = params['spacing']
+        ops["batchSetting"] = params['batchSetting']
         return ops

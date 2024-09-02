@@ -1,7 +1,6 @@
 function rez = compressData(ops, preprocRez)
     rng('default');
     rng(1);
-    fprintf('GOT HERE')
     %figure out batch size according to size of file+memory allocated
     %(Pachitariu code)
     NT  	= ops.NT;
