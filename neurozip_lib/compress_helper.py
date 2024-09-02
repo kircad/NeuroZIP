@@ -1,6 +1,6 @@
 from scipy.sparse.linalg import svds
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score, silhouette_samples
+# from sklearn.cluster import KMeans
+# from sklearn.metrics import silhouette_score, silhouette_samples
 import numpy as np
 
 def compress_data(ops, preprocessed_batches):

@@ -11,5 +11,7 @@
 /kilosort_baseline/
 /spikeforest_results/
 /local_recordings/
+/data/
+/test/
 /env/
 /.phy/

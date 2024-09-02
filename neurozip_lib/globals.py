@@ -20,10 +20,11 @@ extension_params = {
     "template_similarity": {"method": "cosine_similarity"}
 }
 columns = ['Accuracy', 'Precision', 'Recall', 'Miss_Rate', 'False_Discovery_Rate']
-tmp_path = 'C:/Users/kirca_t5ih59c/Desktop/tmp'
+tmp_path = '/home/kirca/tmp'
 
 base_batch_size = 16 * 1024
 buffer_size = 64
-max_concurrent_jobs = 2
-local_recordings = 'C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/local_recordings'
+max_concurrent_jobs = 1 # TODO how much can i increase this? I don't want to crash Scatha...
+local_recordings = '/home/kirca/NeuroZIP/local_recordings/'
 use_downloaded = True
+n_runs = 8

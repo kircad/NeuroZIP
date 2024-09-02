@@ -169,24 +169,7 @@ class KilosortBase:
         sorter_output_folder = sorter_output_folder.absolute()
         max_memory = [0]
 
-        def track_memory_usage(shell_script):
-            while shell_script._process is None:
-                time.sleep(0.1)  # Wait for the process to start
-            
-            p = psutil.Process(shell_script._process.pid)
-            while shell_script._process.poll() is None:
-                try:
-                    memory_info = p.memory_info()
-                    memory_mb = memory_info.rss / 1024 / 1024
-                    max_memory[0] = max(max_memory[0], memory_mb)
-                    if verbose:
-                        print(f"Current memory usage: {memory_mb:.2f} MB")
-                    time.sleep(1)  # Check every second
-                    #print(memory_mb)
-                except psutil.NoSuchProcess:
-                    break
-            print(f"Peak memory usage: {max_memory[0]:.2f} MB")
-
+        
         if cls.check_compiled():
             shell_cmd = f"""
                 #!/bin/bash
@@ -234,15 +217,10 @@ class KilosortBase:
             verbose=verbose,
         )
     
-        memory_thread = threading.Thread(target=track_memory_usage, args=(shell_script,))
-        memory_thread.start()
 
         shell_script.start()
 
         retcode = shell_script.wait()
-
-        memory_thread.join()
-
         if retcode != 0:
             raise Exception(f"{cls.sorter_name} returned a non-zero exit code")
 

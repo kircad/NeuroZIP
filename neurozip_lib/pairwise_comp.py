@@ -10,6 +10,7 @@ from neurozip_lib.globals import *
 from neurozip_lib.compress import *
 
 import spikeforest as sf
+import statistics as stat
 #import spikeinterface as si  # import core only
 import spikeinterface.extractors as se
 #import spikeinterface.preprocessing as spre
@@ -30,7 +31,7 @@ def plot_templates(analyzer, save_path):
     ax.legend()
     plt.savefig(save_path)
 
-def compile_study_info(full_comps, run_times, savepath):
+def compile_study_info(full_comps, run_times, savepath, comp_type):
     unique_cols = full_comps['kilosort'][full_comps['kilosort'].columns[0]].unique()
     for j in range(len(unique_cols) + 1):
         legend_handles = []
@@ -70,9 +71,9 @@ def compile_study_info(full_comps, run_times, savepath):
                         legend_handles.append(scatter)
                         legend_labels.append(recording)
                 
-                ax.set_title(metric, fontsize=14)
+                ax.set_title(f'{metric}_{comp_type}', fontsize=14)
                 ax.set_xlabel("Spike Sorting Method")
-                ax.set_ylabel('Value', fontsize=12)
+                ax.set_ylabel(f'{comp_type}', fontsize=12)
                 ax.tick_params(axis='both', which='major', labelsize=10)
                 ax.set_xticks(range(len(list(full_comps.keys()))))
                 ax.set_xticklabels(list(full_comps.keys()), rotation=45, ha='right')
@@ -84,9 +85,9 @@ def compile_study_info(full_comps, run_times, savepath):
                     y = runtimes.loc[comps['Recording'] == recording]['Run Time'].iloc[0]
                     x = np.random.normal(k, 0.05)
                     scatter = ax.plot(x, y, 'o', color=color_dict[recording], markersize=8, alpha=0.7)[0]
-            ax.set_title('Runtime', fontsize=14)
+            ax.set_title(f'Runtime_{comp_type}', fontsize=14)
             ax.set_xlabel("Spike Sorting Method")
-            ax.set_ylabel('Time(s)', fontsize=12)
+            ax.set_ylabel(f'Time(s) {comp_type}', fontsize=12)
             ax.tick_params(axis='both', which='major', labelsize=10)
             ax.set_xticks(range(len(list(full_comps.keys()))))
             ax.set_xticklabels(list(full_comps.keys()), rotation=45, ha='right')
@@ -96,10 +97,10 @@ def compile_study_info(full_comps, run_times, savepath):
         plt.subplots_adjust(right=0.85)  # Make room for the legend
         plt.tight_layout()
         
-        plt.savefig(f"{savepath}/{dataset}_pairwise.png", bbox_inches='tight')
+        plt.savefig(f"{savepath}/{dataset}_{comp_type}_pairwise.png", bbox_inches='tight')
 
     for i in full_comps.keys():
-        full_comps[i].to_excel(f"{savepath}/{i}_comps.xlsx", sheet_name='RESULTS', index=False, header=True)
+        full_comps[i].to_excel(f"{savepath}/{i}_{comp_type}_comps.xlsx", sheet_name='RESULTS', index=False, header=True)
 
 def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorter on all spikeforest datasets and saves the full sorting to basepath, overwriting if specified to and file already exists
     if not use_downloaded:
@@ -135,7 +136,7 @@ def run_sorter_helper(sorter, outpath, params, overwrite, n_runs):  # runs sorte
                 job_list = []
                 if params:
                     for i in range(n_runs):
-                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}", 'batchesToUse':get_batches(recording, params)})
+                        job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}", 'spacing' : params['spacing'], 'NT': params['batch_size']})
                 else:
                     for i in range(n_runs):
                         job_list.append({'sorter_name': sorter, 'recording': recording, 'folder':f"{tmp_path}/{i}"})
@@ -179,6 +180,7 @@ def get_sorter_results(sorter, outpath, params, n_runs):
     else:
         all_recordings = sf.load_spikeforest_recordings()
     comps, run_times = pd.DataFrame(columns=(['Dataset'] + ['Recording'] + columns)), pd.DataFrame(columns=['Dataset', 'Recording', 'Run Time'])
+    comp_variation, run_time_variation = pd.DataFrame(columns=(['Dataset'] + ['Recording'] + columns)), pd.DataFrame(columns=['Dataset', 'Recording', 'Run Time'])
     for R in all_recordings:
         if use_downloaded:
             study_set_name = R['study_set_name']
@@ -225,17 +227,20 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             perfs.append(perf)
             runtimes.append(run_time)
         perf = sum(perfs) / len(perfs)
-        run_time = sum(runtimes) / len(runtimes)
         comps.loc[len(comps)] = [study_name, recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
-        run_times.loc[len(run_times)] = [study_name, recording_name, run_time]
-    return comps, run_times
+        run_times.loc[len(run_times)] = [study_name, recording_name, sum(runtimes) / len(runtimes)]
+        
+        comp_variation.loc[len(comp_variation)] = \
+            [study_name, recording_name, stat.stdev([x['accuracy'] for x in perfs]), 
+             stat.stdev([x['precision'] for x in perfs]), 
+             stat.stdev([x['recall'] for x in perfs]), 
+             stat.stdev([x['miss_rate'] for x in perfs]),
+             stat.stdev([x['false_discovery_rate'] for x in perfs])]
+        run_time_variation.loc[len(run_time_variation)] = [study_name, recording_name, stat.stdev(runtimes)]
+    return comps, run_times, comp_variation, run_time_variation
 
     # TODO play around with spikeinterface compare multiple sorters thing
         #w_conf = sw.plot_confusion_matrix(comp_gt)
         #w_conf.figure.savefig(f"{fig_outpath}/ground_truth_comparison.png") # only useful if we have > 1 unit lol - TODO plot this combining units across recordings?
 
 
-# TODO ADD SOMETHING THAT STOPS WHOLE PIPELINE FROM CRASHING ON FAILED SORTING
-# TODO GET WORKING ON SCATHA
-# TODO RUN EACH SORTING 6-8 TIMES IN PARALLEL!
-# TODO WHY ARE ACCURACY VALUES SO SPORADIC??
