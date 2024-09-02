@@ -7,7 +7,8 @@ from neurozip_lib.offset_tests import offset_tests
 from neurozip_lib.hyperparams import hyperparameter_sweep
 
 import spikeinterface.sorters as ss
-
+# TODO FIGURE OUT HOW TO FIX PROBLEM OF MATHWORKS HOST KILLING YOUR PROCESSES!
+    # IMPLEMENT TIME OUT + FORCE QUIT MATLAB + RELAUNCH?
 def main(): # compares neuroZIP with selected hyperparameters to kilosort baseline
     ss.KilosortSorter.set_kilosort_path('/home/kirca/NeuroZIP/KiloSort/')
     ss.NeuroZIP_KilosortSorter.set_nzkilosort_path('/home/kirca/NeuroZIP/neurozip-kilosort')
@@ -25,6 +26,8 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
         hyperparameter_sweep(basepaths)
     if run_offset_tests:
         offset_tests('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/offset_tests', params['neurozip_kilosort'], 1)
+    if run_hyperparameter_sweep:
+        params['neurozip_kilosort'] = hyperparameter_sweep(basepaths, calc_sortings)
     if os.path.exists(tmp_path):
         shutil.rmtree(tmp_path)
     for i in params.keys():

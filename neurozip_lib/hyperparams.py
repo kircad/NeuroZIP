@@ -21,6 +21,9 @@ import spikeinterface.exporters as sexp
 import spikeinterface.curation as scur
 import spikeinterface.widgets as sw
 
+from neurozip_lib.pairwise_comp import *
+from neurozip_lib.globals import *
+
 def plot_params(data_full, outpath):
     datasets = data_full['Dataset'].unique()
     for recording in datasets:
@@ -78,7 +81,7 @@ def hyperparameter_sweep(outpaths):
     batch_size_multipliers = [1, 2, 3, 4, 5]
     spacings = [1, 2, 3, 4, 5] # replace with batch factor for random
     hyperparam_columns = ['Dataset', 'Spacing', 'Batch Size Multiplier', 'Relative Accuracy', 'Relative Runtime', 'Composite Score'] # TODO NORMALIZE COMPOSITE SCORE?
-    data = pd.DataFrame(columns=hyperparam_columns)
+    calc = True
     #tmp_path = 'C:/nztmp'
     if not use_downloaded:
         recordings = sf.load_spikeforest_recordings()
@@ -86,7 +89,6 @@ def hyperparameter_sweep(outpaths):
         with open(f"{local_recordings}/master.json", 'r') as file:
             recordings = json.load(file)
     for i in batch_size_multipliers:
-        batch_size = (base_batch_size * i) + buffer_size
         for j in spacings:
             if os.path.exists(tmp_path):
                 shutil.rmtree(tmp_path)
