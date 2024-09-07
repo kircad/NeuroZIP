@@ -9,9 +9,9 @@ ops.fproc               = 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\KiloSort\temp
 ops.root                = 'C:\DATA\Spikes\Piroska'; % 'openEphys' only: where raw files are		
 		
 ops.fs                  = 25000;        % sampling rate		(omit if already in chanMap file)
-ops.NchanTOT            = 4;           % total number of channels (omit if already in chanMap file)
-ops.Nchan               = 4;           % number of active channels (omit if already in chanMap file)
-ops.Nfilt               = 32;           % number of clusters to use (2-4 times more than Nchan, should be a multiple of 32)     		
+ops.NchanTOT            = 32;           % total number of channels (omit if already in chanMap file)
+ops.Nchan               = 32;           % number of active channels (omit if already in chanMap file)
+ops.Nfilt               = 128;           % number of clusters to use (2-4 times more than Nchan, should be a multiple of 32)     		
 ops.nNeighPC            = 12; % visualization only (Phy): number of channnels to mask the PCs, leave empty to skip (12)		
 ops.nNeigh              = 16; % visualization only (Phy): number of neighboring templates to retain projections of (16)		
 		
@@ -21,7 +21,7 @@ ops.nSkipCov            = 1; % compute whitening matrix from every N-th batch (1
 ops.whiteningRange      = 32; % how many channels to whiten together (Inf for whole probe whitening, should be fine if Nchan<=32)		
 		
 % define the channel map as a filename (string) or simply an array		
-ops.chanMap             = 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\KiloSort\chanMap.mat'; % make this file using createChannelMapFile.m		
+ops.chanMap             = 'C:\Users\kirca_t5ih59c\Desktop\NeuroZIP\neurozip-kilosort\chanMap.mat'; % make this file using createChannelMapFile.m		
 ops.criterionNoiseChannels = 0.2; % fraction of "noise" templates allowed to span all channel groups (see createChannelMapFile for more info). 		
 % ops.chanMap = 1:ops.Nchan; % treated as linear probe if a chanMap file		
 		
@@ -35,8 +35,8 @@ ops.ntbuff              = 64;    % samples of symmetrical buffer for whitening a
 ops.scaleproc           = 200;   % int16 scaling of whitened data		
 ops.NT                  = 32*1024+ ops.ntbuff;% this is the batch size (try decreasing if out of memory) 		
 ops.CAR = true;
-ops.batchSetting = 'dynamic'; %options are random, linspace, variance, entropy(using eigenvalues?), numSpikes, dynamic, anything else will just use all batches
-ops.spacing = 5; %NEED TO ALSO SET THIS IF LINSPACE OPTION IS SET
+ops.batchSetting = 'linspace'; %options are random, linspace, variance, entropy(using eigenvalues?), numSpikes, dynamic, anything else will just use all batches
+ops.spacing = 10; %NEED TO ALSO SET THIS IF LINSPACE OPTION IS SET
 ops.batchFactor =  26; %if not using spacing, take numBatch/ops.batchFactor batches for template matching
 ops.batchPCS = 3;
 ops.maxK = 50;

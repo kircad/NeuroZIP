@@ -15,8 +15,6 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
         hyperparameter_sweep(basepaths)
     if run_offset_tests:
         offset_tests('C:/Users/kirca_t5ih59c/Desktop/NeuroZIP/offset_tests', params['neurozip_kilosort'], 1)
-    if run_hyperparameter_sweep:
-        params['neurozip_kilosort'] = hyperparameter_sweep(basepaths, calc_sortings)
     if os.path.exists(tmp_path):
         shutil.rmtree(tmp_path)
     for i in params.keys():
