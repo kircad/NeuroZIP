@@ -21,7 +21,7 @@ function neurozip_kilosort_master(fpath, kilosortPath)
 
         % This part runs the normal Kilosort processing on the simulated data
         [rez, DATA, uproj] = preprocessData(ops); % preprocess data and extract spikes for initialization
-        compressionRez     = compressData(ops, rez.temp)
+        compressionRez                = compressData(ops, rez.temp);
         rez                = fitTemplates(rez, DATA, uproj, compressionRez.batchesToUse);  % fit templates iteratively
         rez                = fullMPMU(rez, DATA);% extract final spike times (overlapping extraction)
 

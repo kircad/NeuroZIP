@@ -1,7 +1,7 @@
 import configparser
 import spikeinterface.sorters as ss
 
-def read_config(file_path='local_config.ini'):
+def read_config(file_path='config.ini'):
     config = configparser.ConfigParser()
     config.read(file_path)
     return config

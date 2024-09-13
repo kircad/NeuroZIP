@@ -46,8 +46,9 @@ class NeuroZIP_KilosortSorter(KilosortBase, BaseSorter):
         "wave_length": 61,
         "delete_tmp_files": ("matlab_files",),
         "delete_recording_dat": False,
-        'spacing': None,
-        'batchSetting': "linspace"
+        "batchSetting": 'linspace', # TODO ADD BATCH SIZE
+        "batchFactor": 5,
+        "spacing": 2 # TODO MAKE THIS FUNCTION OF RECORDING LENGTH
     }
 
     _params_description = {
@@ -155,6 +156,7 @@ class NeuroZIP_KilosortSorter(KilosortBase, BaseSorter):
         ops["parfor"] = 0.0  # whether to use parfor to accelerate some parts of the algorithm
         ops["verbose"] = 1.0  # whether to print command line progress
         ops["showfigures"] = 0.0  # whether to plot figures during optimization
+
         ops["Nfilt"] = params[
             "Nfilt"
         ]  # number of clusters to use (2-4 times more than Nchan, should be a multiple of 32)
@@ -216,7 +218,8 @@ class NeuroZIP_KilosortSorter(KilosortBase, BaseSorter):
             "wave_length"
         ]  # size of the waveform extracted around each detected peak. Be sure to make it odd to make alignment easier.
         
-        ops['spacing'] = params['spacing']
-        ops['batchSetting'] = params['batchSetting']
+        ops["batchSetting"] = params["batchSetting"] # TODO ADD BATCH SIZE
+        ops["batchFactor"] = params["batchFactor"]
+        ops["spacing"] = params["spacing"] # TODO MAKE THIS FUNCTION OF RECORDING LENGTH
         
         return ops

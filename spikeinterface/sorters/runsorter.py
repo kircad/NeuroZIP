@@ -274,7 +274,7 @@ def run_sorter_local(
     folder = SorterClass.initialize_folder(recording, folder, verbose, remove_existing_folder)
     SorterClass.set_params_to_folder(recording, folder, sorter_params, verbose)
     SorterClass.setup_recording(recording, folder, verbose=verbose)
-    max_memory, run_time = SorterClass.run_from_folder(folder, raise_error, verbose)
+    run_time = SorterClass.run_from_folder(folder, raise_error, verbose)
     if with_output:
         sorting = SorterClass.get_result_from_folder(folder, register_recording=True, sorting_info=True)
     else:

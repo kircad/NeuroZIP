@@ -73,6 +73,7 @@ def hyperparameter_sweep(outpaths):
     # TODO JUST SAVE PANDAS DATAFRAME IN ADDITION TO SORTINGS, GIVE OPTION TO JUST LOAD THAT
     Wr = 0.7
     Wa = 0.3
+    full_comps = pd.Dataframe()
     outpath = outpaths['neurozip_kilosort']
     ks_outpath = outpaths['kilosort']
     batch_size_multipliers = [1, 2, 3, 4, 5]
@@ -90,24 +91,31 @@ def hyperparameter_sweep(outpaths):
             batch_size = (base_batch_size * i) + buffer_size
             if os.path.exists(tmp_path):
                 shutil.rmtree(tmp_path)
-            tmpdata = pd.DataFrame(columns=hyperparam_columns)
             print(f'Running sorting for hyperparameter configuration - {i} {j}')
             params = {'method': 'linspace', 'spacing' : j, 'batch_size' : batch_size}
             run_sorter_helper('neurozip_kilosort', outpath, params, False, n_runs)
-        #     full_comps[i][j], full_runtimes[i][j], _, _ = get_sorter_results('kilosort', outpath, {}, n_runs)
-        #     full_comps[i][j], full_runtimes[i][j], _, _ = get_sorter_results('neurozip_kilosort', outpath, params, n_runs)    
+    for i in batch_size_multipliers:
+        for j in spacings: # TODO PLOT RELATIVE ACCURACY?
+            params = {'method': 'linspace', 'spacing' : j, 'batch_size' : batch_size}
+            x = get_sorter_results('neurozip_kilosort', outpath, params, n_runs)
+            final = (x[0].groupby('Dataset')[columns].mean())
+            runtimes = x[1].groupby('Dataset')['Run Time'].mean()
+            variances = x[2].groupby('Dataset')[columns].mean()
         #     if ks_accuracy == 0:
         #         relAccuracy = perf['accuracy'] # TODO HOW TO HANDLE KS FAILED RUNS?
         #     else:
         #         relAccuracy = perf['accuracy'] / ks_accuracy TODO FIGURE OUT HOW TO RUN THIS
         #     relRuntime = run_time / ks_runtime
         #     composite = 100*((Wr * (1 - relRuntime)) + (Wa * (min(1, relAccuracy))))
-        #     entry =  pd.DataFrame([[R.study_set_name, j, i, relAccuracy, relRuntime, composite] ], columns=hyperparam_columns)
-        #     tmpdata = pd.concat([tmpdata, entry], ignore_index=True)
-        # if len(data) == 0:
-        #     data = pd.DataFrame(tmpdata.groupby('Dataset').mean().reset_index(), columns=hyperparam_columns)
-        # else:
-        #     data = pd.concat([data, pd.DataFrame(tmpdata.groupby('Dataset').mean().reset_index(), columns=hyperparam_columns)], ignore_index=True)
+            final.insert(0, 'Run Times', runtimes)
+            final.insert(0, 'spacing', j)
+            final.insert(0, 'Multiplier', i)
+
+            variances.insert(0, 'spacing', j)
+            variances.insert(0, 'Multiplier', i) # TODO ADD RUNTIME VARIANCE
+
+            full_comps.append(final) # TODO FIX THIS
+
     opt_params = plot_params(data, outpath)
     return opt_params
 

@@ -5,9 +5,6 @@ from warnings import warn
 import json
 import shutil
 import sys
-import psutil
-import time
-import threading
 
 import numpy as np
 
@@ -167,9 +164,6 @@ class KilosortBase:
     @classmethod
     def _run_from_folder(cls, sorter_output_folder, params, verbose):
         sorter_output_folder = sorter_output_folder.absolute()
-        max_memory = [0]
-
-        
         if cls.check_compiled():
             shell_cmd = f"""
                 #!/bin/bash
@@ -216,11 +210,9 @@ class KilosortBase:
             log_path=sorter_output_folder / f"{cls.sorter_name}.log",
             verbose=verbose,
         )
-    
-
         shell_script.start()
-
         retcode = shell_script.wait()
+
         if retcode != 0:
             raise Exception(f"{cls.sorter_name} returned a non-zero exit code")
 
@@ -253,7 +245,6 @@ class KilosortBase:
             for ext in ["*.m", "*.mat"]:
                 for temp_file in sorter_output_folder.glob(ext):
                     temp_file.unlink()
-        return max_memory[0]
 
     @classmethod
     def _get_result_from_folder(cls, sorter_output_folder):
