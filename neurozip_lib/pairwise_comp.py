@@ -227,16 +227,16 @@ def get_sorter_results(sorter, outpath, params, n_runs):
             perfs.append(perf)
             runtimes.append(run_time)
         perf = sum(perfs) / len(perfs)
-        comps.loc[len(comps)] = [study_name, recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
-        run_times.loc[len(run_times)] = [study_name, recording_name, sum(runtimes) / len(runtimes)]
+        comps.loc[len(comps)] = [study_set_name, recording_name, perf['accuracy'], perf['precision'], perf['recall'], perf['miss_rate'], perf['false_discovery_rate']]
+        run_times.loc[len(run_times)] = [study_set_name, recording_name, sum(runtimes) / len(runtimes)]
         
         comp_variation.loc[len(comp_variation)] = \
-            [study_name, recording_name, stat.stdev([x['accuracy'] for x in perfs]), 
+            [study_set_name, recording_name, stat.stdev([x['accuracy'] for x in perfs]), 
              stat.stdev([x['precision'] for x in perfs]), 
              stat.stdev([x['recall'] for x in perfs]), 
              stat.stdev([x['miss_rate'] for x in perfs]),
              stat.stdev([x['false_discovery_rate'] for x in perfs])]
-        run_time_variation.loc[len(run_time_variation)] = [study_name, recording_name, stat.stdev(runtimes)]
+        run_time_variation.loc[len(run_time_variation)] = [study_set_name, recording_name, stat.stdev(runtimes)]
     return comps, run_times, comp_variation, run_time_variation
 
     # TODO play around with spikeinterface compare multiple sorters thing

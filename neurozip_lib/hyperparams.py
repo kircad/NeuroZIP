@@ -73,7 +73,7 @@ def hyperparameter_sweep(outpaths):
     # TODO JUST SAVE PANDAS DATAFRAME IN ADDITION TO SORTINGS, GIVE OPTION TO JUST LOAD THAT
     Wr = 0.7
     Wa = 0.3
-    full_comps = pd.Dataframe()
+    full_comps, full_vars = pd.DataFrame(), pd.DataFrame()
     outpath = outpaths['neurozip_kilosort']
     ks_outpath = outpaths['kilosort']
     batch_size_multipliers = [1, 2, 3, 4, 5]
@@ -110,11 +110,14 @@ def hyperparameter_sweep(outpaths):
             final.insert(0, 'Run Times', runtimes)
             final.insert(0, 'spacing', j)
             final.insert(0, 'Multiplier', i)
+            full_comps = pd.concat([full_comps, final])
 
             variances.insert(0, 'spacing', j)
             variances.insert(0, 'Multiplier', i) # TODO ADD RUNTIME VARIANCE
-
-            full_comps.append(final) # TODO FIX THIS
+            full_vars = pd.concat([full_vars, variances])
+         
+    for i in datasets:
+        pass
 
     opt_params = plot_params(data, outpath)
     return opt_params
