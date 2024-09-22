@@ -15,5 +15,6 @@
 /data/
 /test/
 /env/
+/offset_tests/
 /.phy/
 local_config.ini

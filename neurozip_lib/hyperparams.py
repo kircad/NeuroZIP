@@ -68,9 +68,7 @@ def make_heatmap(data, opt_param, recording, outpath):
     plt.tight_layout()
     plt.savefig(f'{outpath}/{recording}_heatmaps_grid.png')
 
-# TODO REFACTOR
 def hyperparameter_sweep(outpaths):
-    # TODO JUST SAVE PANDAS DATAFRAME IN ADDITION TO SORTINGS, GIVE OPTION TO JUST LOAD THAT
     Wr = 0.7
     Wa = 0.3
     full_comps, full_vars = pd.DataFrame(), pd.DataFrame()
@@ -80,44 +78,39 @@ def hyperparameter_sweep(outpaths):
     spacings = [1, 2, 3, 4, 5] # replace with batch factor for random
     hyperparam_columns = ['Dataset', 'Spacing', 'Batch Size Multiplier', 'Relative Accuracy', 'Relative Runtime', 'Composite Score'] # TODO NORMALIZE COMPOSITE SCORE?
     calc = True
-    #tmp_path = 'C:/nztmp'
-    if not use_downloaded:
-        recordings = sf.load_spikeforest_recordings()
-    else:
-        with open(f"{local_recordings}/master.json", 'r') as file:
-            recordings = json.load(file)
-    for i in batch_size_multipliers:
-        for j in spacings:
-            batch_size = (base_batch_size * i) + buffer_size
-            if os.path.exists(tmp_path):
-                shutil.rmtree(tmp_path)
-            print(f'Running sorting for hyperparameter configuration - {i} {j}')
-            params = {'method': 'linspace', 'spacing' : j, 'batch_size' : batch_size}
-            run_sorter_helper('neurozip_kilosort', outpath, params, False, n_runs)
-    for i in batch_size_multipliers:
-        for j in spacings: # TODO PLOT RELATIVE ACCURACY?
-            params = {'method': 'linspace', 'spacing' : j, 'batch_size' : batch_size}
-            x = get_sorter_results('neurozip_kilosort', outpath, params, n_runs)
-            final = (x[0].groupby('Dataset')[columns].mean())
-            runtimes = x[1].groupby('Dataset')['Run Time'].mean()
-            variances = x[2].groupby('Dataset')[columns].mean()
-        #     if ks_accuracy == 0:
-        #         relAccuracy = perf['accuracy'] # TODO HOW TO HANDLE KS FAILED RUNS?
-        #     else:
-        #         relAccuracy = perf['accuracy'] / ks_accuracy TODO FIGURE OUT HOW TO RUN THIS
-        #     relRuntime = run_time / ks_runtime
-        #     composite = 100*((Wr * (1 - relRuntime)) + (Wa * (min(1, relAccuracy))))
-            final.insert(0, 'Run Times', runtimes)
-            final.insert(0, 'spacing', j)
-            final.insert(0, 'Multiplier', i)
-            full_comps = pd.concat([full_comps, final])
+    if calc:
+        ks_results = get_sorter_results('kilosort', ks_outpath, {}, n_runs)
+        for i in batch_size_multipliers:
+            for j in spacings:
+                batch_size = (base_batch_size * i) + buffer_size
+                if os.path.exists(tmp_path):
+                    shutil.rmtree(tmp_path)
+                print(f'Running sorting for hyperparameter configuration - {i} {j}')
+                params = {'method': 'linspace', 'spacing' : j, 'batch_size' : batch_size}
+                
+                run_sorter_helper('neurozip_kilosort', outpath, params, False, n_runs)
+                x = get_sorter_results('neurozip_kilosort', outpath, params, n_runs)
 
-            variances.insert(0, 'spacing', j)
-            variances.insert(0, 'Multiplier', i) # TODO ADD RUNTIME VARIANCE
-            full_vars = pd.concat([full_vars, variances])
-         
-    for i in datasets:
-        pass
+                final = (x[0].groupby('Dataset')[columns].mean()) / (ks_results[0].groupby('Dataset')[columns].mean())
+                runtimes = x[1].groupby('Dataset')['Run Time'].mean() / (ks_results[1].groupby('Dataset')['Run Time'].mean())
+                variances = x[2].groupby('Dataset')[columns].mean() # TODO FIGURE OUT WHAT TO DO WITH THESE
+                runtime_variances = x[3].groupby('Dataset')['Run Time'].mean()
+
+                final.insert(0, 'Run Times', runtimes)
+                final.insert(0, 'spacing', j)
+                final.insert(0, 'Multiplier', i)
+                full_comps = pd.concat([full_comps, final])
+
+                variances.insert(0, 'spacing', j)
+                variances.insert(0, 'Multiplier', i)
+                variances.insert(0, 'Run Time Variances', runtime_variances)
+                full_vars = pd.concat([full_vars, variances])
+                
+        full_comps.to_csv(os.path.join(outpath, "final_data.csv"))
+        full_vars.to_csv(os.path.join(outpath, "final_data_variations.csv"))
+
+    data = pd.read_csv(os.path.join(outpath, 'final_data.csv'))
+    vars = pd.read_csv(os.path.join(outpath, 'final_data_variations.csv'))
 
     opt_params = plot_params(data, outpath)
     return opt_params

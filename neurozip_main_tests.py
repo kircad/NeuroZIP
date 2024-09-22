@@ -29,4 +29,4 @@ def main(): # compares neuroZIP with selected hyperparameters to kilosort baseli
 if __name__ == '__main__':
     main()
 
-# TODO MAKE SURE SAMPLING RATE IS HANDLED PROPERLY FOR NEUROZIP
+#TODO CHECK KS PARAMETERS FOR HYPERPARAMETER SWEEP BASELINE RUN!!
